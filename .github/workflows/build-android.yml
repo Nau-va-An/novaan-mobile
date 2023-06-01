@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  install-dependencies:
 
     runs-on: ubuntu-latest
 
@@ -27,9 +27,12 @@ jobs:
       with:
         distribution: "semeru"
         java-version: 11
+        cache: "gradle"
 
     - name: Use Android Manager (for SDK and Build Tools)
       uses: android-actions/setup-android@v2
+      with:
+        cache: true
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -42,6 +45,7 @@ jobs:
       with:
         eas-version: latest
         token: ${{ secrets.EXPO_TOKEN }}
+        cache: true
 
     - name: Install Node dependencies
       run: npm ci
