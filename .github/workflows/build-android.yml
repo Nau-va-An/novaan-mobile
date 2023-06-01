@@ -27,7 +27,7 @@ jobs:
       with:
         java-version: 11
 
-    - name: Use Android Manager
+    - name: Use Android Manager (for SDK and Build Tools)
       uses: android-actions/setup-android@v2
 
     - name: Use Node.js ${{ matrix.node-version }}
