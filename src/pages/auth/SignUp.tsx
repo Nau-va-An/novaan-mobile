@@ -1,14 +1,14 @@
-import React, { useState, type ReactElement } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import { authInputStyles } from 'components/auth/AuthInput';
-import AuthButton from 'components/auth/AuthButton';
+import React, { useState, type ReactElement } from "react";
+import { Text, TextInput, View } from "react-native";
+import { authInputStyles } from "components/auth/AuthInput";
+import AuthButton from "components/auth/AuthButton";
 
 const SignUp = (): ReactElement<void> => {
-  const [accountId, setAccountId] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [accountId, setAccountId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleSignIn = (): void => {
-    console.log('Sign In');
+    console.log("Sign In");
   };
 
   return (
@@ -35,7 +35,7 @@ const SignUp = (): ReactElement<void> => {
         />
       </View>
       <View className="mt-4">
-        <Text style={{ color: '#FFCD80' }}>Forgot Password?</Text>
+        <Text style={{ color: "#FFCD80" }}>Forgot Password?</Text>
       </View>
       <View className="mt-4">
         <AuthButton title="Sign In" onPress={handleSignIn} />
