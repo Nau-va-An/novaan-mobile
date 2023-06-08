@@ -1,23 +1,26 @@
-import React, { useState, type ReactElement } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
-import { authInputStyles } from "components/auth/AuthInput";
-import AuthButton from "components/auth/AuthButton";
+import React, { useState, type ReactElement } from 'react';
+import { Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { authInputStyles } from 'components/auth/AuthInput';
+import AuthButton from 'components/auth/AuthButton';
+import { type RootStackParamList } from 'App';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-// TODO: determine the type of navigation
 interface SignInProps {
-  navigation: any;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'SignIn'>;
 }
 
-const SignIn = (props: SignInProps): ReactElement<void> => {
+const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
   const { navigation } = props;
-  const [accountId, setAccountId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+
+  const [accountId, setAccountId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const handleSignIn = (): void => {
-    console.log("Sign In");
+    console.log('Sign In');
   };
+
   const handleSignUpRedirect = (): void => {
-    navigation.navigate("SignUp");
+    navigation.navigate('SignUp');
   };
 
   return (
@@ -43,7 +46,7 @@ const SignIn = (props: SignInProps): ReactElement<void> => {
         />
       </View>
       <View className="mt-4">
-        <Text style={{ color: "#FFCD80" }}>Quên mật khẩu?</Text>
+        <Text style={{ color: '#FFCD80' }}>Quên mật khẩu?</Text>
       </View>
       <View className="mt-4">
         <AuthButton title="Đăng nhập" onPress={handleSignIn} />
