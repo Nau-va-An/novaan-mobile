@@ -1,27 +1,27 @@
-import React, { useState, type ReactElement } from 'react'
-import { Text, TextInput, View, TouchableOpacity } from 'react-native'
-import { authInputStyles } from 'components/auth/AuthInput'
-import AuthButton from 'components/auth/AuthButton'
-import { type RootStackParamList } from 'App'
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack'
+import React, { useState, type ReactElement } from "react";
+import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import { authInputStyles } from "components/auth/AuthInput";
+import AuthButton from "components/auth/AuthButton";
+import { type RootStackParamList } from "App";
+import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface SignInProps {
-    navigation: NativeStackNavigationProp<RootStackParamList, 'SignIn'>
+    navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
 }
 
 const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
-    const { navigation } = props
+    const { navigation } = props;
 
-    const [accountId, setAccountId] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [accountId, setAccountId] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const handleSignIn = (): void => {
         navigation.navigate("MainScreens");
-    }
+    };
 
     const handleSignUpRedirect = (): void => {
-        navigation.navigate('SignUp')
-    }
+        navigation.navigate("SignUp");
+    };
 
     return (
         <View className="flex-1 my-16 mx-8">
@@ -46,7 +46,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                 />
             </View>
             <View className="mt-4">
-                <Text style={{ color: '#FFCD80' }}>Quên mật khẩu?</Text>
+                <Text style={{ color: "#FFCD80" }}>Quên mật khẩu?</Text>
             </View>
             <View className="mt-4">
                 <AuthButton title="Đăng nhập" onPress={handleSignIn} />
@@ -58,7 +58,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                 </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default SignIn
+export default SignIn;
