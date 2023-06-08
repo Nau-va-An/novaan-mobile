@@ -6,10 +6,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/auth/SignUp';
 
-export interface RootStackParamList {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
-}
+};
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
