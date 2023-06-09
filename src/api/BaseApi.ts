@@ -50,7 +50,7 @@ export default class BaseApi {
         headers.append("Accept", "application/json");
         headers.append("Access-Control-Allow-Origin", "*");
 
-        // This is the important part
+        // Get access token from secure storage
         const accessToken = await getKeychainValue(this.keychainId);
         headers.append("Authorization", `Bearer ${accessToken}`);
         return headers;
@@ -86,6 +86,8 @@ export default class BaseApi {
         const headers = await this.getHeaders();
 
         // Use signal to avoid running the request for too long
+        //  Docs for canceling fetch API request
+        // https://javascript.info/fetch-abort
         const timeout = this.apiConfig.timeout;
         const controller = new AbortController();
         if (isNaN(timeout) || timeout <= 0) {
