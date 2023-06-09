@@ -16,7 +16,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
     const [password, setPassword] = useState<string>('')
 
     const handleSignIn = (): void => {
-        console.log('Sign In')
+        navigation.navigate("MainScreens");
     }
 
     const handleSignUpRedirect = (): void => {
