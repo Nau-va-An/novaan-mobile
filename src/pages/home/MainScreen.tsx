@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import React, { type ReactElement, type FC } from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -19,7 +19,7 @@ export type BottomTabParamList = {
 };
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
-const MainScreen: FC = () => {
+const MainScreen = (): ReactElement => {
     return (
         <View className="flex-1">
             <BottomTab.Navigator>
