@@ -1,4 +1,4 @@
-import React, { type ReactElement, type FC } from "react";
+import React, { type ReactElement } from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
