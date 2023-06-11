@@ -1,5 +1,5 @@
 import { type RootStackParamList } from "App";
-import React, { useState, type FC } from "react";
+import React, { useState, type ReactElement } from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -10,7 +10,7 @@ interface SignUpProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
 }
 
-const SignUp = (props: SignUpProps): FC<SignUpProps> => {
+const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
     const { navigation } = props;
 
     const [accountId, setAccountId] = useState<string>("");
