@@ -1,15 +1,15 @@
-import React from "react";
+import React, { type FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const CreatePost: React.FC = () => {
+const UserProfile: FC = () => {
     return (
         <View style={styles.container}>
-            <Text>Create Post</Text>
+            <Text>UserProfile</Text>
         </View>
     );
 };
 
-export default CreatePost;
+export default UserProfile;
 
 const styles = StyleSheet.create({
     container: {

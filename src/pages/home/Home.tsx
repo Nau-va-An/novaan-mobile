@@ -1,15 +1,15 @@
-import React from "react";
+import React, { type FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const Search: React.FC = () => {
+const Home: FC = () => {
     return (
         <View style={styles.container}>
-            <Text>Search</Text>
+            <Text>Home</Text>
         </View>
     );
 };
 
-export default Search;
+export default Home;
 
 const styles = StyleSheet.create({
     container: {

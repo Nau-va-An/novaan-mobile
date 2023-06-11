@@ -1,15 +1,15 @@
-import React from "react";
+import React, { type FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const UserProfile: React.FC = () => {
+const Search: FC = () => {
     return (
         <View style={styles.container}>
-            <Text>UserProfile</Text>
+            <Text>Search</Text>
         </View>
     );
 };
 
-export default UserProfile;
+export default Search;
 
 const styles = StyleSheet.create({
     container: {

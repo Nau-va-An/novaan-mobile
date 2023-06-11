@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React from "react";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import Home from "./home/Home";
-import Search from "./search/Search";
-import Reel from "./reel/Reel";
-import UserProfile from "./user_profile/UserProfile";
-import CreatePost from "./create_post/CreatePost";
+import React, { type FC } from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
+import Home from "./Home";
+import Reel from "../reel/Reel";
+import Search from "../search/Search";
+import CreatePost from "../create-post/CreatePost";
+import UserProfile from "../user-profile/UserProfile";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type BottomTabParamList = {
@@ -19,7 +19,7 @@ export type BottomTabParamList = {
 };
 const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
-const MainScreens = () => {
+const MainScreen: FC = () => {
     return (
         <View className="flex-1">
             <BottomTab.Navigator>
@@ -75,4 +75,4 @@ const MainScreens = () => {
     );
 };
 
-export default MainScreens;
+export default MainScreen;

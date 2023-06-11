@@ -1,22 +1,23 @@
-import React, { useState, type ReactElement } from "react";
+import { type RootStackParamList } from "App";
+import React, { useState, type FC } from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 import { authInputStyles } from "components/auth/AuthInput";
 import AuthButton from "components/auth/AuthButton";
-import { type RootStackParamList } from "App";
-import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
 }
 
-const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
+const SignIn = (props: SignInProps): FC<SignInProps> => {
     const { navigation } = props;
 
     const [accountId, setAccountId] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const handleSignIn = (): void => {
-        navigation.navigate("MainScreens");
+        navigation.navigate("MainScreen");
     };
 
     const handleSignUpRedirect = (): void => {

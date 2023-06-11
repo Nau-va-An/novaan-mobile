@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { View } from "react-native";
 import React from "react";
-import SignIn from "./src/pages/auth/SignIn";
-import SignUp from "./src/pages/auth/SignUp";
-import MainScreens from "./src/pages/inapp/MainScreens";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import SignIn from "./src/pages/auth/SignIn";
+import SignUp from "./src/pages/auth/SignUp";
+import MainScreen from "./src/pages/inapp/home/MainScreen";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamList = {
     SignIn: undefined;
     SignUp: undefined;
-    MainScreens: undefined;
+    MainScreen: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -32,8 +33,8 @@ const App = () => {
                         options={{ title: "SignUp" }}
                     />
                     <RootStack.Screen
-                        name="MainScreens"
-                        component={MainScreens}
+                        name="MainScreen"
+                        component={MainScreen}
                         options={{ title: "MainScreen" }}
                     />
                 </RootStack.Navigator>

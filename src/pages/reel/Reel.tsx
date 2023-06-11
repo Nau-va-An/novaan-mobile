@@ -1,7 +1,7 @@
-import React from "react";
+import React, { type FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const Reel: React.FC = () => {
+const Reel: FC = () => {
     return (
         <View style={styles.container}>
             <Text>Reel</Text>
