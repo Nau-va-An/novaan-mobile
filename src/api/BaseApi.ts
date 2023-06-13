@@ -1,11 +1,6 @@
 import { getKeychainValue } from "../keychain/KeychainService";
 import { type Undefinable } from "../types/common";
-import dotenv from "dotenv";
-dotenv.config();
-
-const API_URL = process.env.API_URL;
-const API_TIMEOUT = process.env.API_TIMEOUT;
-const KEYCHAIN_ID = process.env.KEYCHAIN_ID;
+import { API_URL, API_TIMEOUT, KEYCHAIN_ID } from "@env";
 
 interface RequestConfig {
     timeout: number;

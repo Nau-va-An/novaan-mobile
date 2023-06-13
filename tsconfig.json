@@ -17,7 +17,9 @@
         "baseUrl": "./",
         "paths": {
             "@/*": ["./src/*"]
-        }
+        },
+
+        "typeRoots": ["./src/types"]
     },
     "extends": "expo/tsconfig.base",
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -25,15 +25,6 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
 
     const handleSignIn = async (): Promise<void> => {
         navigation.navigate("MainScreen");
-
-        // TODO: Remove this when push
-        try {
-            const apiClient = new BaseApi();
-            const serverHealth = await apiClient.get<any>("dev/health");
-            ToastAndroid.show(JSON.stringify(serverHealth), ToastAndroid.LONG);
-        } catch (err) {
-            console.log(err);
-        }
     };
 
     const handleSignUpRedirect = (): void => {
