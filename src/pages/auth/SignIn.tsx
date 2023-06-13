@@ -1,10 +1,17 @@
 import { type RootStackParamList } from "App";
 import React, { useState, type ReactElement } from "react";
-import { Text, TextInput, View, TouchableOpacity } from "react-native";
+import {
+    Text,
+    TextInput,
+    View,
+    TouchableOpacity,
+    ToastAndroid,
+} from "react-native";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { authInputStyles } from "components/auth/AuthInput";
-import AuthButton from "components/auth/AuthButton";
+import { authInputStyles } from "@/components/auth/AuthInput";
+import AuthButton from "@/components/auth/AuthButton";
+import BaseApi from "@/api/BaseApi";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -16,8 +23,17 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
     const [accountId, setAccountId] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const handleSignIn = (): void => {
+    const handleSignIn = async (): Promise<void> => {
         navigation.navigate("MainScreen");
+
+        // TODO: Remove this when push
+        try {
+            const apiClient = new BaseApi();
+            const serverHealth = await apiClient.get<any>("dev/health");
+            ToastAndroid.show(JSON.stringify(serverHealth), ToastAndroid.LONG);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleSignUpRedirect = (): void => {

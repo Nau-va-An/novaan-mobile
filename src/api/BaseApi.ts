@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
 import { getKeychainValue } from "../keychain/KeychainService";
 import { type Undefinable } from "../types/common";
+import dotenv from "dotenv";
 dotenv.config();
 
 const API_URL = process.env.API_URL;
@@ -19,7 +19,7 @@ enum HttpMethod {
     DELETE = "DELETE",
 }
 
-export default class BaseApi {
+class BaseApi {
     private readonly apiURL: string;
     private readonly keychainId: string;
 
@@ -32,7 +32,6 @@ export default class BaseApi {
         }
 
         this.apiURL = API_URL;
-        this.keychainId = KEYCHAIN_ID;
     }
 
     getDefaultConfig(): RequestConfig {
@@ -65,7 +64,7 @@ export default class BaseApi {
     }
 
     async get<ResponseType>(
-        url: string,
+        url: string = "",
         requestConfig?: RequestConfig
     ): Promise<ResponseType> {
         return await this.sendRequestBase(url, HttpMethod.GET, requestConfig);
@@ -145,3 +144,5 @@ export default class BaseApi {
         return await response.json();
     }
 }
+
+export default BaseApi;
