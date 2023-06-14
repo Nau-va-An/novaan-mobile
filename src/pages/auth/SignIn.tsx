@@ -8,7 +8,7 @@ import { authInputStyles } from "@/components/auth/AuthInput";
 import AuthButton from "@/components/auth/AuthButton";
 import {
     SIGN_IN_WRONG_USERNAME_PASSWORD,
-    SIGN_IN_ERROR_OCCURED,
+    COMMON_SERVER_CONNECTION_FAIL_ERROR,
     SIGN_IN_EMAIL_TITLE,
     COMMON_EMPTY_FIELD_NOT_ALLOWED,
     SIGN_IN_EMAIL_PLACEHOLDER,
@@ -21,9 +21,8 @@ import {
     AUTH_EMAIL_INVALID,
     AUTH_PASSWORD_TOO_SHORT,
     SIGN_IN_GREETING,
-} from "@/common/messages";
+} from "@/common/strings";
 import authApi from "@/api/auth/AuthApi";
-import { COLOR_ZOMP } from "@/common/colors";
 import OverlayLoading from "@/components/common/OverlayLoading";
 
 interface SignInProps {
@@ -51,7 +50,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
         mode: "all",
     });
 
-    const errorTextStyle = "italic text-xs text-cwarning";
+    const errorTextStyle = "italic text-sm text-cwarning";
 
     const handleSignIn = async (data: FormData): Promise<void> => {
         setIsLoading(true);
@@ -63,7 +62,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                 alert(SIGN_IN_WRONG_USERNAME_PASSWORD);
             }
         } catch (error) {
-            alert(SIGN_IN_ERROR_OCCURED);
+            alert(COMMON_SERVER_CONNECTION_FAIL_ERROR);
             console.error(`fail: ${String(error)}`);
         } finally {
             setIsLoading(false);
@@ -169,7 +168,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                     <View className="flex-row justify-center">
                         <Text>{SIGN_IN_CREATE_ACCOUNT_TITLE}</Text>
                         <TouchableOpacity onPress={handleSignUpRedirect}>
-                            <Text style={{ color: COLOR_ZOMP }}>
+                            <Text className="text-cprimary-200">
                                 {SIGN_IN_CREATE_ACCOUNT_BUTTON_TITLE}
                             </Text>
                         </TouchableOpacity>
