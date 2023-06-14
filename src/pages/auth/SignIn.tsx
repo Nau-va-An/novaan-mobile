@@ -25,6 +25,7 @@ import {
 import authApi from "@/api/auth/AuthApi";
 import OverlayLoading from "@/components/common/OverlayLoading";
 import ErrorText from "@/components/common/ErrorText";
+import Divider from "@/components/common/Divider";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -159,18 +160,23 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                     />
                 </View>
 
+                {/* <View className="mt-2">
+                    <Divider title="hoặc đăng nhập với" />
+                </View> */}
+
                 <View className="flex-1 align-middle justify-center">
                     <View className="flex-row justify-center">
                         <Text>{SIGN_IN_CREATE_ACCOUNT_TITLE}</Text>
                         <TouchableOpacity onPress={handleSignUpRedirect}>
-                            <Text className="text-cprimary-200">
+                            <Text className="text-cprimary-300">
                                 {SIGN_IN_CREATE_ACCOUNT_BUTTON_TITLE}
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    V
                 </View>
             </View>
-            {isLoading && <OverlayLoading />}
+            {isLoading ? <OverlayLoading /> : null}
         </>
     );
 };
