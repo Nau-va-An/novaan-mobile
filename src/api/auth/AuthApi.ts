@@ -4,6 +4,7 @@ import {
     type SignInRequest,
     type SignUpRequest,
     type SignUpResponse,
+    type SignInGoogleRequest,
 } from "./types";
 
 const SIGN_IN_URL = "auth/signin";
@@ -19,11 +20,15 @@ const signIn = async (
     usernameOrEmail: string,
     password: string
 ): Promise<SignInResponse> => {
-    const response = await baseApi.post<SignInRequest>(SIGN_IN_URL, {
-        usernameOrEmail,
-        password,
-    });
-    return await response.json();
+    try {
+        return await baseApi.post<SignInRequest>(SIGN_IN_URL, {
+            usernameOrEmail,
+            password,
+        });
+    } catch (err) {
+        console.log("Sign in ERR", err);
+        throw err;
+    }
 };
 
 const signUp = async (
@@ -61,6 +66,7 @@ const signUp = async (
 const authApi = {
     signIn,
     signUp,
+    signInWithGoogle,
 };
 
 export default authApi;

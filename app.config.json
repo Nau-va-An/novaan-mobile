@@ -26,6 +26,6 @@
         "runtimeVersion": {
             "policy": "sdkVersion"
         },
-        "scheme": "novaan"
+        "scheme": "novaanapp"
     }
 }
