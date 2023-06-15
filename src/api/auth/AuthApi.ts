@@ -36,18 +36,12 @@ const signUp = async (
         password,
         email,
     });
-    if (response.ok) {
-        return {
-            success: true,
-        };
-    } else {
+    if (!response.ok) {
         const responseBody: null | {
             Success: boolean;
             Body: { Message: string };
         } = await response.json();
-        console.log(JSON.stringify(responseBody));
         const message = responseBody?.Body.Message;
-        console.log("a");
         return {
             success: false,
             reason:
@@ -58,6 +52,10 @@ const signUp = async (
                     : "unknown",
         };
     }
+
+    return {
+        success: true,
+    };
 };
 
 const authApi = {

@@ -24,6 +24,7 @@ import {
 } from "@/common/strings";
 import authApi from "@/api/auth/AuthApi";
 import OverlayLoading from "@/components/common/OverlayLoading";
+import ErrorText from "@/components/common/ErrorText";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -49,8 +50,6 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
         },
         mode: "all",
     });
-
-    const errorTextStyle = "italic text-sm text-cwarning";
 
     const handleSignIn = async (data: FormData): Promise<void> => {
         setIsLoading(true);
@@ -106,14 +105,12 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
 
                     <View className="mt-2">
                         {errors.email?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.email?.type === "pattern" && (
-                            <Text className={errorTextStyle}>
-                                {AUTH_EMAIL_INVALID}
-                            </Text>
+                            <ErrorText>{AUTH_EMAIL_INVALID}</ErrorText>
                         )}
                     </View>
 
@@ -139,14 +136,12 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
 
                     <View className="mt-2">
                         {errors.password?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.password?.type === "minLength" && (
-                            <Text className={errorTextStyle}>
-                                {AUTH_PASSWORD_TOO_SHORT}
-                            </Text>
+                            <ErrorText>{AUTH_PASSWORD_TOO_SHORT}</ErrorText>
                         )}
                     </View>
                 </View>

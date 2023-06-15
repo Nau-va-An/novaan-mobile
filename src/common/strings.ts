@@ -33,7 +33,7 @@ export const SIGN_UP_EMAIL_EXISTS_ERROR =
     "Email đã được sử dụng để đăng ký tài khoản, xin vui lòng chọn email khác.";
 export const SIGN_UP_USERNAME_EXISTS_ERROR =
     "Tên đăng nhập đã được sử dụng để đăng ký tài khoản, xin vui lòng chọn tên đăng nhập khác.";
-export const SING_UP_UNKNOWN_ERROR = "Đã có lỗi xảy ra, vui lòng thử lại sau.";
+export const SIGN_UP_UNKNOWN_ERROR = "Đã có lỗi xảy ra, vui lòng thử lại sau.";
 export const SIGN_UP_EMAIL_TITLE = "Tài khoản email";
 export const SIGN_UP_EMAIL_PLACEHOLDER = "Nhập tài khoản email của bạn";
 export const SIGN_UP_USERNAME_TITLE = "Tên đăng nhập";

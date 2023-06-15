@@ -28,11 +28,12 @@ import {
     SIGN_UP_USERNAME_EXISTS_ERROR,
     SIGN_UP_USERNAME_PLACEHOLDER,
     SIGN_UP_USERNAME_TITLE,
-    SING_UP_UNKNOWN_ERROR,
+    SIGN_UP_UNKNOWN_ERROR,
 } from "@/common/strings";
 import authApi from "@/api/auth/AuthApi";
 import OverlayLoading from "@/components/common/OverlayLoading";
 import { useForm, Controller } from "react-hook-form";
+import ErrorText from "@/components/common/ErrorText";
 
 interface SignUpProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -72,27 +73,28 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                 data.email,
                 data.password
             );
-            if (response.success) {
-                Alert.alert(SIGN_UP_SUCCESS_TITLE, SIGN_UP_SUCCESS_MESSAGE);
-                navigation.navigate("SignIn");
-            } else {
+            if (!response.success) {
                 const failureMessage =
                     response.reason === "email exists"
                         ? SIGN_UP_EMAIL_EXISTS_ERROR
                         : response.reason === "username exists"
                         ? SIGN_UP_USERNAME_EXISTS_ERROR
-                        : SING_UP_UNKNOWN_ERROR;
+                        : SIGN_UP_UNKNOWN_ERROR;
                 Alert.alert(SIGN_UP_FAIL_TITLE, failureMessage);
+                return;
             }
+
+            Alert.alert(SIGN_UP_SUCCESS_TITLE, SIGN_UP_SUCCESS_MESSAGE);
+            navigation.navigate("SignIn");
         } catch (error) {
-            alert(COMMON_SERVER_CONNECTION_FAIL_ERROR);
-            console.error(`fail: ${String(error)}`);
+            Alert.alert(
+                SIGN_UP_FAIL_TITLE,
+                COMMON_SERVER_CONNECTION_FAIL_ERROR
+            );
         } finally {
             setIsLoading(false);
         }
     };
-
-    const errorTextStyle = "italic text-sm text-cwarning";
 
     const handleSignInRedirect = (): void => {
         navigation.navigate("SignIn");
@@ -128,14 +130,12 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                     />
                     <View className="mt-2">
                         {errors.email?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.email?.type === "pattern" && (
-                            <Text className={errorTextStyle}>
-                                {AUTH_EMAIL_INVALID}
-                            </Text>
+                            <ErrorText>{AUTH_EMAIL_INVALID}</ErrorText>
                         )}
                     </View>
                     <Text className="mt-8">{SIGN_UP_USERNAME_TITLE}</Text>
@@ -158,14 +158,12 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                     />
                     <View className="mt-2">
                         {errors.username?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.username?.type === "minLength" && (
-                            <Text className={errorTextStyle}>
-                                {AUTH_USERNAME_TOO_SHORT}
-                            </Text>
+                            <ErrorText>{AUTH_USERNAME_TOO_SHORT}</ErrorText>
                         )}
                     </View>
 
@@ -191,14 +189,12 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                     />
                     <View className="mt-2">
                         {errors.password?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.password?.type === "minLength" && (
-                            <Text className={errorTextStyle}>
-                                {AUTH_PASSWORD_TOO_SHORT}
-                            </Text>
+                            <ErrorText>{AUTH_PASSWORD_TOO_SHORT}</ErrorText>
                         )}
                     </View>
 
@@ -229,14 +225,14 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                     />
                     <View className="mt-2">
                         {errors.reenterPassword?.type === "required" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {COMMON_EMPTY_FIELD_NOT_ALLOWED}
-                            </Text>
+                            </ErrorText>
                         )}
                         {errors.reenterPassword?.type === "validate" && (
-                            <Text className={errorTextStyle}>
+                            <ErrorText>
                                 {SIGN_UP_REENTER_PASSWORD_DIFFERENT_ERROR}
-                            </Text>
+                            </ErrorText>
                         )}
                     </View>
                 </View>
@@ -249,7 +245,9 @@ const SignUp = (props: SignUpProps): ReactElement<SignUpProps> => {
                 <View className="mt-4 flex-row justify-center">
                     <Text>{SIGN_UP_SIGN_IN_TITLE}</Text>
                     <TouchableOpacity onPress={handleSignInRedirect}>
-                        <Text className="text-cprimary-200">{SIGN_UP_SIGN_IN_BUTTON_TITLE}</Text>
+                        <Text className="text-cprimary-200">
+                            {SIGN_UP_SIGN_IN_BUTTON_TITLE}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
