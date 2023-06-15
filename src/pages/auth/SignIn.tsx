@@ -30,7 +30,8 @@ import OverlayLoading from "@/components/common/OverlayLoading";
 import ErrorText from "@/components/common/ErrorText";
 import Divider from "@/components/common/Divider";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
-import { GOOGLE_API_KEY } from "@env";
+import { GOOGLE_API_KEY, KEYCHAIN_ID } from "@env";
+import { saveKeychain } from "@/keychain/KeychainService";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -117,6 +118,8 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                 throw new Error();
             }
 
+            // Save token to secure store
+            await saveKeychain(KEYCHAIN_ID, response.token);
             navigation.navigate("MainScreen");
         } catch (error) {
             alert(SIGN_IN_GOOGLE_ERROR_OCCURED);
