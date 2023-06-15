@@ -4,5 +4,5 @@ export type SignUpResponse =
       }
     | {
           success: false;
-          reason: "email exists" | "username exists" | "unknown";
+          reason: "email existed" | "username existed" | "unknown";
       };

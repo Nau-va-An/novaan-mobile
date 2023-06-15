@@ -9,6 +9,9 @@ import {
 
 const SIGN_IN_URL = "auth/signin";
 const SIGN_UP_URL = "auth/signup";
+const SIGNIN_GOOGLE_URL = "auth/google";
+
+// TODO: Change this to error code later
 const SIGN_UP_EMAIL_EXIST_ERROR =
     "This email had been associated with another account.";
 const SIGN_UP_USERNAME_EXIST_ERROR =
@@ -20,15 +23,11 @@ const signIn = async (
     usernameOrEmail: string,
     password: string
 ): Promise<SignInResponse> => {
-    try {
-        return await baseApi.post<SignInRequest>(SIGN_IN_URL, {
-            usernameOrEmail,
-            password,
-        });
-    } catch (err) {
-        console.log("Sign in ERR", err);
-        throw err;
-    }
+    const response = await baseApi.post<SignInRequest>(SIGN_IN_URL, {
+        usernameOrEmail,
+        password,
+    });
+    return await response.json();
 };
 
 const signUp = async (
@@ -41,26 +40,52 @@ const signUp = async (
         password,
         email,
     });
+
     if (!response.ok) {
-        const responseBody: null | {
-            Success: boolean;
-            Body: { Message: string };
-        } = await response.json();
-        const message = responseBody?.Body.Message;
+        const body = await response.json();
+        const message = body?.Body.Message;
+
+        // TODO: Change this to error code later
+        let errMessage: "email existed" | "username existed" | "unknown" =
+            "unknown";
+        switch (message) {
+            case SIGN_UP_EMAIL_EXIST_ERROR:
+                errMessage = "email existed";
+                break;
+            case SIGN_UP_USERNAME_EXIST_ERROR:
+                errMessage = "username existed";
+                break;
+        }
+
         return {
             success: false,
-            reason:
-                message === SIGN_UP_EMAIL_EXIST_ERROR
-                    ? "email exists"
-                    : message === SIGN_UP_USERNAME_EXIST_ERROR
-                    ? "username exists"
-                    : "unknown",
+            reason: errMessage,
         };
     }
 
     return {
         success: true,
     };
+};
+
+const signInWithGoogle = async (token: string): Promise<SignInResponse> => {
+    try {
+        const response = await baseApi.post<SignInGoogleRequest>(
+            SIGNIN_GOOGLE_URL,
+            {
+                token,
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error();
+        }
+
+        return await response.json();
+    } catch (err) {
+        console.log("Sign in with Google ERR", err);
+        throw err;
+    }
 };
 
 const authApi = {
