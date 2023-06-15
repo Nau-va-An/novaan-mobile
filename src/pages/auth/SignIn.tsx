@@ -23,6 +23,7 @@ import {
     AUTH_EMAIL_INVALID,
     AUTH_PASSWORD_TOO_SHORT,
     SIGN_IN_GREETING,
+    SIGN_IN_GOOGLE_ERROR_OCCURED,
 } from "@/common/strings";
 import authApi from "@/api/auth/AuthApi";
 import OverlayLoading from "@/components/common/OverlayLoading";
@@ -30,7 +31,6 @@ import ErrorText from "@/components/common/ErrorText";
 import Divider from "@/components/common/Divider";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { GOOGLE_API_KEY } from "@env";
-import { SIGN_IN_GOOGLE_ERROR_OCCURED } from "@/common/messages";
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "SignIn">;
@@ -232,7 +232,7 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
                     <GoogleSignInButton handleSignIn={showGooglePrompt} />
                 </View>
 
-                <View className="flex-1 align-middle justify-center">
+                <View className="flex-1 items-center justify-center">
                     <View className="flex-row justify-center">
                         <Text>{SIGN_IN_CREATE_ACCOUNT_TITLE}</Text>
                         <TouchableOpacity onPress={handleSignUpRedirect}>

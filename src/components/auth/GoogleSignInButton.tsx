@@ -2,7 +2,7 @@ import React, { type ReactElement } from "react";
 import { Image, Text, View, Pressable } from "react-native";
 
 import images from "@/images";
-import { SIGN_IN_WITH_GOOGLE } from "@/common/messages";
+import { SIGN_IN_WITH_GOOGLE } from "@/common/strings";
 
 interface GoogleSignInButtonProps {
     handleSignIn: () => void;

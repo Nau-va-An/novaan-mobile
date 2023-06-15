@@ -5,6 +5,7 @@ import {
     type SignUpRequest,
     type SignUpResponse,
     type SignInGoogleRequest,
+    type SignUpErrReason,
 } from "./types";
 
 const SIGN_IN_URL = "auth/signin";
@@ -46,23 +47,20 @@ const signUp = async (
         const message = body?.Body.Message;
 
         // TODO: Change this to error code later
-        let errMessage: "email existed" | "username existed" | "unknown" =
-            "unknown";
+        let errMessage: SignUpErrReason = "unknown";
         switch (message) {
             case SIGN_UP_EMAIL_EXIST_ERROR:
-                errMessage = "email existed";
+                errMessage = "email exists";
                 break;
             case SIGN_UP_USERNAME_EXIST_ERROR:
-                errMessage = "username existed";
+                errMessage = "username exists";
                 break;
         }
-
         return {
             success: false,
             reason: errMessage,
         };
     }
-
     return {
         success: true,
     };
@@ -76,11 +74,9 @@ const signInWithGoogle = async (token: string): Promise<SignInResponse> => {
                 token,
             }
         );
-
         if (!response.ok) {
             throw new Error();
         }
-
         return await response.json();
     } catch (err) {
         console.log("Sign in with Google ERR", err);
