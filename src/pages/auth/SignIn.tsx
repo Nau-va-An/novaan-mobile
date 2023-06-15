@@ -90,8 +90,6 @@ const SignIn = (props: SignInProps): ReactElement<SignInProps> => {
         void handleSignInWithGoogle(token);
     }, [token]);
 
-    const errorTextStyle = "italic text-xs text-cwarning";
-
     const handleSignIn = async (data: FormData): Promise<void> => {
         setIsLoading(true);
         try {

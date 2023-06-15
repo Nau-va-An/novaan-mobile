@@ -44,7 +44,7 @@ const signUp = async (
 
     if (!response.ok) {
         const body = await response.json();
-        const message = body?.Body.Message;
+        const message = body?.body.message;
 
         // TODO: Change this to error code later
         let errMessage: SignUpErrReason = "unknown";
