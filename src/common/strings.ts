@@ -15,7 +15,7 @@ export const AUTH_USERNAME_TOO_SHORT =
 
 // Sign in screen
 export const SIGN_IN_GREETING = "Xin chào";
-export const SIGN_IN_EMAIL_TITLE = "Email";
+export const SIGN_IN_EMAIL_TITLE = "Tên đăng nhập/Email";
 export const SIGN_IN_EMAIL_PLACEHOLDER = "Nhập email";
 export const SIGN_IN_PASSWORD_TITLE = "Mật khẩu";
 export const SIGN_IN_PASSWORD_PLACEHOLDER = "Nhập mật khẩu";
