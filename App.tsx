@@ -11,6 +11,7 @@ import CreateTip from "@/pages/create-post/CreateTip";
 import { PaperProvider, Portal } from "react-native-paper";
 import Toast, { BaseToast } from "react-native-toast-message";
 import { customColors } from "./tailwind.config";
+import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamList = {
@@ -18,6 +19,7 @@ export type RootStackParamList = {
     SignUp: undefined;
     MainScreens: undefined;
     CreateTip: undefined;
+    CreateRecipe: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -84,7 +86,7 @@ const App = () => {
                                         backgroundColor: "#FFFFFF",
                                     },
                                 }}
-                                initialRouteName="SignIn"
+                                initialRouteName="MainScreens"
                             >
                                 <RootStack.Screen
                                     name="SignIn"
@@ -104,6 +106,14 @@ const App = () => {
                                 <RootStack.Screen
                                     name="CreateTip"
                                     component={CreateTip}
+                                    options={{
+                                        animation: "slide_from_bottom",
+                                        animationDuration: 200,
+                                    }}
+                                />
+                                <RootStack.Screen
+                                    name="CreateRecipe"
+                                    component={CreateRecipe}
                                     options={{
                                         animation: "slide_from_bottom",
                                         animationDuration: 200,

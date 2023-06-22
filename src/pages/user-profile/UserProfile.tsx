@@ -22,7 +22,9 @@ const UserProfile: React.FC = () => {
             <Tab.Navigator
                 className="basis-3/4"
                 screenOptions={{
-                    tabBarStyle: { elevation: 1 },
+                    tabBarStyle: {
+                        height: 0,
+                    },
                     tabBarItemStyle: { width: 100 },
                 }}
             >

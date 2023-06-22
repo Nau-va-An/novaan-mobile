@@ -88,8 +88,23 @@ export const CREATE_TIP_VIDEO_WRONG_FILE_SIZE_ERROR =
     "File video phải nhỏ hơn hoặc bằng 20MB";
 export const CREATE_TIP_VIDEO_WRONG_RESOLUTION =
     "File video phải là video dọc với tỉ lệ 9:16";
-
 export const CREATE_TIP_PENDING = "Mẹo vặt của bạn đang được tải lên~";
 export const CREATE_TIP_SUCCESS = "Mẹo vặt của bạn đã được đăng tải";
 export const CREATE_TIP_FAILED = "Đã có lỗi xảy ra khi đăng tải mẹo vặt";
 export const CREATE_TIP_FAILED_SECONDARY = "Xin vui lòng thử lại sau";
+
+// Create recipe screen
+export const CREATE_RECIPE_TITLE = "Đăng tải công thức";
+export const CREATE_RECIPE_THANKS =
+    "Chúng tôi rất vui khi bạn quyết định chia sẻ công thức nấu ăn của mình với cộng đồng!";
+export const CREATE_RECIPE_TITLE_LABEL = "Tiêu đề";
+export const CREATE_RECIPE_TITLE_PLACEHOLDER =
+    "E.g. Đậu lướt ván";
+export const CREATE_RECIPE_MEDIA_LABEL = "Thêm video";
+export const CREATE_RECIPE_MEDIA_BUTTON_TEXT = "Thêm video công thức nấu ăn của bạn";
+export const CREATE_RECIPE_DESCRIPTION_LABEL = "Thêm mô tả";
+export const CREATE_RECIPE_DESCRIPTION_PLACEHOLDER = "E.g. Đậu lướt ván ăn kèm với rau kinh giới";
+export const CREATE_RECIPE_PREVIEW_BEFORE_SUBMIT = "Xem trước khi đăng";
+export const CREATE_RECIPE_SUBMIT = "Đăng bài";
+export const CREATE_NEXT_STEP_BUTTON_TITLE = "Tiếp theo"
+export const CREATE_PREVIOUS_STEP_BUTTON_TITLE = "Quay lại"
