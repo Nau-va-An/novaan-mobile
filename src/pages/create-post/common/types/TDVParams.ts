@@ -2,9 +2,18 @@ import { type Context } from "react";
 import { type Asset } from "react-native-image-picker";
 import { recipeTDVParams } from "../../create-recipe/RecipeTDVParams";
 import { tipTDVParams } from "../../create-tip/TipTDVParams";
+import { type Setter } from "../utils";
+
+export interface TDVInformation {
+    title: string;
+    description: string;
+    video: Asset | null;
+}
+
+export type TDVStates = TDVInformation & Setter<TDVInformation>;
 
 // props required for the TitleDescriptionVideo screen
-export interface TDVParams {
+export interface TDVParams<T extends TDVStates> {
     labels: {
         thank: string;
         titleLabel: string;
@@ -14,14 +23,7 @@ export interface TDVParams {
         mediaLabel: string;
         mediaButtonText: string;
     };
-    states: Context<{
-        title: string;
-        setTitle: (title: string) => void;
-        description: string;
-        setDescription: (description: string) => void;
-        video: Asset | null;
-        setVideo: (video: Asset | null) => void;
-    }>;
+    states: Context<T>;
 }
 
 const TDVParamTypes = {

@@ -21,7 +21,7 @@ import {
     createNavigationContainerRef,
 } from "@react-navigation/native";
 import { type Asset } from "react-native-image-picker";
-import { RecipeInformationContext } from "./RecipeTDVParams";
+import { type RecipeStates, recipeInformationContext } from "./RecipeTDVParams";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -31,6 +31,7 @@ interface CreateRecipeProps {
 export type CreateRecipeTabParamList = {
     TitleDescriptionVideo: TDVRouteProps;
     PortionDificultyTime: undefined;
+    Ingredients: undefined;
     Instructions: undefined;
 };
 
@@ -49,6 +50,17 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState<Asset | null>(null);
+    const [difficulty, setDifficulty] = useState("");
+    const [portionQuantity, setPortionQuantity] = useState(0);
+    const [portionType, setPortionType] = useState("");
+    const [prepTime, setPrepTime] = useState("");
+    const [cookTime, setCookTime] = useState("");
+    const [instructions, setInstructions] = useState<
+        RecipeStates["instructions"]
+    >([]);
+    const [ingredients, setIngredients] = useState<RecipeStates["ingredients"]>(
+        []
+    );
 
     const bottomNavButtonClassName =
         "flex-1 flex-row space-x-3 items-center justify-center rounded-full my-2 px-6 py-2";
@@ -56,6 +68,7 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const paramList: CreateRecipeTabParamList = {
         TitleDescriptionVideo: { labelType: "recipeTDVParams" },
         PortionDificultyTime: undefined,
+        Ingredients: undefined,
         Instructions: undefined,
     };
     const screens = Object.keys(paramList);
@@ -107,7 +120,7 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                 unfilledColor={customColors.cgrey.platinum}
                 borderRadius={0}
             />
-            <RecipeInformationContext.Provider
+            <recipeInformationContext.Provider
                 value={{
                     title,
                     setTitle,
@@ -115,6 +128,20 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                     setDescription,
                     video,
                     setVideo,
+                    difficulty,
+                    setDifficulty,
+                    portionType,
+                    setPortionType,
+                    portionQuantity,
+                    setPortionQuantity,
+                    prepTime,
+                    setPrepTime,
+                    cookTime,
+                    setCookTime,
+                    ingredients,
+                    setIngredients,
+                    instructions,
+                    setInstructions,
                 }}
             >
                 <NavigationContainer ref={navigationRef} independent={true}>
@@ -137,12 +164,16 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                             component={CreatedPosts}
                         />
                         <Tab.Screen
+                            name="Ingredients"
+                            component={CreatedPosts}
+                        />
+                        <Tab.Screen
                             name="Instructions"
                             component={CreatedPosts}
                         />
                     </Tab.Navigator>
                 </NavigationContainer>
-            </RecipeInformationContext.Provider>
+            </recipeInformationContext.Provider>
             <View
                 className="flex-row justify-center items-center px-5
                 border-cgrey-seasalt space-x-5"

@@ -1,6 +1,5 @@
 import React from "react";
-import { type TDVParams } from "../common/types/TDVParams";
-import { type Asset } from "react-native-image-picker";
+import type { TDVStates, TDVParams } from "../common/types/TDVParams";
 import {
     CREATE_RECIPE_DESCRIPTION_LABEL,
     CREATE_RECIPE_DESCRIPTION_PLACEHOLDER,
@@ -10,20 +9,46 @@ import {
     CREATE_RECIPE_TITLE_LABEL,
     CREATE_RECIPE_TITLE_PLACEHOLDER,
 } from "@/common/strings";
-import { type extractGenericContext } from "../common/utils";
+import { type Setter } from "../common/utils";
 
-export const RecipeInformationContext = React.createContext<
-    extractGenericContext<TDVParams["states"]>
->({
+interface AdditionalRecipeInformation {
+    difficulty: string;
+    portionQuantity: number;
+    portionType: string;
+    prepTime: string;
+    cookTime: string;
+    instructions: Array<{ step: number; description: string; image: string }>;
+    ingredients: Array<{ name: string; amount: number; unit: string }>;
+}
+
+export type RecipeStates = TDVStates &
+    AdditionalRecipeInformation &
+    Setter<AdditionalRecipeInformation>;
+
+export const recipeInformationContext = React.createContext<RecipeStates>({
     title: "",
-    setTitle: (title: string) => {},
+    setTitle: () => {},
     description: "",
-    setDescription: (title: string) => {},
+    setDescription: () => {},
     video: null,
-    setVideo: (video: Asset | null) => {},
+    setVideo: () => {},
+    difficulty: "",
+    portionQuantity: 0,
+    portionType: "",
+    prepTime: "",
+    cookTime: "",
+    instructions: [],
+    ingredients: [],
+    setDifficulty: () => {},
+    setPortionQuantity: () => {},
+    setPortionType: () => {},
+    setPrepTime: () => {},
+    setCookTime: () => {},
+    setInstructions: () => {},
+    setIngredients: () => {},
 });
 
-const createRecipeLabels: TDVParams["labels"] = {
+const createRecipeLabels: TDVParams<RecipeStates>["labels"] = {
     thank: CREATE_RECIPE_THANKS,
     titleLabel: CREATE_RECIPE_TITLE_LABEL,
     titlePlaceHolder: CREATE_RECIPE_TITLE_PLACEHOLDER,
@@ -33,7 +58,7 @@ const createRecipeLabels: TDVParams["labels"] = {
     mediaButtonText: CREATE_RECIPE_MEDIA_BUTTON_TEXT,
 };
 
-export const recipeTDVParams: TDVParams = {
+export const recipeTDVParams: TDVParams<RecipeStates> = {
     labels: createRecipeLabels,
-    states: RecipeInformationContext,
+    states: recipeInformationContext,
 };

@@ -14,7 +14,6 @@ import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "@root/App";
 import { pickVideoAndThumbnail } from "../../create-tip/services/createTipService";
 import TDVParamTypes from "../types/TDVParams";
-import { RecipeInformationContext } from "../../create-recipe/RecipeTDVParams";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultThumbnail = require("@root/assets/default-video.png");
@@ -31,14 +30,15 @@ export interface TitleDescriptionVideoProps {
 const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
     props: TitleDescriptionVideoProps
 ) => {
-    const { title, setTitle, description, setDescription, video, setVideo } =
-        useContext(RecipeInformationContext);
     const {
         route: {
             params: { labelType },
         },
     } = props;
-    console.log("labelType: " + labelType);
+    const { title, setTitle, description, setDescription, video, setVideo } =
+        labelType === "recipeTDVParams"
+            ? useContext(TDVParamTypes[labelType].states)
+            : useContext(TDVParamTypes[labelType].states);
     const labels = TDVParamTypes[labelType].labels;
     const [thumbnailUri, setThumbnailUri] = useState<string | null>();
 

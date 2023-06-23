@@ -1,6 +1,5 @@
 import React from "react";
-import { type TDVParams } from "../common/types/TDVParams";
-import { type Asset } from "react-native-image-picker";
+import { type TDVStates, type TDVParams } from "../common/types/TDVParams";
 import {
     CREATE_TIP_DESCRIPTION_LABEL,
     CREATE_TIP_DESCRIPTION_PLACEHOLDER,
@@ -10,20 +9,17 @@ import {
     CREATE_TIP_TITLE_LABEL,
     CREATE_TIP_TITLE_PLACEHOLDER,
 } from "@/common/strings";
-import { type extractGenericContext } from "../common/utils";
 
-const tipInformationContext = React.createContext<
-    extractGenericContext<TDVParams["states"]>
->({
+const tipInformationContext = React.createContext<TDVStates>({
     title: "",
-    setTitle: (title: string) => {},
+    setTitle: () => {},
     description: "",
-    setDescription: (title: string) => {},
+    setDescription: () => {},
     video: null,
-    setVideo: (video: Asset | null) => {},
+    setVideo: () => {},
 });
 
-const createTipLabels: TDVParams["labels"] = {
+const createTipLabels: TDVParams<TDVStates>["labels"] = {
     thank: CREATE_TIP_THANKS,
     titleLabel: CREATE_TIP_TITLE_LABEL,
     titlePlaceHolder: CREATE_TIP_TITLE_PLACEHOLDER,
@@ -33,7 +29,7 @@ const createTipLabels: TDVParams["labels"] = {
     mediaButtonText: CREATE_TIP_MEDIA_BUTTON_TEXT,
 };
 
-export const tipTDVParams: TDVParams = {
+export const tipTDVParams: TDVParams<TDVStates> = {
     labels: createTipLabels,
     states: tipInformationContext,
 };
