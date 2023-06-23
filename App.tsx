@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignIn from "@/pages/auth/SignIn";
 import SignUp from "@/pages/auth/SignUp";
 import MainScreens from "@/pages/MainScreens";
-import CreateTip from "@/pages/create-post/CreateTip";
+import CreateTip from "@/pages/create-post/create-tip/CreateTip";
 import { PaperProvider, Portal } from "react-native-paper";
 import Toast, { BaseToast } from "react-native-toast-message";
 import { customColors } from "./tailwind.config";

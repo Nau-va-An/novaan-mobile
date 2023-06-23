@@ -1,4 +1,4 @@
-import React, { useState, type FC } from "react";
+import React, { useState, type FC, useContext } from "react";
 import {
     View,
     Text,
@@ -8,55 +8,38 @@ import {
     ScrollView,
 } from "react-native";
 import WarningAsterisk from "@/common/components/WarningAeterisk";
-import type * as ImagePicker from "react-native-image-picker";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
 import { customColors } from "@root/tailwind.config";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "@root/App";
-import { pickVideoAndThumbnail } from "../services/createTipService";
+import { pickVideoAndThumbnail } from "../../create-tip/services/createTipService";
+import TDVParamTypes from "../types/TDVParams";
+import { RecipeInformationContext } from "../../create-recipe/RecipeTDVParams";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultThumbnail = require("@root/assets/default-video.png");
 
-interface TDVLabels {
-    thank: string;
-    titleLabel: string;
-    titlePlaceHolder: string;
-    descriptionLabel: string;
-    descriptionPlaceholder: string;
-    mediaLabel: string;
-    mediaButtonText: string;
-}
-
 export interface TDVRouteProps {
-    title: string;
-    setTitle: (title: string) => void;
-    description: string;
-    setDescription: (description: string) => void;
-    video: ImagePicker.Asset | null;
-    setVideo: (video: ImagePicker.Asset | null) => void;
-    labels: TDVLabels;
+    labelType: keyof typeof TDVParamTypes;
 }
 
 export interface TitleDescriptionVideoProps {
-    route: {
-        params: TDVRouteProps;
-    };
+    route: { params: TDVRouteProps };
     navigation?: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
 }
 
-const CreateTip: FC<TitleDescriptionVideoProps> = (
+const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
     props: TitleDescriptionVideoProps
 ) => {
+    const { title, setTitle, description, setDescription, video, setVideo } =
+        useContext(RecipeInformationContext);
     const {
-        title,
-        setTitle,
-        description,
-        setDescription,
-        video,
-        setVideo,
-        labels,
-    } = props.route.params;
+        route: {
+            params: { labelType },
+        },
+    } = props;
+    console.log("labelType: " + labelType);
+    const labels = TDVParamTypes[labelType].labels;
     const [thumbnailUri, setThumbnailUri] = useState<string | null>();
 
     const labelClassName = "text-base font-medium uppercase";
@@ -157,4 +140,4 @@ const CreateTip: FC<TitleDescriptionVideoProps> = (
     );
 };
 
-export default CreateTip;
+export default TitleDescriptionVideo;

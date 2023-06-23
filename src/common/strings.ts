@@ -98,13 +98,14 @@ export const CREATE_RECIPE_TITLE = "Đăng tải công thức";
 export const CREATE_RECIPE_THANKS =
     "Chúng tôi rất vui khi bạn quyết định chia sẻ công thức nấu ăn của mình với cộng đồng!";
 export const CREATE_RECIPE_TITLE_LABEL = "Tiêu đề";
-export const CREATE_RECIPE_TITLE_PLACEHOLDER =
-    "E.g. Đậu lướt ván";
+export const CREATE_RECIPE_TITLE_PLACEHOLDER = "E.g. Đậu lướt ván";
 export const CREATE_RECIPE_MEDIA_LABEL = "Thêm video";
-export const CREATE_RECIPE_MEDIA_BUTTON_TEXT = "Thêm video công thức nấu ăn của bạn";
+export const CREATE_RECIPE_MEDIA_BUTTON_TEXT =
+    "Thêm video công thức nấu ăn của bạn";
 export const CREATE_RECIPE_DESCRIPTION_LABEL = "Thêm mô tả";
-export const CREATE_RECIPE_DESCRIPTION_PLACEHOLDER = "E.g. Đậu lướt ván ăn kèm với rau kinh giới";
+export const CREATE_RECIPE_DESCRIPTION_PLACEHOLDER =
+    "E.g. Đậu lướt ván ăn kèm với rau kinh giới";
 export const CREATE_RECIPE_PREVIEW_BEFORE_SUBMIT = "Xem trước khi đăng";
 export const CREATE_RECIPE_SUBMIT = "Đăng bài";
-export const CREATE_NEXT_STEP_BUTTON_TITLE = "Tiếp theo"
-export const CREATE_PREVIOUS_STEP_BUTTON_TITLE = "Quay lại"
+export const CREATE_NEXT_STEP_BUTTON_TITLE = "Tiếp theo";
+export const CREATE_PREVIOUS_STEP_BUTTON_TITLE = "Quay lại";

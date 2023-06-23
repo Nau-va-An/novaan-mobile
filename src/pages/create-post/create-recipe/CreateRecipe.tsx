@@ -10,24 +10,18 @@ import CreatedPosts from "../../user-profile/CreatedPosts";
 import {
     CREATE_NEXT_STEP_BUTTON_TITLE,
     CREATE_PREVIOUS_STEP_BUTTON_TITLE,
-    CREATE_RECIPE_DESCRIPTION_LABEL,
-    CREATE_RECIPE_DESCRIPTION_PLACEHOLDER,
-    CREATE_RECIPE_MEDIA_BUTTON_TEXT,
-    CREATE_RECIPE_MEDIA_LABEL,
-    CREATE_RECIPE_THANKS,
     CREATE_RECIPE_TITLE,
-    CREATE_RECIPE_TITLE_LABEL,
-    CREATE_RECIPE_TITLE_PLACEHOLDER,
 } from "@/common/strings";
 import { customColors } from "@root/tailwind.config";
 import TitleDescriptionVideo, {
     type TDVRouteProps,
-} from "../components/TitleDescriptionVideo";
-import type { Asset } from "react-native-image-picker";
+} from "../common/components/TitleDescriptionVideo";
 import {
     NavigationContainer,
     createNavigationContainerRef,
 } from "@react-navigation/native";
+import { type Asset } from "react-native-image-picker";
+import { RecipeInformationContext } from "./RecipeTDVParams";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -35,7 +29,7 @@ interface CreateRecipeProps {
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type CreateRecipeTabParamList = {
-    TitleDescriptionVideo: undefined;
+    TitleDescriptionVideo: TDVRouteProps;
     PortionDificultyTime: undefined;
     Instructions: undefined;
 };
@@ -55,28 +49,12 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState<Asset | null>(null);
-    const [thumbnailUri, setThumbnailUri] = useState<string | null>();
-    const titleDescriptionVideoProps: TDVRouteProps = {
-        title,
-        setTitle,
-        description,
-        setDescription,
-        video,
-        setVideo,
-        labels: {
-            thank: CREATE_RECIPE_THANKS,
-            titleLabel: CREATE_RECIPE_TITLE_LABEL,
-            titlePlaceHolder: CREATE_RECIPE_TITLE_PLACEHOLDER,
-            descriptionLabel: CREATE_RECIPE_DESCRIPTION_LABEL,
-            descriptionPlaceholder: CREATE_RECIPE_DESCRIPTION_PLACEHOLDER,
-            mediaLabel: CREATE_RECIPE_MEDIA_LABEL,
-            mediaButtonText: CREATE_RECIPE_MEDIA_BUTTON_TEXT,
-        },
-    };
+
     const bottomNavButtonClassName =
         "flex-1 flex-row space-x-3 items-center justify-center rounded-full my-2 px-6 py-2";
+    // navigation
     const paramList: CreateRecipeTabParamList = {
-        TitleDescriptionVideo: undefined,
+        TitleDescriptionVideo: { labelType: "recipeTDVParams" },
         PortionDificultyTime: undefined,
         Instructions: undefined,
     };
@@ -129,43 +107,47 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                 unfilledColor={customColors.cgrey.platinum}
                 borderRadius={0}
             />
-            <NavigationContainer ref={navigationRef} independent={true}>
-                <Tab.Navigator
-                    screenOptions={{
-                        swipeEnabled: false,
-                        tabBarShowLabel: false,
-                        tabBarStyle: {
-                            height: 0,
-                        },
-                    }}
-                >
-                    <Tab.Screen
-                        name="TitleDescriptionVideo"
-                        component={TitleDescriptionVideo}
-                        initialParams={titleDescriptionVideoProps as any}
-                    />
-                    <Tab.Screen
-                        name="PortionDificultyTime"
-                        component={CreatedPosts}
-                    />
-                    <Tab.Screen name="Instructions" component={CreatedPosts} />
-                </Tab.Navigator>
-            </NavigationContainer>
+            <RecipeInformationContext.Provider
+                value={{
+                    title,
+                    setTitle,
+                    description,
+                    setDescription,
+                    video,
+                    setVideo,
+                }}
+            >
+                <NavigationContainer ref={navigationRef} independent={true}>
+                    <Tab.Navigator
+                        screenOptions={{
+                            swipeEnabled: false,
+                            tabBarShowLabel: false,
+                            tabBarStyle: {
+                                height: 0,
+                            },
+                        }}
+                    >
+                        <Tab.Screen
+                            name="TitleDescriptionVideo"
+                            component={TitleDescriptionVideo}
+                            initialParams={paramList.TitleDescriptionVideo}
+                        />
+                        <Tab.Screen
+                            name="PortionDificultyTime"
+                            component={CreatedPosts}
+                        />
+                        <Tab.Screen
+                            name="Instructions"
+                            component={CreatedPosts}
+                        />
+                    </Tab.Navigator>
+                </NavigationContainer>
+            </RecipeInformationContext.Provider>
             <View
                 className="flex-row justify-center items-center px-5
                 border-cgrey-seasalt space-x-5"
                 style={{ borderTopWidth: 2 }}
             >
-                {/* <TouchableOpacity
-                    className="flex-row space-x-3 items-center rounded-full my-2 px-6 py-2 bg-cprimary-500"
-                    onPress={submit}
-                >
-                    <Text className="text-sm text-white">
-                        {CREATE_RECIPE_SUBMIT}
-                    </Text>
-                     change to eyeo for previewing
-                    <IconAnt name="upload" color="white" size={18} />
-                </TouchableOpacity> */}
                 <TouchableOpacity
                     className={
                         bottomNavButtonClassName +
