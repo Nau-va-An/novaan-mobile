@@ -135,7 +135,6 @@ export const handleTipSubmission = async (
                 minimumFileSizeForCompress: 20,
                 maxSize: 1280, // HD width
             },
-            console.log
         );
 
         const realVideoPath = await getRealPath(videoUri, "video");

@@ -16,7 +16,7 @@ const colors = {
         seasalt: "#f9f9f9",
         platinum: "#dedede",
         dimGrey: "#606060",
-    },
+    }
 };
 
 module.exports = {

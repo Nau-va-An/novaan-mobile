@@ -107,5 +107,51 @@ export const CREATE_RECIPE_DESCRIPTION_PLACEHOLDER =
     "E.g. Đậu lướt ván ăn kèm với rau kinh giới";
 export const CREATE_RECIPE_PREVIEW_BEFORE_SUBMIT = "Xem trước khi đăng";
 export const CREATE_RECIPE_SUBMIT = "Đăng bài";
-export const CREATE_NEXT_STEP_BUTTON_TITLE = "Tiếp theo";
-export const CREATE_PREVIOUS_STEP_BUTTON_TITLE = "Quay lại";
+export const CREATE_RECIPE_NEXT_STEP_BUTTON_TITLE = "Tiếp theo";
+export const CREATE_RECIPE_PREVIOUS_STEP_BUTTON_TITLE = "Quay lại";
+export const CREATE_RECIPE_PDT_SUBTITLE = "Hãy thêm một vài chi tiết...";
+export const CREATE_RECIPE_PORTION_TITLE = "Khẩu phần";
+export const CREATE_RECIPE_PORTION_QUANTITY_PLACEHOLDER = "2";
+export const CREATE_RECIPE_PORTION_TYPE_PLACEHOLDER = "người ăn";
+export const CREATE_RECIPE_PORTION_DIFFICULTY_TITLE = "Độ khó";
+export const CREATE_RECIPE_PREPARE_TIME_TITLE = "Thời gian chuẩn bị";
+export const CREATE_RECIPE_COOK_TIME_TITLE = "Thời gian nấu";
+export const CREATE_RECIPE_INGREDIENTS_SUBTITLE =
+    // "Một công thức nấu ăn sẽ không là gì nếu thiếu nguyên liệu!"
+    "Bạn sử dụng những nguyên liệu nào cho công thức của mình?";
+export const CREATE_RECIPE_INGREDIENTS_TITLE = "Thêm nguyên liệu";
+export const CREATE_RECIPE_INGREDIENTS_ADD_INGREDIENT_BUTTON_TITLE =
+    "Thêm một nguyên liệu";
+export const CREATE_RECIPE_INSTRUCTIONS_SUBTITLE =
+    // "Một công thức nấu ăn sẽ không là gì nếu thiếu nguyên liệu!"
+    "Đã đến lúc thêm các hướng dẫn cụ thể...";
+export const CREATE_RECIPE_INSTRUCTIONS_TITLE = "Các bước";
+export const CREATE_RECIPE_INSTRUCTIONS_ADD_INGREDIENT_BUTTON_TITLE =
+    "Thêm một bước";
+export const CREATE_RECIPE_INSTRUCTIONS_INSTRUCTION_TEXT = "Bước: ";
+
+// Add ingredient screen
+export const ADD_INGREDIENT_TITLE = "Thêm nguyên liệu";
+export const ADD_INGREDIENT_INGREDIENT_TITLE = "Tên nguyên liệu";
+export const ADD_INGREDIENT_AMOUNT_TITLE = "Số lượng";
+export const ADD_INGREDIENT_UNIT_TITLE = "Đơn vị đo";
+export const ADD_INGREDIENT_SUBMIT_BUTTON_TITLE = "Hoàn tất";
+// Add ingredient message
+export const ADD_INGREDIENT_MESSAGE_TITLE = "Nhập thiếu trường bắt buộc";
+export const ADD_INGREDIENT_NO_NAME_ERROR =
+    "Trường tên nguyên liệu là bắt buộc";
+export const ADD_INGREDIENT_ZERO_AMOUNT_ERROR =
+    "Số lượng nguyên liệu phải lớn hơn 0";
+export const ADD_INGREDIENT_NO_UNIT_ERROR = "Trường đơn vị đo là bắt buộc";
+
+// Add step screen
+export const ADD_INSTRUCTION_TITLE = "Thêm nguyên liệu";
+export const ADD_INSTRUCTION_DESCRIPTION_TITLE = "Mô tả các bước cần làm";
+export const ADD_INSTRUCTION_DESCRIPTION_PLACEHOLDER =
+    "E.g. Gọt vỏ, rửa sạch và cắt hạt lựu một củ cà rốt";
+export const ADD_INSTRUCTION_IMAGE_TITLE = "Thêm ảnh";
+export const ADD_INSTRUCTION_IMAGE_BUTTON_TEXT = "Thêm ảnh minh họa";
+export const ADD_INSTRUCTION_SUBMIT_BUTTON_TITLE = "Hoàn tất";
+// Add ingredient message
+export const ADD_INSTRUCTION_MESSAGE_TITLE = "Nhập thiếu trường bắt buộc";
+export const ADD_INSTRUCTION_NO_DESCRIPTION_ERROR = "Trường mô tả là bắt buộc";

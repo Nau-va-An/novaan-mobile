@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React from "react";
-import { View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useEffect } from "react";
+import { LogBox, View } from "react-native";
+import {
+    NavigationContainer,
+    createNavigationContainerRef,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SignIn from "@/pages/auth/SignIn";
@@ -12,6 +15,12 @@ import { PaperProvider, Portal } from "react-native-paper";
 import Toast, { BaseToast } from "react-native-toast-message";
 import { customColors } from "./tailwind.config";
 import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
+import AddIngredient, {
+    type AddIngredientParams,
+} from "@/pages/create-post/create-recipe/components/AddIngredient";
+import AddInstruction, {
+    type AddInstructionParams,
+} from "@/pages/create-post/create-recipe/components/AddInstruction";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamList = {
@@ -20,9 +29,21 @@ export type RootStackParamList = {
     MainScreens: undefined;
     CreateTip: undefined;
     CreateRecipe: undefined;
+    AddIngredient: AddIngredientParams;
+    AddInstruction: AddInstructionParams;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
+const rootNavigationRef = createNavigationContainerRef<RootStackParamList>();
+
+export function rootNavigate(
+    name: keyof RootStackParamList,
+    params?: any
+): void {
+    if (rootNavigationRef.isReady()) {
+        rootNavigationRef.navigate(name, params);
+    }
+}
 
 const toastConfig = {
     success: (props) => (
@@ -73,12 +94,16 @@ const toastConfig = {
 };
 
 const App = () => {
+    useEffect(() => {
+        LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+    }, []);
+
     return (
         <>
             <PaperProvider>
                 <Portal>
                     <View className="flex-1">
-                        <NavigationContainer>
+                        <NavigationContainer ref={rootNavigationRef}>
                             <RootStack.Navigator
                                 screenOptions={{
                                     headerShown: false,
@@ -86,7 +111,7 @@ const App = () => {
                                         backgroundColor: "#FFFFFF",
                                     },
                                 }}
-                                initialRouteName="MainScreens"
+                                initialRouteName="CreateRecipe"
                             >
                                 <RootStack.Screen
                                     name="SignIn"
@@ -114,6 +139,22 @@ const App = () => {
                                 <RootStack.Screen
                                     name="CreateRecipe"
                                     component={CreateRecipe}
+                                    options={{
+                                        animation: "slide_from_bottom",
+                                        animationDuration: 200,
+                                    }}
+                                />
+                                <RootStack.Screen
+                                    name="AddIngredient"
+                                    component={AddIngredient}
+                                    options={{
+                                        animation: "slide_from_bottom",
+                                        animationDuration: 200,
+                                    }}
+                                />
+                                <RootStack.Screen
+                                    name="AddInstruction"
+                                    component={AddInstruction}
                                     options={{
                                         animation: "slide_from_bottom",
                                         animationDuration: 200,

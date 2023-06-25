@@ -1,15 +1,14 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "@root/App";
-import { useState, type FC } from "react";
+import { useState, type FC, useRef } from "react";
 import { Bar } from "react-native-progress";
 import React, { Text, TouchableOpacity, View } from "react-native";
 import IconEvill from "react-native-vector-icons/EvilIcons";
 import IconAnt from "react-native-vector-icons/AntDesign";
-import CreatedPosts from "../../user-profile/CreatedPosts";
 import {
-    CREATE_NEXT_STEP_BUTTON_TITLE,
-    CREATE_PREVIOUS_STEP_BUTTON_TITLE,
+    CREATE_RECIPE_NEXT_STEP_BUTTON_TITLE,
+    CREATE_RECIPE_PREVIOUS_STEP_BUTTON_TITLE,
     CREATE_RECIPE_TITLE,
 } from "@/common/strings";
 import { customColors } from "@root/tailwind.config";
@@ -21,7 +20,10 @@ import {
     createNavigationContainerRef,
 } from "@react-navigation/native";
 import { type Asset } from "react-native-image-picker";
-import { type RecipeStates, recipeInformationContext } from "./RecipeTDVParams";
+import { type RecipeStates, recipeInformationContext } from "./RecipeParams";
+import PortionDificultyTime from "./components/PortionDifficultyTime";
+import Ingredients from "./components/Ingredients";
+import Instructions from "./components/Instructions";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -31,7 +33,12 @@ interface CreateRecipeProps {
 export type CreateRecipeTabParamList = {
     TitleDescriptionVideo: TDVRouteProps;
     PortionDificultyTime: undefined;
-    Ingredients: undefined;
+    Ingredients: {
+        rootNavigation: NativeStackNavigationProp<
+            RootStackParamList,
+            "CreateTip"
+        >;
+    };
     Instructions: undefined;
 };
 
@@ -62,38 +69,53 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
         []
     );
 
-    const bottomNavButtonClassName =
-        "flex-1 flex-row space-x-3 items-center justify-center rounded-full my-2 px-6 py-2";
     // navigation
     const paramList: CreateRecipeTabParamList = {
         TitleDescriptionVideo: { labelType: "recipeTDVParams" },
         PortionDificultyTime: undefined,
-        Ingredients: undefined,
+        Ingredients: { rootNavigation },
         Instructions: undefined,
     };
     const screens = Object.keys(paramList);
     const progressStep = 1 / screens.length;
+
+    const bottomNavButtonClassName =
+        "flex-1 flex-row space-x-3 items-center justify-center rounded-full my-2 px-6 py-2";
+
+    // navigation
     const [progress, setProgresss] = useState(progressStep);
-    const [currentScreen, setCurrentScreen] = useState(0);
+    const currentScreen = useRef(0);
+    const routeNameRef = useRef("");
 
     const goNextScreen = (): void => {
-        if (currentScreen < screens.length - 1) {
-            navigate(screens[currentScreen + 1] as any);
-            setCurrentScreen(currentScreen + 1);
-            setProgresss(progress + progressStep);
+        if (currentScreen.current < screens.length - 1) {
+            navigate(screens[currentScreen.current + 1] as any);
         }
     };
 
     const goPreviousScreen = (): void => {
-        if (currentScreen > 0) {
-            navigate(screens[currentScreen - 1] as any);
-            setCurrentScreen(currentScreen - 1);
-            setProgresss(progress - progressStep);
+        if (currentScreen.current > 0) {
+            navigate(screens[currentScreen.current - 1] as any);
         }
     };
 
     const exit = (): void => {
         rootNavigation.pop();
+    };
+
+    const onNavigationStateChange = async (): Promise<void> => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef?.getCurrentRoute()?.name ?? "";
+
+        if (previousRouteName !== currentRouteName) {
+            // Save the current route name for later comparison
+            routeNameRef.current = currentRouteName;
+            const screenNumber = screens.findIndex((value) => {
+                return value === currentRouteName;
+            });
+            currentScreen.current = screenNumber;
+            setProgresss((screenNumber + 1) * progressStep);
+        }
     };
 
     return (
@@ -144,10 +166,17 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                     setInstructions,
                 }}
             >
-                <NavigationContainer ref={navigationRef} independent={true}>
+                <NavigationContainer
+                    ref={navigationRef}
+                    independent={true}
+                    onReady={() => {
+                        routeNameRef.current =
+                            navigationRef?.getCurrentRoute()?.name ?? "";
+                    }}
+                    onStateChange={onNavigationStateChange}
+                >
                     <Tab.Navigator
                         screenOptions={{
-                            swipeEnabled: false,
                             tabBarShowLabel: false,
                             tabBarStyle: {
                                 height: 0,
@@ -161,15 +190,16 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                         />
                         <Tab.Screen
                             name="PortionDificultyTime"
-                            component={CreatedPosts}
+                            component={PortionDificultyTime}
                         />
                         <Tab.Screen
                             name="Ingredients"
-                            component={CreatedPosts}
+                            component={Ingredients}
+                            initialParams={paramList.Ingredients}
                         />
                         <Tab.Screen
                             name="Instructions"
-                            component={CreatedPosts}
+                            component={Instructions}
                         />
                     </Tab.Navigator>
                 </NavigationContainer>
@@ -192,7 +222,7 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                         size={18}
                     />
                     <Text className="text-sm text-cprimary-500">
-                        {CREATE_PREVIOUS_STEP_BUTTON_TITLE}
+                        {CREATE_RECIPE_PREVIOUS_STEP_BUTTON_TITLE}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -200,7 +230,7 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                     onPress={goNextScreen}
                 >
                     <Text className="text-sm text-white">
-                        {CREATE_NEXT_STEP_BUTTON_TITLE}
+                        {CREATE_RECIPE_NEXT_STEP_BUTTON_TITLE}
                     </Text>
                     <IconAnt name="arrowright" color="white" size={18} />
                 </TouchableOpacity>

@@ -10,6 +10,8 @@ import {
     CREATE_RECIPE_TITLE_PLACEHOLDER,
 } from "@/common/strings";
 import { type Setter } from "../common/utils";
+import type Ingredient from "./types/Ingredient";
+import type Instruction from "./types/Instruction";
 
 interface AdditionalRecipeInformation {
     difficulty: string;
@@ -17,8 +19,8 @@ interface AdditionalRecipeInformation {
     portionType: string;
     prepTime: string;
     cookTime: string;
-    instructions: Array<{ step: number; description: string; image: string }>;
-    ingredients: Array<{ name: string; amount: number; unit: string }>;
+    instructions: Instruction[];
+    ingredients: Ingredient[];
 }
 
 export type RecipeStates = TDVStates &
@@ -58,7 +60,7 @@ const createRecipeLabels: TDVParams<RecipeStates>["labels"] = {
     mediaButtonText: CREATE_RECIPE_MEDIA_BUTTON_TEXT,
 };
 
-export const recipeTDVParams: TDVParams<RecipeStates> = {
+export const recipeParams: TDVParams<RecipeStates> = {
     labels: createRecipeLabels,
     states: recipeInformationContext,
 };
