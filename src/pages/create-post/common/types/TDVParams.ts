@@ -1,8 +1,8 @@
 import { type Context } from "react";
 import { type Asset } from "react-native-image-picker";
-import { recipeParams } from "../../create-recipe/RecipeParams";
-import { tipTDVParams } from "../../create-tip/TipParams";
-import { type Setter } from "../utils";
+import { recipeParams } from "../../create-recipe/types/RecipeParams";
+import { tipTDVParams } from "../../create-tip/types/TipParams";
+import { type Setter } from "@/common/utils";
 
 export interface TDVInformation {
     title: string;
@@ -23,11 +23,19 @@ export interface TDVParams<T extends TDVStates> {
         mediaLabel: string;
         mediaButtonText: string;
     };
+    messages: {
+        wrongFileLengthError: string;
+        wrongFileSizeError: string;
+        compressingMessage: string;
+        successMessage: string;
+        failMessage: string;
+        fail2ndMessage: string;
+    };
     states: Context<T>;
 }
 
 const TDVParamTypes = {
-    recipeTDVParams: recipeParams,
+    recipeParams,
     tipTDVParams,
 };
 

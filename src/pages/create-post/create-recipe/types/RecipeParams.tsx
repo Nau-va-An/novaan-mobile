@@ -1,24 +1,31 @@
 import React from "react";
-import type { TDVStates, TDVParams } from "../common/types/TDVParams";
+import type { TDVStates, TDVParams } from "../../common/types/TDVParams";
 import {
     CREATE_RECIPE_DESCRIPTION_LABEL,
     CREATE_RECIPE_DESCRIPTION_PLACEHOLDER,
+    CREATE_RECIPE_FAILED,
+    CREATE_RECIPE_FAILED_SECONDARY,
     CREATE_RECIPE_MEDIA_BUTTON_TEXT,
     CREATE_RECIPE_MEDIA_LABEL,
+    CREATE_RECIPE_PENDING,
+    CREATE_RECIPE_SUCCESS,
     CREATE_RECIPE_THANKS,
     CREATE_RECIPE_TITLE_LABEL,
     CREATE_RECIPE_TITLE_PLACEHOLDER,
+    CREATE_RECIPE_VIDEO_WRONG_FILE_SIZE_ERROR,
+    CREATE_RECIPE_VIDEO_WRONG_LENGTH_ERROR,
 } from "@/common/strings";
-import { type Setter } from "../common/utils";
-import type Ingredient from "./types/Ingredient";
-import type Instruction from "./types/Instruction";
+import type Ingredient from "./Ingredient";
+import type Instruction from "./Instruction";
+import type RecipeTime from "./RecipeTime";
+import { type Setter } from "@/common/utils";
 
-interface AdditionalRecipeInformation {
-    difficulty: string;
+export interface AdditionalRecipeInformation {
+    difficulty: number;
     portionQuantity: number;
-    portionType: string;
-    prepTime: string;
-    cookTime: string;
+    portionType: number;
+    prepTime: RecipeTime;
+    cookTime: RecipeTime;
     instructions: Instruction[];
     ingredients: Ingredient[];
 }
@@ -34,11 +41,11 @@ export const recipeInformationContext = React.createContext<RecipeStates>({
     setDescription: () => {},
     video: null,
     setVideo: () => {},
-    difficulty: "",
+    difficulty: 0,
     portionQuantity: 0,
-    portionType: "",
-    prepTime: "",
-    cookTime: "",
+    portionType: 0,
+    prepTime: { hour: 0, minute: 0 },
+    cookTime: { hour: 0, minute: 0 },
     instructions: [],
     ingredients: [],
     setDifficulty: () => {},
@@ -50,7 +57,7 @@ export const recipeInformationContext = React.createContext<RecipeStates>({
     setIngredients: () => {},
 });
 
-const createRecipeLabels: TDVParams<RecipeStates>["labels"] = {
+const createRecipeTDVLabels: TDVParams<RecipeStates>["labels"] = {
     thank: CREATE_RECIPE_THANKS,
     titleLabel: CREATE_RECIPE_TITLE_LABEL,
     titlePlaceHolder: CREATE_RECIPE_TITLE_PLACEHOLDER,
@@ -60,7 +67,17 @@ const createRecipeLabels: TDVParams<RecipeStates>["labels"] = {
     mediaButtonText: CREATE_RECIPE_MEDIA_BUTTON_TEXT,
 };
 
+const createRecipeTDVMessages: TDVParams<RecipeStates>["messages"] = {
+    wrongFileLengthError: CREATE_RECIPE_VIDEO_WRONG_LENGTH_ERROR,
+    wrongFileSizeError: CREATE_RECIPE_VIDEO_WRONG_FILE_SIZE_ERROR,
+    compressingMessage: CREATE_RECIPE_PENDING,
+    successMessage: CREATE_RECIPE_SUCCESS,
+    failMessage: CREATE_RECIPE_FAILED_SECONDARY,
+    fail2ndMessage: CREATE_RECIPE_FAILED,
+};
+
 export const recipeParams: TDVParams<RecipeStates> = {
-    labels: createRecipeLabels,
+    labels: createRecipeTDVLabels,
+    messages: createRecipeTDVMessages,
     states: recipeInformationContext,
 };

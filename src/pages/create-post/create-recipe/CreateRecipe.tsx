@@ -9,6 +9,7 @@ import IconAnt from "react-native-vector-icons/AntDesign";
 import {
     CREATE_RECIPE_NEXT_STEP_BUTTON_TITLE,
     CREATE_RECIPE_PREVIOUS_STEP_BUTTON_TITLE,
+    CREATE_RECIPE_SUBMIT,
     CREATE_RECIPE_TITLE,
 } from "@/common/strings";
 import { customColors } from "@root/tailwind.config";
@@ -20,10 +21,14 @@ import {
     createNavigationContainerRef,
 } from "@react-navigation/native";
 import { type Asset } from "react-native-image-picker";
-import { type RecipeStates, recipeInformationContext } from "./RecipeParams";
+import {
+    type RecipeStates,
+    recipeInformationContext,
+} from "./types/RecipeParams";
 import PortionDificultyTime from "./components/PortionDifficultyTime";
 import Ingredients from "./components/Ingredients";
 import Instructions from "./components/Instructions";
+import { handleRecipeSubmission } from "./services/createRecipeService";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -57,11 +62,11 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState<Asset | null>(null);
-    const [difficulty, setDifficulty] = useState("");
+    const [difficulty, setDifficulty] = useState(-1);
     const [portionQuantity, setPortionQuantity] = useState(0);
-    const [portionType, setPortionType] = useState("");
-    const [prepTime, setPrepTime] = useState("");
-    const [cookTime, setCookTime] = useState("");
+    const [portionType, setPortionType] = useState(-1);
+    const [prepTime, setPrepTime] = useState({ hour: 0, minute: 0 });
+    const [cookTime, setCookTime] = useState({ hour: 0, minute: 0 });
     const [instructions, setInstructions] = useState<
         RecipeStates["instructions"]
     >([]);
@@ -71,7 +76,7 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
 
     // navigation
     const paramList: CreateRecipeTabParamList = {
-        TitleDescriptionVideo: { labelType: "recipeTDVParams" },
+        TitleDescriptionVideo: { labelType: "recipeParams" },
         PortionDificultyTime: undefined,
         Ingredients: { rootNavigation },
         Instructions: undefined,
@@ -86,6 +91,26 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const [progress, setProgresss] = useState(progressStep);
     const currentScreen = useRef(0);
     const routeNameRef = useRef("");
+
+    const submitRecipe = async (): Promise<void> => {
+        await handleRecipeSubmission(
+            {
+                title,
+                description,
+                video,
+                difficulty,
+                portionQuantity,
+                portionType,
+                prepTime,
+                cookTime,
+                ingredients,
+                instructions,
+            },
+            () => {
+                rootNavigation.pop();
+            }
+        );
+    };
 
     const goNextScreen = (): void => {
         if (currentScreen.current < screens.length - 1) {
@@ -133,6 +158,21 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                         {CREATE_RECIPE_TITLE}
                     </Text>
                 </View>
+                <TouchableOpacity
+                    className={
+                        "flex-row space-x-2 items-center justify-center px-2"
+                    }
+                    onPress={submitRecipe}
+                >
+                    <IconAnt
+                        name="upload"
+                        color={customColors.cprimary["500"]}
+                        size={18}
+                    />
+                    <Text className="text-sm font-semibold text-cprimary-500">
+                        {CREATE_RECIPE_SUBMIT}
+                    </Text>
+                </TouchableOpacity>
             </View>
             <Bar
                 width={null}

@@ -15,7 +15,8 @@ const colors = {
     cgrey: {
         seasalt: "#f9f9f9",
         platinum: "#dedede",
-        dimGrey: "#606060",
+        dim: "#606060",
+        battleship: "#999999"
     }
 };
 

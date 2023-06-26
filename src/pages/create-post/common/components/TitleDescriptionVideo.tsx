@@ -12,11 +12,8 @@ import IconMaterial from "react-native-vector-icons/MaterialIcons";
 import { customColors } from "@root/tailwind.config";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "@root/App";
-import { pickVideoAndThumbnail } from "../../create-tip/services/createTipService";
 import TDVParamTypes from "../types/TDVParams";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const defaultThumbnail = require("@root/assets/default-video.png");
+import { pickVideoAndThumbnail } from "../commonServices";
 
 export interface TDVRouteProps {
     labelType: keyof typeof TDVParamTypes;
@@ -35,8 +32,8 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
             params: { labelType },
         },
     } = props;
-    const { title, setTitle, description, setDescription, video, setVideo } =
-        labelType === "recipeTDVParams"
+    const { title, setTitle, description, setDescription, setVideo } =
+        labelType === "recipeParams"
             ? useContext(TDVParamTypes[labelType].states)
             : useContext(TDVParamTypes[labelType].states);
     const labels = TDVParamTypes[labelType].labels;
@@ -73,8 +70,8 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
                     placeholder={labels.titlePlaceHolder}
                 />
                 <View className="items-end mt-2">
-                    <Text className="text-cgrey-dimGrey text-base">
-                        {title.length.toString() + "/55"}
+                    <Text className="text-cgrey-dim text-base">
+                        {title.length.toString()}/55
                     </Text>
                 </View>
                 <Text className={labelClassName + " mt-10"}>
@@ -93,15 +90,15 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
                     placeholder={labels.descriptionPlaceholder}
                 />
                 <View className="items-end">
-                    <Text className="text-cgrey-dimGrey text-base">
-                        {description.length.toString() + "/500"}
+                    <Text className="text-cgrey-dim text-base">
+                        {description.length.toString()}/500
                     </Text>
                 </View>
                 <Text className={labelClassName + " mt-10"}>
                     {labels.mediaLabel}
                     <WarningAsterisk />
                 </Text>
-                {video == null ? (
+                {thumbnailUri == null ? (
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={selectVideo}
@@ -127,11 +124,7 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
                     >
                         <Image
                             className="h-full w-full"
-                            source={
-                                thumbnailUri !== null
-                                    ? { uri: thumbnailUri }
-                                    : defaultThumbnail
-                            }
+                            source={{ uri: thumbnailUri }}
                         />
                     </TouchableOpacity>
                 )}

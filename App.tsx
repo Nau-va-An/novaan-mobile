@@ -111,7 +111,7 @@ const App = () => {
                                         backgroundColor: "#FFFFFF",
                                     },
                                 }}
-                                initialRouteName="CreateRecipe"
+                                initialRouteName="SignIn"
                             >
                                 <RootStack.Screen
                                     name="SignIn"

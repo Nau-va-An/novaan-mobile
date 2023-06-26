@@ -1,6 +1,6 @@
 import React, { type FC, useContext, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { recipeInformationContext } from "../RecipeParams";
+import { recipeInformationContext } from "../types/RecipeParams";
 import type Ingredient from "../types/Ingredient";
 import { rootNavigate } from "@root/App";
 import IngredientItem from "./IngredientItem";
@@ -82,21 +82,25 @@ const Ingredients: FC = () => {
                 </View>
             }
             ListFooterComponent={
-                <TouchableOpacity
-                    onPress={openAddIngredient}
-                    className="flex-row space-x-2 justify-center items-center p-3
+                ingredients.length < 9999 ? (
+                    <TouchableOpacity
+                        onPress={openAddIngredient}
+                        className="flex-row space-x-2 justify-center items-center p-3
                          border-cprimary-500 rounded-full mx-5 my-7"
-                    style={{ borderWidth: 1 }}
-                >
-                    <IconAnt
-                        name="plus"
-                        size={25}
-                        color={customColors.cprimary["500"]}
-                    />
-                    <Text className=" text-cprimary-500 text-base font-medium">
-                        {CREATE_RECIPE_INGREDIENTS_ADD_INGREDIENT_BUTTON_TITLE}
-                    </Text>
-                </TouchableOpacity>
+                        style={{ borderWidth: 1 }}
+                    >
+                        <IconAnt
+                            name="plus"
+                            size={25}
+                            color={customColors.cprimary["500"]}
+                        />
+                        <Text className=" text-cprimary-500 text-base font-medium">
+                            {
+                                CREATE_RECIPE_INGREDIENTS_ADD_INGREDIENT_BUTTON_TITLE
+                            }
+                        </Text>
+                    </TouchableOpacity>
+                ) : null
             }
             data={ingredients}
             renderItem={(item) => (

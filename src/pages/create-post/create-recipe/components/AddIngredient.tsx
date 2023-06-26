@@ -65,7 +65,12 @@ const AddIngredient: FC<AddIngredentProps> = ({
     };
 
     const onAmountChange = (amount: string): void => {
-        setAmount(parseFloat(amount));
+        const numberAmount = parseFloat(amount);
+        if (Number.isNaN(numberAmount)) {
+            setAmount(1);
+            return;
+        }
+        setAmount(numberAmount);
     };
 
     const getId = (): number =>
@@ -117,7 +122,7 @@ const AddIngredient: FC<AddIngredentProps> = ({
                     </Text>
                 </TouchableOpacity>
             </View>
-            <View className="px-3 py-7 mt-8">
+            <View className="px-6 py-7 mt-4">
                 <Text className={labelClassName}>
                     {ADD_INGREDIENT_INGREDIENT_TITLE}
                     <WarningAsterisk />
@@ -127,11 +132,16 @@ const AddIngredient: FC<AddIngredentProps> = ({
                     value={name}
                     textAlignVertical="top"
                     onChangeText={setName}
-                    maxLength={500}
+                    maxLength={55}
                     className="text-base py-2 first-line:border-cgrey-platinum"
                     // classname doesn't work
                     style={{ borderBottomWidth: 1 }}
                 />
+                <View className="items-end">
+                    <Text className="text-cgrey-dim text-base">
+                        {name.length.toString() + "/50"}
+                    </Text>
+                </View>
                 <View className="flex-row space-x-4 mt-14">
                     <View className="flex-1">
                         <Text className={labelClassName}>
@@ -139,8 +149,8 @@ const AddIngredient: FC<AddIngredentProps> = ({
                             <WarningAsterisk />
                         </Text>
                         <TextInput
-                            keyboardType="number-pad"
-                            value={amount?.toString() ?? ""}
+                            keyboardType="decimal-pad"
+                            defaultValue={amount?.toString() ?? ""}
                             textAlignVertical="top"
                             onChangeText={onAmountChange}
                             maxLength={500}

@@ -8,10 +8,11 @@ import {
     ADD_INSTRUCTION_IMAGE_TITLE,
     ADD_INSTRUCTION_SUBMIT_BUTTON_TITLE,
     ADD_INSTRUCTION_NO_DESCRIPTION_ERROR,
+    ADD_INSTRUCTION_WRONG_IMAGE_SIZE,
 } from "@/common/strings";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamList } from "@root/App";
-import React, { useState, type FC } from "react";
+import React, { useState, type FC, useRef } from "react";
 import {
     Image,
     Alert,
@@ -24,7 +25,7 @@ import {
 import IconEvill from "react-native-vector-icons/EvilIcons";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IconIon from "react-native-vector-icons/Ionicons";
-import { launchImageLibrary } from "react-native-image-picker";
+import { type Asset, launchImageLibrary } from "react-native-image-picker";
 import { customColors } from "@root/tailwind.config";
 import type Instruction from "../types/Instruction";
 
@@ -47,6 +48,8 @@ interface AddInstructionProps {
     navigation?: NativeStackNavigationProp<RootStackParamList, "AddIngredient">;
 }
 
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+
 const AddInstruction: FC<AddInstructionProps> = ({
     route: {
         params: { information, submitInstruction },
@@ -61,6 +64,7 @@ const AddInstruction: FC<AddInstructionProps> = ({
             ? information.instruction.imageUri
             : undefined
     );
+    const imageAsset = useRef<Asset | undefined>(undefined);
     const labelClassName = "text-base font-medium uppercase";
 
     const navigateBack = (): void => {
@@ -80,6 +84,15 @@ const AddInstruction: FC<AddInstructionProps> = ({
 
         if (description === "") {
             error(ADD_INSTRUCTION_NO_DESCRIPTION_ERROR);
+            return;
+        }
+
+        if (
+            imageUri != null &&
+            imageAsset.current?.fileSize != null &&
+            imageAsset.current.fileSize > MAX_IMAGE_SIZE
+        ) {
+            error(ADD_INSTRUCTION_WRONG_IMAGE_SIZE);
             return;
         }
 
@@ -108,6 +121,7 @@ const AddInstruction: FC<AddInstructionProps> = ({
             return;
         }
         setImageUri(asset.uri);
+        imageAsset.current = asset;
     };
 
     const removeImage = (): void => {
