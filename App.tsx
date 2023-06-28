@@ -59,6 +59,7 @@ const toastConfig = {
             text1Style={{
                 fontSize: 16,
             }}
+            text1NumberOfLines={2}
         />
     ),
     error: (props) => (
@@ -74,6 +75,7 @@ const toastConfig = {
             text1Style={{
                 fontSize: 16,
             }}
+            text1NumberOfLines={2}
         />
     ),
     info: (props) => (
@@ -89,6 +91,7 @@ const toastConfig = {
             text1Style={{
                 fontSize: 16,
             }}
+            text1NumberOfLines={2}
         />
     ),
 };

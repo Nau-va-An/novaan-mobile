@@ -8,7 +8,8 @@ import type UploadRecipeInformation from "./types/UploadRecipeInformation";
 import { type UploadResponse } from "./types/UploadResponse";
 import mime from "react-native-mime-types";
 
-const UPLOAD_TIP_URL = "content/upload/recipe";
+const UPLOAD_RECIPE_URL = "content/upload/recipe";
+const UPLOAD_TIP_URL = "content/upload/tips";
 
 const baseApi = new BaseApi();
 
@@ -118,7 +119,7 @@ const uploadRecipe = async (
         type: `video/${information.videoExtension}`,
     } as any);
 
-    const response = await baseApi.post<FormData>(UPLOAD_TIP_URL, formData, {
+    const response = await baseApi.post<FormData>(UPLOAD_RECIPE_URL, formData, {
         timeout: 30000,
         authorizationRequired: true,
         contentType: "multipart/form-data",
