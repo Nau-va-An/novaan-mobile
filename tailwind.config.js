@@ -16,8 +16,15 @@ const colors = {
         seasalt: "#f9f9f9",
         platinum: "#dedede",
         dim: "#606060",
-        battleship: "#999999"
-    }
+        battleship: "#999999",
+    },
+    xanthous: "#f7b01c",
+    star: "#ffcb01",
+    heart: "#ff6531",
+    seeker: {
+        background: "#898b8B",
+        foreground: "#a40605",
+    },
 };
 
 module.exports = {
