@@ -1,21 +1,14 @@
 import React, { type FC } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
+import InfiniteScroll from "./components/InfiniteScroll";
 
 const Reel: FC = () => {
     return (
-        <View style={styles.container}>
-            <Text>Reel</Text>
+        <View className="flex-1">
+            {/* <Text>Reel</Text> */}
+            <InfiniteScroll />
         </View>
     );
 };
 
 export default Reel;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});

@@ -31,6 +31,7 @@ export type RootStackParamList = {
     CreateRecipe: undefined;
     AddIngredient: AddIngredientParams;
     AddInstruction: AddInstructionParams;
+    InfiniteScroll: undefined
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -114,7 +115,7 @@ const App = () => {
                                         backgroundColor: "#FFFFFF",
                                     },
                                 }}
-                                initialRouteName="SignIn"
+                                initialRouteName="MainScreens"
                             >
                                 <RootStack.Screen
                                     name="SignIn"

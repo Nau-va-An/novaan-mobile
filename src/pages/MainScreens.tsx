@@ -42,6 +42,7 @@ const MainScreens: FC<MainScreensProps> = ({
                     borderColor: "#f0f0f0",
                     borderRadius: 20,
                 }}
+                initialRouteName="Reel"
             >
                 <BottomTab.Screen
                     name="Home"
