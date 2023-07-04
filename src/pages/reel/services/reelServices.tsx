@@ -6,7 +6,7 @@ const getNextPost = (): Post =>
         title: "Cách làm bánh kem (bánh gato) dâu tây tại nhà",
         description:
             "Bánh kem thường xuất hiện trong những bữa tiệc sinh nhật hay những ngày vui trong các gia đình và hội bạn thân nên được rất nhiều người yêu thích. Hôm nay Điện máy XANH sẽ vào bếp góp vào niềm vui của mọi người bằng món bánh kem (bánh gato) dâu tây thơm ngon nhé!",
-        video: "//cdn-cf-east.streamable.com/video/mp4/y07xxp.mp4?Expires=1688410860&Signature=CaQoDQupyoEuB0rI8WJSCAqFXx950IwCPDQkaK~fM2C18liHRNWwIK9gEDHGfnvxVy--61S1atVGyzeg6ECKHKDTtqdT8ZOdq~ueABT49~eZQ~oXWx-PpuDbRmvARImL7g1LQgf7NdG2lik-HQfDXv4R4G1QPhp6qOYK8JFqbbxBXL9KHJkY6S9ePuG0zcxxznAqrPBFn3buzE4jFeFnWDw7BBlLlfXfL04~ZK42h3zJt162yTSTCyDq4IaCfxOODRVt6YJdGA5U0Aoc99XoisOW86a846MTCMeR8XZ0yPwHE~Djnk128524FApMoSO5z1Wdbxsm6VW03NwJgJIWsQ__&Key-Pair-Id=APKAIEYUVEN4EVB2OKEQ",
+        video: "https://v.pinimg.com/videos/mc/720p/f6/88/88/f68888290d70aca3cbd4ad9cd3aa732f.mp4",
         type: "recipe",
         difficulty: 1,
         portionQuantity: 1,

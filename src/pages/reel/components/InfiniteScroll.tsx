@@ -1,6 +1,7 @@
 import React, { useState, type FC } from "react";
 import Swiper from "react-native-swiper";
-import ScrollItem, { type Page } from "./ScrollItem";
+import MainScrollItem, { type Page } from "./MainScrollItem";
+import BoundaryScrollItem from "./BoundaryScrollItem";
 
 const InfiniteScroll: FC = () => {
     const [pages, setPages] = useState([0, 1, 2]);
@@ -38,13 +39,20 @@ const InfiniteScroll: FC = () => {
             showsPagination={false}
             onIndexChanged={onPageChange}
         >
-            {pages.map((page) => (
-                <ScrollItem
+            {/* {pages.map((page) => (
+                <MainScrollItem
                     key={page}
                     id={page}
                     onPageChange={onScrollItemPageChange}
-                ></ScrollItem>
-            ))}
+                ></MainScrollItem>
+            ))} */}
+            <BoundaryScrollItem id={pages[0]} key={pages[0]} />
+            <MainScrollItem
+                id={pages[1]}
+                key={pages[1]}
+                onPageChange={onScrollItemPageChange}
+            ></MainScrollItem>
+            <BoundaryScrollItem id={pages[2]} key={pages[2]} />
         </Swiper>
     );
 };

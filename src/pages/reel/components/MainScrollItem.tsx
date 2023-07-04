@@ -1,21 +1,25 @@
 import React, { type FC, useRef } from "react";
 import { View, Text } from "react-native";
 import Swiper from "react-native-swiper";
-// import VideoViewer from "./VideoViewer";
 import reelServices from "../services/reelServices";
 import Details from "./Details";
+import { windowHeight } from "@/common/utils";
+import { BOTTOM_NAV_HEIGHT } from "@/common/constants";
+import VideoViewer from "./VideoViewer";
 
-interface ScrollItemProps {
+interface MainScrollItemProps {
     id: number;
     onPageChange?: (page: Page) => void;
 }
 
 export type Page = "Profile" | "Video" | "Details";
 
-const ScrollItem: FC<ScrollItemProps> = ({
+const itemHeight = windowHeight - BOTTOM_NAV_HEIGHT;
+
+const MainScrollItem: FC<MainScrollItemProps> = ({
     id,
     onPageChange,
-}: ScrollItemProps) => {
+}: MainScrollItemProps) => {
     const post = useRef(reelServices.getNextPost());
 
     const onIndexChanged = (index: number): void => {
@@ -42,18 +46,23 @@ const ScrollItem: FC<ScrollItemProps> = ({
             index={1}
             onIndexChanged={onIndexChanged}
         >
-            <View className="flex-1 justify-center items-center bg-white">
+            <View
+                className="justify-center items-center bg-white"
+                style={{ height: itemHeight }}
+            >
                 <Text>prrofile - {id}</Text>
             </View>
-            <View className="flex-1 justify-center items-center bg-white">
-                {/* <VideoViewer videoUri={post.current.video} /> */}
-                <Text>video - {id}</Text>
+            <View
+                className="justify-center items-center bg-white"
+                style={{ height: itemHeight }}
+            >
+                <VideoViewer videoUri={post.current.video} />
             </View>
-            <View className="flex-1">
+            <View style={{ height: itemHeight }}>
                 <Details post={post.current} />
             </View>
         </Swiper>
     );
 };
 
-export default ScrollItem;
+export default MainScrollItem;
