@@ -23,7 +23,6 @@ const ScrollItem: FC<MainScrollItemProps> = ({
     id,
     onPageChange,
 }: MainScrollItemProps) => {
-    console.log("render - " + id.toString());
     const post = useRef(reelServices.getNextPost());
 
     const onIndexChanged = (index: number): void => {

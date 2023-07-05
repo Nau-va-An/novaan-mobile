@@ -3,13 +3,16 @@ import ScrollItem, { type Page } from "./ScrollItem";
 import { FlatList, SafeAreaView } from "react-native";
 import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 
+const PRELOAD_AMOUNT = 4;
+const END_REACH_THRESHOLD = 4;
+
 const InfiniteScroll: FC = () => {
     const [pages, setPages] = useState([0, 1, 2]);
     const [scrollEnabled, setScrollEnabled] = useState(true);
 
     const fetchMoreData = (): void => {
         const lastId = pages[pages.length - 1];
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= PRELOAD_AMOUNT; i++) {
             pages.push(lastId + i);
         }
         setPages([...pages]);
@@ -18,10 +21,8 @@ const InfiniteScroll: FC = () => {
     const onScrollItemPageChange = useCallback((page: Page): void => {
         if (page === "Video") {
             setScrollEnabled(true);
-            console.log("scroll");
         } else {
             setScrollEnabled(false);
-            console.log("no scroll");
         }
     }, []);
 
@@ -37,7 +38,7 @@ const InfiniteScroll: FC = () => {
                         onPageChange={onScrollItemPageChange}
                     />
                 )}
-                onEndReachedThreshold={4}
+                onEndReachedThreshold={END_REACH_THRESHOLD}
                 onEndReached={fetchMoreData}
             />
         </SafeAreaView>

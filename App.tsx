@@ -31,7 +31,6 @@ export type RootStackParamList = {
     CreateRecipe: undefined;
     AddIngredient: AddIngredientParams;
     AddInstruction: AddInstructionParams;
-    InfiniteScroll: undefined
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
