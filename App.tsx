@@ -15,12 +15,6 @@ import { PaperProvider, Portal } from "react-native-paper";
 import Toast, { BaseToast } from "react-native-toast-message";
 import { customColors } from "./tailwind.config";
 import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
-import AddIngredient, {
-    type AddIngredientParams,
-} from "@/pages/create-post/create-recipe/components/AddIngredient";
-import AddInstruction, {
-    type AddInstructionParams,
-} from "@/pages/create-post/create-recipe/components/AddInstruction";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamList = {
@@ -29,8 +23,6 @@ export type RootStackParamList = {
     MainScreens: undefined;
     CreateTip: undefined;
     CreateRecipe: undefined;
-    AddIngredient: AddIngredientParams;
-    AddInstruction: AddInstructionParams;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -142,22 +134,6 @@ const App = () => {
                                 <RootStack.Screen
                                     name="CreateRecipe"
                                     component={CreateRecipe}
-                                    options={{
-                                        animation: "slide_from_bottom",
-                                        animationDuration: 200,
-                                    }}
-                                />
-                                <RootStack.Screen
-                                    name="AddIngredient"
-                                    component={AddIngredient}
-                                    options={{
-                                        animation: "slide_from_bottom",
-                                        animationDuration: 200,
-                                    }}
-                                />
-                                <RootStack.Screen
-                                    name="AddInstruction"
-                                    component={AddInstruction}
                                     options={{
                                         animation: "slide_from_bottom",
                                         animationDuration: 200,

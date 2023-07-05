@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { type RootStackParamList } from "@root/App";
 import { useState, type FC, useRef } from "react";
+import { type RootStackParamList } from "@root/App";
 import { Bar } from "react-native-progress";
 import React, { Text, TouchableOpacity, View } from "react-native";
 import IconEvill from "react-native-vector-icons/EvilIcons";
@@ -29,6 +29,12 @@ import PortionDificultyTime from "./components/PortionDifficultyTime";
 import Ingredients from "./components/Ingredients";
 import Instructions from "./components/Instructions";
 import { handleRecipeSubmission } from "./services/createRecipeService";
+import AddIngredient, {
+    type AddIngredientParams,
+} from "./components/AddIngredient";
+import AddInstruction, {
+    type AddInstructionParams,
+} from "./components/AddInstruction";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -45,6 +51,8 @@ export type CreateRecipeTabParamList = {
         >;
     };
     Instructions: undefined;
+    AddIngredient: AddIngredientParams;
+    AddInstruction: AddInstructionParams;
 };
 
 const Tab = createMaterialTopTabNavigator<CreateRecipeTabParamList>();
@@ -80,6 +88,12 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
         PortionDificultyTime: undefined,
         Ingredients: { rootNavigation },
         Instructions: undefined,
+        AddIngredient: {
+            information: { type: "add" },
+        },
+        AddInstruction: {
+            information: { type: "add" },
+        },
     };
     const screens = Object.keys(paramList);
     const progressStep = 1 / screens.length;
@@ -240,6 +254,26 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                         <Tab.Screen
                             name="Instructions"
                             component={Instructions}
+                        />
+                        <Tab.Screen
+                            name="AddIngredient"
+                            component={AddIngredient}
+                            options={
+                                {
+                                    // animation: "slide_from_bottom",
+                                    // animationDuration: 200,
+                                }
+                            }
+                        />
+                        <Tab.Screen
+                            name="AddInstruction"
+                            component={AddInstruction}
+                            options={
+                                {
+                                    // animation: "slide_from_bottom",
+                                    // animationDuration: 200,
+                                }
+                            }
                         />
                     </Tab.Navigator>
                 </NavigationContainer>
