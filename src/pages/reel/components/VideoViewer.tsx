@@ -19,9 +19,9 @@ const VideoViewer: FC<VideoViewrProps> = ({ videoUri }: VideoViewrProps) => {
                 bottom: 0,
                 right: 0,
             }}
-            // controls={true}
+            // controls
             resizeMode="cover"
-            repeat={true}
+            repeat
         />
     );
 };

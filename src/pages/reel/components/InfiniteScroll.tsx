@@ -1,59 +1,46 @@
-import React, { useState, type FC } from "react";
-import Swiper from "react-native-swiper";
-import MainScrollItem, { type Page } from "./MainScrollItem";
-import BoundaryScrollItem from "./BoundaryScrollItem";
+import React, { useState, type FC, useCallback } from "react";
+import ScrollItem, { type Page } from "./ScrollItem";
+import { FlatList, SafeAreaView } from "react-native";
+import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 
 const InfiniteScroll: FC = () => {
     const [pages, setPages] = useState([0, 1, 2]);
-    const [key, setKey] = useState(1);
-    const [scrollEnabled, setScrollEnabled] = useState(false);
+    const [scrollEnabled, setScrollEnabled] = useState(true);
 
-    const onPageChange = (newIndex: number): void => {
-        if (newIndex === 0) {
-            const newPages = pages.map((value) => value - 1);
-            setPages(newPages);
-        } else if (newIndex === 2) {
-            const newPages = pages.map((value) => value + 1);
-            setPages(newPages);
+    const fetchMoreData = (): void => {
+        const lastId = pages[pages.length - 1];
+        for (let i = 1; i <= 4; i++) {
+            pages.push(lastId + i);
         }
-        setKey((key + 1) % 2);
+        setPages([...pages]);
     };
 
-    const onScrollItemPageChange = (page: Page): void => {
-        if (page === "Details" || page === "Profile") {
-            setScrollEnabled(false);
-            console.log("no scroll");
-        } else {
+    const onScrollItemPageChange = useCallback((page: Page): void => {
+        if (page === "Video") {
             setScrollEnabled(true);
             console.log("scroll");
+        } else {
+            setScrollEnabled(false);
+            console.log("no scroll");
         }
-    };
+    }, []);
 
     return (
-        <Swiper
-            scrollEnabled={scrollEnabled}
-            index={1}
-            key={key}
-            horizontal={false}
-            loop={false}
-            showsPagination={false}
-            onIndexChanged={onPageChange}
-        >
-            {/* {pages.map((page) => (
-                <MainScrollItem
-                    key={page}
-                    id={page}
-                    onPageChange={onScrollItemPageChange}
-                ></MainScrollItem>
-            ))} */}
-            <BoundaryScrollItem id={pages[0]} key={pages[0]} />
-            <MainScrollItem
-                id={pages[1]}
-                key={pages[1]}
-                onPageChange={onScrollItemPageChange}
-            ></MainScrollItem>
-            <BoundaryScrollItem id={pages[2]} key={pages[2]} />
-        </Swiper>
+        <SafeAreaView style={{ height: SCROLL_ITEM_HEIGHT }}>
+            <FlatList
+                data={pages}
+                scrollEnabled={scrollEnabled}
+                pagingEnabled={true}
+                renderItem={({ item }) => (
+                    <ScrollItem
+                        id={item}
+                        onPageChange={onScrollItemPageChange}
+                    />
+                )}
+                onEndReachedThreshold={4}
+                onEndReached={fetchMoreData}
+            />
+        </SafeAreaView>
     );
 };
 

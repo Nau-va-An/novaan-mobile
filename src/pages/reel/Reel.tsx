@@ -4,8 +4,7 @@ import InfiniteScroll from "./components/InfiniteScroll";
 
 const Reel: FC = () => {
     return (
-        <View className="flex-1">
-            {/* <Text>Reel</Text> */}
+        <View className="flex-1 justify-end">
             <InfiniteScroll />
         </View>
     );
