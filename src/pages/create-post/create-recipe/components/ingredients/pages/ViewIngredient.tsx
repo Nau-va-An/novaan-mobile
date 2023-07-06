@@ -1,9 +1,8 @@
-import React, { type FC, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, type ReactElement } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { recipeInformationContext } from "../types/RecipeParams";
-import type Ingredient from "../types/Ingredient";
-import { rootNavigate } from "@root/App";
-import IngredientItem from "./IngredientItem";
+import { recipeInformationContext } from "../../../types/RecipeParams";
+import type Ingredient from "../../../types/Ingredient";
+import IngredientItem from "../components/IngredientItem";
 import {
     CREATE_RECIPE_INGREDIENTS_SUBTITLE,
     CREATE_RECIPE_INGREDIENTS_ADD_INGREDIENT_BUTTON_TITLE,
@@ -12,8 +11,19 @@ import {
 import WarningAsterisk from "@/common/components/WarningAeterisk";
 import IconAnt from "react-native-vector-icons/AntDesign";
 import { customColors } from "@root/tailwind.config";
+import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { type IngredientStackParamList } from "../Ingredient";
 
-const Ingredients: FC = () => {
+interface ViewIngredientProps {
+    navigation: NativeStackNavigationProp<
+        IngredientStackParamList,
+        "ViewIngredient"
+    >;
+}
+
+const ViewIngredients = ({
+    navigation,
+}: ViewIngredientProps): ReactElement<ViewIngredientProps> => {
     const { ingredients, setIngredients } = useContext(
         recipeInformationContext
     );
@@ -42,14 +52,14 @@ const Ingredients: FC = () => {
     };
 
     const openAddIngredient = (): void => {
-        rootNavigate("AddIngredient", {
+        navigation.navigate("AddIngredient", {
             information: { type: "add" },
             submitIngredient: addIngredient,
         });
     };
 
     const openEditIngredient = (ingredient: Ingredient): void => {
-        rootNavigate("AddIngredient", {
+        navigation.navigate("AddIngredient", {
             information: { type: "edit", ingredient },
             submitIngredient: editIngredient,
         });
@@ -120,4 +130,4 @@ const Ingredients: FC = () => {
     );
 };
 
-export default Ingredients;
+export default ViewIngredients;

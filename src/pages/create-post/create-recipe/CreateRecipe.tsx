@@ -1,6 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState, type FC, useRef } from "react";
+import { type ReactElement, useState, useEffect } from "react";
 import { type RootStackParamList } from "@root/App";
 import { Bar } from "react-native-progress";
 import React, { Text, TouchableOpacity, View } from "react-native";
@@ -26,47 +26,29 @@ import {
     recipeInformationContext,
 } from "./types/RecipeParams";
 import PortionDificultyTime from "./components/PortionDifficultyTime";
-import Ingredients from "./components/Ingredients";
 import Instructions from "./components/Instructions";
 import { handleRecipeSubmission } from "./services/createRecipeService";
-import AddIngredient, {
-    type AddIngredientParams,
-} from "./components/AddIngredient";
-import AddInstruction, {
-    type AddInstructionParams,
-} from "./components/AddInstruction";
+import Ingredient from "./components/ingredients/Ingredient";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
 }
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type CreateRecipeTabParamList = {
+export type RecipeTabParamList = {
     TitleDescriptionVideo: TDVRouteProps;
     PortionDificultyTime: undefined;
-    Ingredients: {
-        rootNavigation: NativeStackNavigationProp<
-            RootStackParamList,
-            "CreateTip"
-        >;
-    };
+    Ingredients: undefined;
     Instructions: undefined;
-    AddIngredient: AddIngredientParams;
-    AddInstruction: AddInstructionParams;
 };
 
-const Tab = createMaterialTopTabNavigator<CreateRecipeTabParamList>();
-const navigationRef = createNavigationContainerRef<CreateRecipeTabParamList>();
+const RecipeTab = createMaterialTopTabNavigator<RecipeTabParamList>();
 
-function navigate(name: keyof CreateRecipeTabParamList, params?: any): void {
-    if (navigationRef.isReady()) {
-        navigationRef.navigate(name, params);
-    }
-}
+const recipeTabRef = createNavigationContainerRef<RecipeTabParamList>();
 
-const CreateRecipe: FC<CreateRecipeProps> = ({
+const CreateRecipe = ({
     navigation: rootNavigation,
-}: CreateRecipeProps) => {
+}: CreateRecipeProps): ReactElement<CreateRecipeProps> => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState<Asset | null>(null);
@@ -81,19 +63,13 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const [ingredients, setIngredients] = useState<RecipeStates["ingredients"]>(
         []
     );
+    const [currentScreen, setCurrentScreen] = useState(0);
 
-    // navigation
-    const paramList: CreateRecipeTabParamList = {
+    const paramList: RecipeTabParamList = {
         TitleDescriptionVideo: { labelType: "recipeParams" },
         PortionDificultyTime: undefined,
-        Ingredients: { rootNavigation },
+        Ingredients: undefined,
         Instructions: undefined,
-        AddIngredient: {
-            information: { type: "add" },
-        },
-        AddInstruction: {
-            information: { type: "add" },
-        },
     };
     const screens = Object.keys(paramList);
     const progressStep = 1 / screens.length;
@@ -101,10 +77,10 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     const bottomNavButtonClassName =
         "flex-1 flex-row space-x-3 items-center justify-center rounded-full my-2 px-6 py-2";
 
-    // navigation
-    const [progress, setProgresss] = useState(progressStep);
-    const currentScreen = useRef(0);
-    const routeNameRef = useRef("");
+    const [progress, setProgress] = useState(progressStep);
+    useEffect(() => {
+        setProgress((currentScreen + 1) * progressStep);
+    }, [currentScreen]);
 
     const submitRecipe = async (): Promise<void> => {
         await handleRecipeSubmission(
@@ -127,34 +103,21 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
     };
 
     const goNextScreen = (): void => {
-        if (currentScreen.current < screens.length - 1) {
-            navigate(screens[currentScreen.current + 1] as any);
+        if (currentScreen < screens.length - 1) {
+            recipeTabRef.navigate(screens[currentScreen + 1] as any);
+            setCurrentScreen((prevScreen) => prevScreen + 1);
         }
     };
 
     const goPreviousScreen = (): void => {
-        if (currentScreen.current > 0) {
-            navigate(screens[currentScreen.current - 1] as any);
+        if (currentScreen > 0) {
+            recipeTabRef.navigate(screens[currentScreen - 1] as any);
+            setCurrentScreen((prevScreen) => prevScreen - 1);
         }
     };
 
     const exit = (): void => {
         rootNavigation.pop();
-    };
-
-    const onNavigationStateChange = async (): Promise<void> => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef?.getCurrentRoute()?.name ?? "";
-
-        if (previousRouteName !== currentRouteName) {
-            // Save the current route name for later comparison
-            routeNameRef.current = currentRouteName;
-            const screenNumber = screens.findIndex((value) => {
-                return value === currentRouteName;
-            });
-            currentScreen.current = screenNumber;
-            setProgresss((screenNumber + 1) * progressStep);
-        }
     };
 
     return (
@@ -220,16 +183,8 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                     setInstructions,
                 }}
             >
-                <NavigationContainer
-                    ref={navigationRef}
-                    independent={true}
-                    onReady={() => {
-                        routeNameRef.current =
-                            navigationRef?.getCurrentRoute()?.name ?? "";
-                    }}
-                    onStateChange={onNavigationStateChange}
-                >
-                    <Tab.Navigator
+                <NavigationContainer independent={true} ref={recipeTabRef}>
+                    <RecipeTab.Navigator
                         screenOptions={{
                             tabBarShowLabel: false,
                             tabBarStyle: {
@@ -237,45 +192,24 @@ const CreateRecipe: FC<CreateRecipeProps> = ({
                             },
                         }}
                     >
-                        <Tab.Screen
+                        <RecipeTab.Screen
                             name="TitleDescriptionVideo"
                             component={TitleDescriptionVideo}
                             initialParams={paramList.TitleDescriptionVideo}
                         />
-                        <Tab.Screen
+                        <RecipeTab.Screen
                             name="PortionDificultyTime"
                             component={PortionDificultyTime}
                         />
-                        <Tab.Screen
+                        <RecipeTab.Screen
                             name="Ingredients"
-                            component={Ingredients}
-                            initialParams={paramList.Ingredients}
+                            component={Ingredient}
                         />
-                        <Tab.Screen
+                        <RecipeTab.Screen
                             name="Instructions"
                             component={Instructions}
                         />
-                        <Tab.Screen
-                            name="AddIngredient"
-                            component={AddIngredient}
-                            options={
-                                {
-                                    // animation: "slide_from_bottom",
-                                    // animationDuration: 200,
-                                }
-                            }
-                        />
-                        <Tab.Screen
-                            name="AddInstruction"
-                            component={AddInstruction}
-                            options={
-                                {
-                                    // animation: "slide_from_bottom",
-                                    // animationDuration: 200,
-                                }
-                            }
-                        />
-                    </Tab.Navigator>
+                    </RecipeTab.Navigator>
                 </NavigationContainer>
             </recipeInformationContext.Provider>
             <View
