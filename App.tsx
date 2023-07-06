@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect } from "react";
 import { LogBox, View } from "react-native";
-import {
-    NavigationContainer,
-    createNavigationContainerRef,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SignIn from "@/pages/auth/SignIn";
@@ -26,16 +23,6 @@ export type RootStackParamList = {
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-const rootNavigationRef = createNavigationContainerRef<RootStackParamList>();
-
-export function rootNavigate<T extends unknown & keyof RootStackParamList>(
-    name: T,
-    params?: RootStackParamList[T]
-): void {
-    if (rootNavigationRef.isReady()) {
-        rootNavigationRef.navigate(name as any, params);
-    }
-}
 
 const toastConfig = {
     success: (props) => (
@@ -98,7 +85,7 @@ const App = () => {
             <PaperProvider>
                 <Portal>
                     <View className="flex-1">
-                        <NavigationContainer ref={rootNavigationRef}>
+                        <NavigationContainer>
                             <RootStack.Navigator
                                 screenOptions={{
                                     headerShown: false,

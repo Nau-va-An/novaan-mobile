@@ -17,7 +17,6 @@ const Ingredient = (): ReactElement => {
             <IngredientStack.Screen
                 name="ViewIngredient"
                 options={{
-                    title: "Ingredient",
                     headerShown: false,
                 }}
                 component={ViewIngredients}

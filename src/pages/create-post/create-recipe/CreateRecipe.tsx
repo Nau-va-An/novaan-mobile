@@ -26,9 +26,10 @@ import {
     recipeInformationContext,
 } from "./types/RecipeParams";
 import PortionDificultyTime from "./components/PortionDifficultyTime";
-import Instructions from "./components/Instructions";
+import ViewInstruction from "./components/instructions/pages/ViewInstruction";
 import { handleRecipeSubmission } from "./services/createRecipeService";
 import Ingredient from "./components/ingredients/Ingredient";
+import Instruction from "./components/instructions/Instruction";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
@@ -207,7 +208,7 @@ const CreateRecipe = ({
                         />
                         <RecipeTab.Screen
                             name="Instructions"
-                            component={Instructions}
+                            component={Instruction}
                         />
                     </RecipeTab.Navigator>
                 </NavigationContainer>

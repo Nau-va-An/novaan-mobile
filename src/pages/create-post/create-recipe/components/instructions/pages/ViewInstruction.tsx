@@ -1,7 +1,6 @@
-import React, { type FC, useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, type ReactElement } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { recipeInformationContext } from "../types/RecipeParams";
-import { rootNavigate } from "@root/App";
+import { recipeInformationContext } from "../../../types/RecipeParams";
 import {
     CREATE_RECIPE_INSTRUCTIONS_SUBTITLE,
     CREATE_RECIPE_INSTRUCTIONS_ADD_INGREDIENT_BUTTON_TITLE,
@@ -10,10 +9,21 @@ import {
 import WarningAsterisk from "@/common/components/WarningAeterisk";
 import IconAnt from "react-native-vector-icons/AntDesign";
 import { customColors } from "@root/tailwind.config";
-import type Instruction from "../types/Instruction";
-import InstructionItem from "./InstructionItem";
+import type Instruction from "../../../types/Instruction";
+import InstructionItem from "../components/InstructionItem";
+import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { type InstructionStackParamList } from "../Instruction";
 
-const Instructions: FC = () => {
+interface ViewInstructionsProp {
+    navigation: NativeStackNavigationProp<
+        InstructionStackParamList,
+        "ViewInstruction"
+    >;
+}
+
+const ViewInstruction = ({
+    navigation,
+}: ViewInstructionsProp): ReactElement<ViewInstructionsProp> => {
     const { instructions, setInstructions } = useContext(
         recipeInformationContext
     );
@@ -45,14 +55,14 @@ const Instructions: FC = () => {
     };
 
     const openAddInstruction = (): void => {
-        rootNavigate("AddInstruction", {
+        navigation.navigate("AddInstruction", {
             information: { type: "add" },
             submitInstruction: addInstruction,
         });
     };
 
     const openEditInstruction = (instruction: Instruction): void => {
-        rootNavigate("AddInstruction", {
+        navigation.navigate("AddInstruction", {
             information: { type: "edit", instruction },
             submitInstruction: editInstruction,
         });
@@ -130,4 +140,4 @@ const Instructions: FC = () => {
     );
 };
 
-export default Instructions;
+export default ViewInstruction;
