@@ -7,8 +7,8 @@ import UnauthorizedError from "./errors/Unauthorized";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface RequestConfig {
-    timeout: number;
-    authorizationRequired: boolean;
+    timeout?: number;
+    authorizationRequired?: boolean;
     contentType?: string;
     needJsonBody?: boolean;
 }
@@ -37,11 +37,12 @@ const getDefaultConfig = (): RequestConfig => {
     };
 };
 
-export const useFetch = (
-    config: RequestConfig = getDefaultConfig()
-): UseFetchReturn => {
+export const useFetch = (config?: RequestConfig): UseFetchReturn => {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+    // Substitute missing config
+    config = { ...getDefaultConfig(), ...config };
 
     const getHeaders = useCallback(
         async (accessTokenRequired: boolean = false): Promise<Headers> => {
