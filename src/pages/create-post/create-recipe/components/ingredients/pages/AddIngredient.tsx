@@ -54,8 +54,6 @@ const AddIngredient = ({
     },
     navigation,
 }: AddIngredentProps): ReactElement<AddIngredentProps> => {
-    const windowDimension = useWindowDimensions();
-
     const [name, setName] = useState(
         information.type === "edit" ? information.ingredient.name : ""
     );

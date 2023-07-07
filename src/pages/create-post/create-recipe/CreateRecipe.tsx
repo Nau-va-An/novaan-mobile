@@ -26,7 +26,6 @@ import {
     recipeInformationContext,
 } from "./types/RecipeParams";
 import PortionDificultyTime from "./components/PortionDifficultyTime";
-import ViewInstruction from "./components/instructions/pages/ViewInstruction";
 import { handleRecipeSubmission } from "./services/createRecipeService";
 import Ingredient from "./components/ingredients/Ingredient";
 import Instruction from "./components/instructions/Instruction";
