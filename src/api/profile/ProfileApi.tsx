@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetch } from "../baseApiHook";
 import { getKeychainValue } from "@/common/KeychainServices";
 import { KEYCHAIN_ID } from "@env";
@@ -8,12 +8,7 @@ import {
     type ProfileInfo,
     type GetUserRecipeReturn,
 } from "./types";
-import {
-    type PostInfo,
-    type RecipeInfo,
-    type SubmissionType,
-    type TipsInfo,
-} from "../post/types/post.type";
+import { type RecipeInfo } from "../post/types/post.type";
 
 const PAGE_SIZE = 10;
 

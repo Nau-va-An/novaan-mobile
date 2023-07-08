@@ -1,5 +1,5 @@
-import React, { FC, type ReactElement, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import React, { type ReactElement, useEffect, useState } from "react";
+import { type ColorValue, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CreatedPosts from "./CreatedPosts";
 import SavedPosts from "./SavedPosts";
@@ -10,6 +10,15 @@ import { type BottomTabParamList } from "../MainScreens";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Avatar } from "react-native-paper";
 import { customColors } from "@root/tailwind.config";
+import {
+    PROFILE_CONTENT_COUNT_TITLE,
+    PROFILE_EMPTY_BIO,
+    PROFILE_FOLLOWER_COUNT_TITLE,
+    PROFILE_FOLLOWING_COUNT_TITLE,
+} from "@/common/strings";
+import IconFeather from "react-native-vector-icons/Feather";
+import IconMaterial from "react-native-vector-icons/MaterialIcons";
+import ProfileStatItem from "./components/UserStatItem";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type UserProfileTabParamList = {
@@ -63,6 +72,12 @@ const UserProfile = (
         }
     };
 
+    const getTabIndicatorColor = (focused: boolean): ColorValue => {
+        return focused
+            ? customColors.cprimary["400"]
+            : customColors.cprimary["100"];
+    };
+
     if (profileInfo == null) {
         return <View></View>;
     }
@@ -79,40 +94,34 @@ const UserProfile = (
                 </View>
                 <View className="mx-6 mt-4 flex-row items-center justify-center">
                     <Avatar.Text
-                        size={90}
+                        size={72}
                         style={{
                             backgroundColor: customColors.cprimary["300"],
                         }}
                         label="TE"
-                        className="mr-4"
+                        className="mr-2"
                     />
                     <View className="flex-row flex-1">
-                        <View className="flex-1 items-center">
-                            <Text>Recipe</Text>
-                            <Text className="text-xl font-semibold text-cprimary-300">
-                                100
-                            </Text>
-                        </View>
-                        <View className="flex-1 items-center">
-                            <Text>Followers</Text>
-                            <Text className="text-xl font-semibold text-cprimary-300">
-                                {followersCount}
-                            </Text>
-                        </View>
-                        <View className="flex-1 items-center">
-                            <Text>Following</Text>
-                            <Text className="text-xl font-semibold text-cprimary-300">
-                                {followingCount}
-                            </Text>
-                        </View>
+                        <ProfileStatItem
+                            label={PROFILE_CONTENT_COUNT_TITLE}
+                            value="100"
+                        />
+                        <ProfileStatItem
+                            label={PROFILE_FOLLOWER_COUNT_TITLE}
+                            value={followersCount}
+                        />
+                        <ProfileStatItem
+                            label={PROFILE_FOLLOWING_COUNT_TITLE}
+                            value={followingCount}
+                        />
                     </View>
                 </View>
-                <View className="mx-8 my-4">
+                <View className="mx-6 my-4">
                     <Text className="text-xl text-cprimary-300">
                         {username}
                     </Text>
                     <Text className="text-gray-600 italic mt-2">
-                        Oops, this user have not written much about themselves!
+                        {PROFILE_EMPTY_BIO}
                     </Text>
                 </View>
             </View>
@@ -127,29 +136,45 @@ const UserProfile = (
                     tabBarIndicatorStyle: {
                         backgroundColor: customColors.cprimary["300"],
                     },
-                    tabBarActiveTintColor: customColors.cprimary["400"],
-                    tabBarInactiveTintColor: customColors.cprimary["200"],
                 }}
             >
                 <Tab.Screen
                     name="CreatedPosts"
                     component={CreatedPosts}
                     options={{
-                        tabBarLabel: "Bài đăng",
+                        tabBarLabel: ({ focused }) => (
+                            <IconMaterial
+                                name="grid-on"
+                                size={24}
+                                color={getTabIndicatorColor(focused)}
+                            />
+                        ),
                     }}
                 />
                 <Tab.Screen
                     name="SavedPosts"
                     component={SavedPosts}
                     options={{
-                        tabBarLabel: "Xem sau",
+                        tabBarLabel: ({ focused }) => (
+                            <IconMaterial
+                                name="bookmark-outline"
+                                size={24}
+                                color={getTabIndicatorColor(focused)}
+                            />
+                        ),
                     }}
                 />
                 <Tab.Screen
                     name="Following"
                     component={CreatedPosts}
                     options={{
-                        tabBarLabel: "Theo dõi",
+                        tabBarLabel: ({ focused }) => (
+                            <IconFeather
+                                name="users"
+                                size={24}
+                                color={getTabIndicatorColor(focused)}
+                            />
+                        ),
                     }}
                 />
             </Tab.Navigator>
