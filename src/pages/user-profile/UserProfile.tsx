@@ -63,12 +63,18 @@ const UserProfile = (
         }
     };
 
+    if (profileInfo == null) {
+        return <View></View>;
+    }
+
+    const { username, followersCount, followingCount } = profileInfo;
+
     return (
         <View className="flex-1">
             <View style={{ backgroundColor: "#fff" }}>
                 <View className="items-center justify-center mt-4">
                     <Text className="text-cprimary-300 text-xl font-semibold">
-                        Trang đại diện
+                        {username}
                     </Text>
                 </View>
                 <View className="mx-6 mt-4 flex-row items-center justify-center">
@@ -90,19 +96,21 @@ const UserProfile = (
                         <View className="flex-1 items-center">
                             <Text>Followers</Text>
                             <Text className="text-xl font-semibold text-cprimary-300">
-                                2.5M
+                                {followersCount}
                             </Text>
                         </View>
                         <View className="flex-1 items-center">
                             <Text>Following</Text>
                             <Text className="text-xl font-semibold text-cprimary-300">
-                                30
+                                {followingCount}
                             </Text>
                         </View>
                     </View>
                 </View>
                 <View className="mx-8 my-4">
-                    <Text className="text-xl text-cprimary-300">Your Name</Text>
+                    <Text className="text-xl text-cprimary-300">
+                        {username}
+                    </Text>
                     <Text className="text-gray-600 italic mt-2">
                         Oops, this user have not written much about themselves!
                     </Text>
@@ -116,6 +124,11 @@ const UserProfile = (
                         justifyContent: "center",
                         alignItems: "center",
                     },
+                    tabBarIndicatorStyle: {
+                        backgroundColor: customColors.cprimary["300"],
+                    },
+                    tabBarActiveTintColor: customColors.cprimary["400"],
+                    tabBarInactiveTintColor: customColors.cprimary["200"],
                 }}
             >
                 <Tab.Screen
