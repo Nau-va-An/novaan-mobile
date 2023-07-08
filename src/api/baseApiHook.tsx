@@ -2,7 +2,6 @@ import { getKeychainValue } from "@/common/KeychainServices";
 import { API_URL, API_TIMEOUT, KEYCHAIN_ID } from "@env";
 import { useNavigation } from "@react-navigation/core";
 import { type RootStackParamList } from "@root/App";
-import { useCallback } from "react";
 import UnauthorizedError from "./errors/Unauthorized";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 
