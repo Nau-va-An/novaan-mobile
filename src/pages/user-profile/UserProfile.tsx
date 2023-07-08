@@ -18,7 +18,6 @@ import {
 } from "@/common/strings";
 import IconFeather from "react-native-vector-icons/Feather";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
-import ProfileStatItem from "./components/UserStatItem";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type UserProfileTabParamList = {
@@ -184,3 +183,21 @@ const UserProfile = (
 };
 
 export default UserProfile;
+
+interface ProfileStatItemProps {
+    label: string;
+    value: string | number;
+}
+
+const ProfileStatItem = (
+    props: ProfileStatItemProps
+): ReactElement<ProfileStatItemProps> => {
+    return (
+        <View className="flex-1 items-center">
+            <Text numberOfLines={1}>{props.label}</Text>
+            <Text className="text-xl font-semibold text-cprimary-300">
+                {props.value}
+            </Text>
+        </View>
+    );
+};
