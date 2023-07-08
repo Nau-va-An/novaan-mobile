@@ -1,4 +1,9 @@
-import React, { type ReactElement, useEffect, useState } from "react";
+import React, {
+    type ReactElement,
+    useEffect,
+    useState,
+    useCallback,
+} from "react";
 import { type ColorValue, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CreatedPosts from "./CreatedPosts";
@@ -71,11 +76,17 @@ const UserProfile = (
         }
     };
 
-    const getTabIndicatorColor = (focused: boolean): ColorValue => {
-        return focused
-            ? customColors.cprimary["400"]
-            : customColors.cprimary["100"];
-    };
+    const getTabIndicatorProp = useCallback(
+        (focused: boolean): { size: number; color: ColorValue } => {
+            return {
+                size: 24,
+                color: focused
+                    ? customColors.cprimary["400"]
+                    : customColors.cprimary["100"],
+            };
+        },
+        []
+    );
 
     if (profileInfo == null) {
         return <View></View>;
@@ -97,13 +108,14 @@ const UserProfile = (
                         style={{
                             backgroundColor: customColors.cprimary["300"],
                         }}
-                        label="TE"
+                        label="XD"
                         className="mr-2"
                     />
+                    {/* TODO: Add approved content count here */}
                     <View className="flex-row flex-1">
                         <ProfileStatItem
                             label={PROFILE_CONTENT_COUNT_TITLE}
-                            value="100"
+                            value="ツ"
                         />
                         <ProfileStatItem
                             label={PROFILE_FOLLOWER_COUNT_TITLE}
@@ -119,6 +131,7 @@ const UserProfile = (
                     <Text className="text-xl text-cprimary-300">
                         {username}
                     </Text>
+                    {/* TODO: Add user brief description here when it is ready */}
                     <Text className="text-gray-600 italic mt-2">
                         {PROFILE_EMPTY_BIO}
                     </Text>
@@ -144,8 +157,7 @@ const UserProfile = (
                         tabBarLabel: ({ focused }) => (
                             <IconMaterial
                                 name="grid-on"
-                                size={24}
-                                color={getTabIndicatorColor(focused)}
+                                {...getTabIndicatorProp(focused)}
                             />
                         ),
                     }}
@@ -157,8 +169,7 @@ const UserProfile = (
                         tabBarLabel: ({ focused }) => (
                             <IconMaterial
                                 name="bookmark-outline"
-                                size={24}
-                                color={getTabIndicatorColor(focused)}
+                                {...getTabIndicatorProp(focused)}
                             />
                         ),
                     }}
@@ -170,8 +181,7 @@ const UserProfile = (
                         tabBarLabel: ({ focused }) => (
                             <IconFeather
                                 name="users"
-                                size={24}
-                                color={getTabIndicatorColor(focused)}
+                                {...getTabIndicatorProp(focused)}
                             />
                         ),
                     }}
