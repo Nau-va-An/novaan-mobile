@@ -4,12 +4,12 @@ import {
     Text,
     type NativeScrollEvent,
     type NativeSyntheticEvent,
+    useWindowDimensions,
 } from "react-native";
 import Swiper, { type SwiperInternals } from "react-native-swiper";
 import reelServices from "../services/reelServices";
 import Details from "./Details";
 import VideoViewer from "./VideoViewer";
-import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 import { windowWidth } from "@/common/utils";
 
 interface MainScrollItemProps {
@@ -24,6 +24,8 @@ const ScrollItem: FC<MainScrollItemProps> = ({
     onPageChange,
 }: MainScrollItemProps) => {
     const post = useRef(reelServices.getNextPost());
+
+    const dimension = useWindowDimensions();
 
     const onIndexChanged = (index: number): void => {
         let page: Page = "Profile";
@@ -60,7 +62,7 @@ const ScrollItem: FC<MainScrollItemProps> = ({
 
     return (
         <Swiper
-            style={{ height: SCROLL_ITEM_HEIGHT }}
+            style={{ height: dimension.height }}
             loop={false}
             showsPagination={false}
             index={1}
@@ -68,7 +70,7 @@ const ScrollItem: FC<MainScrollItemProps> = ({
             onMomentumScrollEnd={onScrollEndDrag}
         >
             <View className="flex-1 justify-center items-center bg-white">
-                <Text>prrofile - {id}</Text>
+                <Text>profile - {id}</Text>
             </View>
             <View className="flex-1 justify-center items-center bg-white">
                 <VideoViewer videoUri={post.current.video} />
