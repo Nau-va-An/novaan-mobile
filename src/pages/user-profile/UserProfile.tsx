@@ -92,50 +92,46 @@ const UserProfile = (
         return <View></View>;
     }
 
-    const { username, followersCount, followingCount } = profileInfo;
+    const { username, postCount, followersCount, followingCount } = profileInfo;
 
     return (
-        <View className="flex-1">
-            <View style={{ backgroundColor: "#fff" }}>
-                <View className="items-center justify-center mt-4">
-                    <Text className="text-cprimary-300 text-xl font-semibold">
-                        {username}
-                    </Text>
-                </View>
-                <View className="mx-6 mt-4 flex-row items-center justify-center">
-                    <Avatar.Text
-                        size={72}
-                        style={{
-                            backgroundColor: customColors.cprimary["300"],
-                        }}
-                        label="XD"
-                        className="mr-2"
-                    />
-                    {/* TODO: Add approved content count here */}
-                    <View className="flex-row flex-1">
-                        <ProfileStatItem
-                            label={PROFILE_CONTENT_COUNT_TITLE}
-                            value="ツ"
-                        />
-                        <ProfileStatItem
-                            label={PROFILE_FOLLOWER_COUNT_TITLE}
-                            value={followersCount}
-                        />
-                        <ProfileStatItem
-                            label={PROFILE_FOLLOWING_COUNT_TITLE}
-                            value={followingCount}
-                        />
-                    </View>
-                </View>
-                <View className="mx-6 my-4">
-                    <Text className="text-xl text-cprimary-300">
-                        {username}
-                    </Text>
-                    {/* TODO: Add user brief description here when it is ready */}
-                    <Text className="text-gray-600 italic mt-2">
-                        {PROFILE_EMPTY_BIO}
-                    </Text>
-                </View>
+        <View className="flex-1 bg-white">
+            <View className="items-center justify-center mt-4">
+                <Text className="text-cprimary-300 text-xl font-semibold">
+                    {username}
+                </Text>
+            </View>
+            <View className="mx-6 mt-6 flex-row items-center justify-center">
+                <Avatar.Text
+                    size={96}
+                    style={{
+                        backgroundColor: customColors.cprimary["300"],
+                    }}
+                    label="XD"
+                    className="mr-2"
+                />
+            </View>
+            <View className="mx-6 mt-4 flex-row">
+                {/* TODO: Add approved content count here */}
+                <ProfileStatItem
+                    label={PROFILE_CONTENT_COUNT_TITLE}
+                    value={postCount ?? 0}
+                />
+                <ProfileStatItem
+                    label={PROFILE_FOLLOWER_COUNT_TITLE}
+                    value={followersCount ?? 0}
+                />
+                <ProfileStatItem
+                    label={PROFILE_FOLLOWING_COUNT_TITLE}
+                    value={followingCount ?? 0}
+                />
+            </View>
+            <View className="mx-6 my-4">
+                <Text className="text-xl text-cprimary-300">{username}</Text>
+                {/* TODO: Add user brief description here when it is ready */}
+                <Text className="text-gray-600 italic mt-2">
+                    {PROFILE_EMPTY_BIO}
+                </Text>
             </View>
             <Tab.Navigator
                 className="flex-1"

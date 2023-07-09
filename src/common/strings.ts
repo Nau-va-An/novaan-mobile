@@ -190,7 +190,7 @@ export const ADD_INSTRUCTION_NO_DESCRIPTION_ERROR = "Trường mô tả là bắ
 export const ADD_INSTRUCTION_WRONG_IMAGE_SIZE = "Ảnh phải nhỏ hơn 5MB";
 
 // User Profile
-export const PROFILE_CONTENT_COUNT_TITLE = "Bài đăng";
+export const PROFILE_CONTENT_COUNT_TITLE = "Số bài đăng";
 export const PROFILE_FOLLOWER_COUNT_TITLE = "Người theo dõi";
 export const PROFILE_FOLLOWING_COUNT_TITLE = "Đang theo dõi";
 export const PROFILE_EMPTY_BIO =
