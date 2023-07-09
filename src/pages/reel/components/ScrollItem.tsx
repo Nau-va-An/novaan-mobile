@@ -1,4 +1,4 @@
-import React, { type FC, useRef, memo } from "react";
+import React, { memo, useMemo, type ReactElement } from "react";
 import {
     View,
     Text,
@@ -8,22 +8,20 @@ import {
 } from "react-native";
 import Swiper, { type SwiperInternals } from "react-native-swiper";
 import reelServices from "../services/reelServices";
-import Details from "./Details";
+import PostDetails from "./PostDetails";
 import VideoViewer from "./VideoViewer";
 import { windowWidth } from "@/common/utils";
 
-interface MainScrollItemProps {
-    id: number;
+interface ScrollItemProps {
     onPageChange?: (page: Page) => void;
 }
 
-export type Page = "Profile" | "Video" | "Details" | "Changing";
+export type Page = "Profile" | "Video" | "Details";
 
-const ScrollItem: FC<MainScrollItemProps> = ({
-    id,
+const ScrollItem = ({
     onPageChange,
-}: MainScrollItemProps) => {
-    const post = useRef(reelServices.getNextPost());
+}: ScrollItemProps): ReactElement<ScrollItemProps> => {
+    const post = useMemo(() => reelServices.getNextPost(), []);
 
     const dimension = useWindowDimensions();
 
@@ -43,15 +41,7 @@ const ScrollItem: FC<MainScrollItemProps> = ({
         onPageChange?.(page);
     };
 
-    const onScrollBeginDrag = (
-        _e: NativeSyntheticEvent<NativeScrollEvent>,
-        state: SwiperInternals,
-        _swiper: Swiper
-    ): void => {
-        onPageChange?.("Changing");
-    };
-
-    const onScrollEndDrag = (
+    const handleScrollEndDrag = (
         _e: NativeSyntheticEvent<NativeScrollEvent>,
         state: SwiperInternals,
         _swiper: Swiper
@@ -66,17 +56,16 @@ const ScrollItem: FC<MainScrollItemProps> = ({
             loop={false}
             showsPagination={false}
             index={1}
-            onScrollBeginDrag={onScrollBeginDrag}
-            onMomentumScrollEnd={onScrollEndDrag}
+            onMomentumScrollEnd={handleScrollEndDrag}
         >
             <View className="flex-1 justify-center items-center bg-white">
-                <Text>profile - {id}</Text>
+                <Text>profile</Text>
             </View>
             <View className="flex-1 justify-center items-center bg-white">
-                <VideoViewer videoUri={post.current.video} />
+                <VideoViewer videoUri={post.video} />
             </View>
             <View className="flex-1">
-                <Details post={post.current} />
+                <PostDetails post={post} />
             </View>
         </Swiper>
     );

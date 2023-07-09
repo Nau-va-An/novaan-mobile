@@ -13,11 +13,11 @@ import StarRating from "react-native-star-rating";
 import IconIon from "react-native-vector-icons/Ionicons";
 import { customColors } from "@root/tailwind.config";
 
-interface DetailsProps {
+interface PostDetailsProps {
     post: Post;
 }
 
-const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
+const PostDetails: FC<PostDetailsProps> = ({ post }: PostDetailsProps) => {
     return (
         <ScrollView className="w-full h-full bg-white">
             <View className="mt-[114]" />
@@ -90,4 +90,4 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
     );
 };
 
-export default Details;
+export default PostDetails;
