@@ -24,6 +24,8 @@ import { type MaterialBottomTabNavigationProp } from "@react-navigation/material
 import { customColors } from "@root/tailwind.config";
 import { Avatar } from "react-native-paper";
 import Toast from "react-native-toast-message";
+import IconFeather from "react-native-vector-icons/Feather";
+import IconMaterial from "react-native-vector-icons/MaterialIcons";
 
 const Tab = createMaterialTopTabNavigator<UserProfileTabParamList>();
 
