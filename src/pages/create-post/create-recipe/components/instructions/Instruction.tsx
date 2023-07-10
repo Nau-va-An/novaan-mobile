@@ -1,15 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { type ReactElement } from "react";
 import ViewInstruction from "./pages/ViewInstruction";
-import AddInstruction, {
-    type AddInstructionParams,
-} from "./pages/AddInstruction";
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type InstructionStackParamList = {
-    ViewInstruction: undefined;
-    AddInstruction: AddInstructionParams;
-};
+import AddInstruction from "./pages/AddInstruction";
+import { type InstructionStackParamList } from "@/types/navigation";
 
 const InstructionStack =
     createNativeStackNavigator<InstructionStackParamList>();

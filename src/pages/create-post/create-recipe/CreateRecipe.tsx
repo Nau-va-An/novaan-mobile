@@ -29,18 +29,11 @@ import PortionDificultyTime from "./components/PortionDifficultyTime";
 import { handleRecipeSubmission } from "./services/createRecipeService";
 import Ingredient from "./components/ingredients/Ingredient";
 import Instruction from "./components/instructions/Instruction";
+import { type RecipeTabParamList } from "@/types/navigation";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
 }
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type RecipeTabParamList = {
-    TitleDescriptionVideo: TDVRouteProps;
-    PortionDificultyTime: undefined;
-    Ingredients: undefined;
-    Instructions: undefined;
-};
 
 const RecipeTab = createMaterialTopTabNavigator<RecipeTabParamList>();
 

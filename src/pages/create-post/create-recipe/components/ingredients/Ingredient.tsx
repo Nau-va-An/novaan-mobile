@@ -1,13 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { type ReactElement } from "react";
-import AddIngredient, { type AddIngredientParams } from "./pages/AddIngredient";
 import ViewIngredients from "./pages/ViewIngredient";
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type IngredientStackParamList = {
-    ViewIngredient: undefined;
-    AddIngredient: AddIngredientParams;
-};
+import AddIngredient from "./pages/AddIngredient";
+import { type IngredientStackParamList } from "@/types/navigation";
 
 const IngredientStack = createNativeStackNavigator<IngredientStackParamList>();
 

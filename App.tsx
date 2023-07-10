@@ -12,15 +12,7 @@ import { PaperProvider, Portal } from "react-native-paper";
 import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
 import { toastConfig } from "@/common/configs/toast.config";
 import Toast from "react-native-toast-message";
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type RootStackParamList = {
-    SignIn: undefined;
-    SignUp: undefined;
-    MainScreens: undefined;
-    CreateTip: undefined;
-    CreateRecipe: undefined;
-};
+import { type RootStackParamList } from "@/types/navigation";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
