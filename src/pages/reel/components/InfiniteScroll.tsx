@@ -17,6 +17,7 @@ import {
 import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 import type Post from "../types/Post";
 import reelServices from "../services/reelServices";
+import OverlayLoading from "@/common/components/OverlayLoading";
 
 interface InfiniteScrollProps {
     postGetter?: (index: number) => Promise<Post | null>;
@@ -29,33 +30,45 @@ export type InternalPost = Post & {
 const PRELOAD_AMOUNT = 2;
 const END_REACH_THRESHOLD = 2;
 
-const InfiniteScroll: FC<InfiniteScrollProps> = ({
-    postGetter = async (index: number) => await reelServices.getPost(index),
-}) => {
+const InfiniteScroll: FC<InfiniteScrollProps> = ({ postGetter }) => {
+    const [loading, setLoading] = useState(false);
+
     const [internalPosts, setInternalPosts] = useState<InternalPost[]>([]);
     const [scrollEnabled, setScrollEnabled] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const scrollHeight = useRef(1);
 
     useEffect(() => {
-        void (async (): Promise<void> => {
-            await fetchPost(0, END_REACH_THRESHOLD);
-        })();
+        void fetchPost(0, PRELOAD_AMOUNT);
     }, []);
+
+    const fetchPostDefault = async (index: number): Promise<Post | null> => {
+        return await reelServices.getPost(index);
+    };
 
     const fetchPost = async (
         index: number,
         count: number = 1
     ): Promise<void> => {
-        for (let i = 0; i < count; i++) {
-            const post = await postGetter(index + i);
-            if (post == null) {
-                continue;
+        setLoading(true);
+        try {
+            if (postGetter == null) {
+                postGetter = fetchPostDefault;
             }
-            internalPosts.push({ ...post, index: index + i });
-        }
+            for (let i = 0; i < count; i++) {
+                const post = await postGetter(index + i);
+                if (post == null) {
+                    continue;
+                }
+                internalPosts.push({ ...post, index: index + i });
+            }
 
-        setInternalPosts([...internalPosts]);
+            setInternalPosts([...internalPosts]);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const fetchMoreData = async (): Promise<void> => {
@@ -114,6 +127,7 @@ const InfiniteScroll: FC<InfiniteScrollProps> = ({
                 onEndReached={fetchMoreData}
                 onLayout={onLayout}
             />
+            {loading && <OverlayLoading />}
         </SafeAreaView>
     );
 };
