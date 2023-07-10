@@ -9,9 +9,9 @@ import SignUp from "@/pages/auth/SignUp";
 import MainScreens from "@/pages/MainScreens";
 import CreateTip from "@/pages/create-post/create-tip/CreateTip";
 import { PaperProvider, Portal } from "react-native-paper";
-import Toast, { BaseToast } from "react-native-toast-message";
-import { customColors } from "./tailwind.config";
 import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
+import { toastConfig } from "@/common/configs/toast.config";
+import Toast from "react-native-toast-message";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamList = {
@@ -23,57 +23,6 @@ export type RootStackParamList = {
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-
-const toastConfig = {
-    success: (props) => (
-        <BaseToast
-            {...props}
-            style={{
-                borderLeftColor: customColors.cprimary["300"],
-                borderLeftWidth: 12,
-            }}
-            contentContainerStyle={{
-                paddingHorizontal: 16,
-            }}
-            text1Style={{
-                fontSize: 16,
-            }}
-            text1NumberOfLines={2}
-        />
-    ),
-    error: (props) => (
-        <BaseToast
-            {...props}
-            style={{
-                borderLeftColor: customColors.cwarning,
-                borderLeftWidth: 12,
-            }}
-            contentContainerStyle={{
-                paddingHorizontal: 16,
-            }}
-            text1Style={{
-                fontSize: 16,
-            }}
-            text1NumberOfLines={2}
-        />
-    ),
-    info: (props) => (
-        <BaseToast
-            {...props}
-            style={{
-                borderLeftColor: customColors.cinfo,
-                borderLeftWidth: 12,
-            }}
-            contentContainerStyle={{
-                paddingHorizontal: 16,
-            }}
-            text1Style={{
-                fontSize: 16,
-            }}
-            text1NumberOfLines={2}
-        />
-    ),
-};
 
 const App = () => {
     useEffect(() => {
