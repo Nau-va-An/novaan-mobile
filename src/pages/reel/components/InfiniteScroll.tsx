@@ -127,7 +127,8 @@ const InfiniteScroll: FC<InfiniteScrollProps> = ({ postGetter }) => {
                 onEndReached={fetchMoreData}
                 onLayout={onLayout}
             />
-            {loading && <OverlayLoading />}
+            {/* TODO: Add loading overlay for video here */}
+            {loading && null}
         </SafeAreaView>
     );
 };
