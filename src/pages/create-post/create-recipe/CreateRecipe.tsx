@@ -190,6 +190,7 @@ const CreateRecipe = ({
                             tabBarStyle: {
                                 height: 0,
                             },
+                            swipeEnabled: false,
                         }}
                     >
                         <RecipeTab.Screen

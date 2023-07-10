@@ -20,7 +20,6 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    useWindowDimensions,
 } from "react-native";
 import IconEvill from "react-native-vector-icons/EvilIcons";
 import type Ingredient from "../../../types/Ingredient";
