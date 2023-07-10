@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, type ReactElement } from "react";
+import React, { useContext, type ReactElement } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { recipeInformationContext } from "../../../types/RecipeParams";
 import type Ingredient from "../../../types/Ingredient";
@@ -12,7 +12,7 @@ import WarningAsterisk from "@/common/components/WarningAeterisk";
 import IconAnt from "react-native-vector-icons/AntDesign";
 import { customColors } from "@root/tailwind.config";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { type IngredientStackParamList } from "../Ingredient";
+import { type IngredientStackParamList } from "@/types/navigation";
 
 interface ViewIngredientProps {
     navigation: NativeStackNavigationProp<
@@ -27,41 +27,17 @@ const ViewIngredients = ({
     const { ingredients, setIngredients } = useContext(
         recipeInformationContext
     );
-    const [refresh, setRefresh] = useState(true);
     const labelClassName = "text-base font-medium uppercase";
-    const id = useRef(0);
-
-    const resetList = (): void => {
-        setRefresh(!refresh);
-    };
-
-    const addIngredient = (ingredient: Ingredient): void => {
-        ingredient.id = id.current++;
-        setIngredients([...ingredients, ingredient]);
-    };
-
-    const editIngredient = (ingredient: Ingredient): void => {
-        const index = ingredients.findIndex((i) => i.id === ingredient.id);
-        if (index === -1) {
-            return;
-        }
-
-        ingredients.splice(index, 1, ingredient);
-        setIngredients(ingredients);
-        resetList();
-    };
 
     const openAddIngredient = (): void => {
         navigation.navigate("AddIngredient", {
             information: { type: "add" },
-            submitIngredient: addIngredient,
         });
     };
 
     const openEditIngredient = (ingredient: Ingredient): void => {
         navigation.navigate("AddIngredient", {
             information: { type: "edit", ingredient },
-            submitIngredient: editIngredient,
         });
     };
 
@@ -73,7 +49,6 @@ const ViewIngredients = ({
 
         ingredients.splice(index, 1);
         setIngredients(ingredients);
-        resetList();
     };
 
     return (
@@ -125,7 +100,6 @@ const ViewIngredients = ({
                 />
             )}
             keyExtractor={(item) => item.id.toString()}
-            extraData={refresh}
         />
     );
 };

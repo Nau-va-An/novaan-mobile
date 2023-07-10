@@ -11,7 +11,7 @@ import {
     ADD_INGREDIENT_ZERO_AMOUNT_ERROR,
 } from "@/common/strings";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState, type ReactElement } from "react";
+import React, { useState, type ReactElement, useContext } from "react";
 import {
     Alert,
     Modal,
@@ -23,7 +23,8 @@ import {
 } from "react-native";
 import IconEvill from "react-native-vector-icons/EvilIcons";
 import type Ingredient from "../../../types/Ingredient";
-import { type IngredientStackParamList } from "../Ingredient";
+import { type IngredientStackParamList } from "@/types/navigation";
+import { recipeInformationContext } from "../../../types/RecipeParams";
 
 export interface AddIngredientParams {
     information:
@@ -34,7 +35,6 @@ export interface AddIngredientParams {
               type: "edit";
               ingredient: Ingredient;
           };
-    submitIngredient?: (ingredient: Ingredient) => void;
 }
 
 interface AddIngredentProps {
@@ -49,23 +49,42 @@ interface AddIngredentProps {
 
 const AddIngredient = ({
     route: {
-        params: { information, submitIngredient },
+        params: { information },
     },
     navigation,
 }: AddIngredentProps): ReactElement<AddIngredentProps> => {
+    const { ingredients, setIngredients } = useContext(
+        recipeInformationContext
+    );
     const [name, setName] = useState(
         information.type === "edit" ? information.ingredient.name : ""
     );
-    const [amount, setAmount] = useState<number | undefined>(
-        information.type === "edit" ? information.ingredient.amount : undefined
+    const [amount, setAmount] = useState<number>(
+        information.type === "edit" ? information.ingredient.amount : 1
     );
     const [unit, setUnit] = useState<string>(
         information.type === "edit" ? information.ingredient.unit : ""
     );
 
     const labelClassName = "text-base font-medium uppercase";
+
     const navigateBack = (): void => {
         navigation.pop();
+    };
+
+    const addIngredient = (ingredient: Ingredient): void => {
+        ingredient.id = ingredients.length;
+        setIngredients([...ingredients, ingredient]);
+    };
+
+    const editIngredient = (ingredient: Ingredient): void => {
+        const index = ingredients.findIndex((i) => i.id === ingredient.id);
+        if (index === -1) {
+            return;
+        }
+
+        ingredients.splice(index, 1, ingredient);
+        setIngredients(ingredients);
     };
 
     const onAmountChange = (amount: string): void => {
@@ -76,9 +95,6 @@ const AddIngredient = ({
         }
         setAmount(numberAmount);
     };
-
-    const getId = (): number =>
-        information.type === "add" ? -1 : information.ingredient.id;
 
     const submit = (): void => {
         const error = (message: string): void => {
@@ -100,9 +116,20 @@ const AddIngredient = ({
             return;
         }
 
-        submitIngredient?.({ id: getId(), name, amount: amount ?? 0, unit });
+        const inputIngredient: Ingredient = {
+            id: ingredients.length,
+            amount,
+            name,
+            unit,
+        };
+        if (information.type === "add") {
+            addIngredient(inputIngredient);
+        } else {
+            inputIngredient.id = information.ingredient.id;
+            editIngredient(inputIngredient);
+        }
 
-        navigation?.pop();
+        navigation.pop();
     };
 
     return (
@@ -174,9 +201,7 @@ const AddIngredient = ({
                                 maxLength={500}
                                 value={unit}
                                 onChangeText={setUnit}
-                                className="text-base py-2 w-full first-line:border-cgrey-platinum"
-                                // classname doesn't work
-                                style={{ borderBottomWidth: 1 }}
+                                className="text-base py-2 w-full first-line:border-cgrey-platinum border-b"
                             />
                         </View>
                     </View>

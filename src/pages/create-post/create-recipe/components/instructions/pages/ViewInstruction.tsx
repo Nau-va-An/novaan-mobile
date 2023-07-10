@@ -1,6 +1,5 @@
-import React, { useContext, useRef, useState, type ReactElement } from "react";
+import React, { useRef, useState, type ReactElement, useContext } from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import { recipeInformationContext } from "../../../types/RecipeParams";
 import {
     CREATE_RECIPE_INSTRUCTIONS_SUBTITLE,
     CREATE_RECIPE_INSTRUCTIONS_ADD_INGREDIENT_BUTTON_TITLE,
@@ -13,6 +12,7 @@ import type Instruction from "../../../types/Instruction";
 import InstructionItem from "../components/InstructionItem";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type InstructionStackParamList } from "@/types/navigation";
+import { recipeInformationContext } from "../../../types/RecipeParams";
 
 interface ViewInstructionsProp {
     navigation: NativeStackNavigationProp<
@@ -29,42 +29,21 @@ const ViewInstruction = ({
     );
     const [refresh, setRefresh] = useState(true);
     const labelClassName = "text-base font-medium uppercase";
-    const id = useRef(0);
     const lastInstruction = useRef(0);
 
     const resetList = (): void => {
         setRefresh(!refresh);
     };
 
-    const addInstruction = (instruction: Instruction): void => {
-        instruction.id = id.current++;
-        instruction.step = ++lastInstruction.current;
-        setInstructions([...instructions, instruction]);
-        resetList();
-    };
-
-    const editInstruction = (instruction: Instruction): void => {
-        const index = instructions.findIndex((s) => s.id === instruction.id);
-        if (index === -1) {
-            return;
-        }
-
-        instructions.splice(index, 1, instruction);
-        setInstructions(instructions);
-        resetList();
-    };
-
     const openAddInstruction = (): void => {
         navigation.navigate("AddInstruction", {
             information: { type: "add" },
-            submitInstruction: addInstruction,
         });
     };
 
     const openEditInstruction = (instruction: Instruction): void => {
         navigation.navigate("AddInstruction", {
             information: { type: "edit", instruction },
-            submitInstruction: editInstruction,
         });
     };
 

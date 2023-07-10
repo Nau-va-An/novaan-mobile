@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useEffect } from "react";
-import { LogBox, View } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -13,14 +13,13 @@ import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
 import { toastConfig } from "@/common/configs/toast.config";
 import Toast from "react-native-toast-message";
 import { type RootStackParamList } from "@/types/navigation";
+import { enableScreens } from "react-native-screens";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
-const App = () => {
-    useEffect(() => {
-        LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
-    }, []);
+enableScreens(true);
 
+const App = () => {
     return (
         <>
             <PaperProvider>

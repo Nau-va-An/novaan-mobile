@@ -13,9 +13,7 @@ import {
     CREATE_RECIPE_TITLE,
 } from "@/common/strings";
 import { customColors } from "@root/tailwind.config";
-import TitleDescriptionVideo, {
-    type TDVRouteProps,
-} from "../common/components/TitleDescriptionVideo";
+import TitleDescriptionVideo from "../common/components/TitleDescriptionVideo";
 import {
     NavigationContainer,
     createNavigationContainerRef,

@@ -11,7 +11,7 @@ import {
     ADD_INSTRUCTION_WRONG_IMAGE_SIZE,
 } from "@/common/strings";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState, useRef, type ReactElement } from "react";
+import React, { useState, useRef, type ReactElement, useContext } from "react";
 import {
     Image,
     Alert,
@@ -28,7 +28,8 @@ import IconIon from "react-native-vector-icons/Ionicons";
 import { type Asset, launchImageLibrary } from "react-native-image-picker";
 import { customColors } from "@root/tailwind.config";
 import type Instruction from "../../../types/Instruction";
-import { type InstructionStackParamList } from "../Instruction";
+import { type InstructionStackParamList } from "@/types/navigation";
+import { recipeInformationContext } from "../../../types/RecipeParams";
 
 export interface AddInstructionParams {
     information:
@@ -39,7 +40,6 @@ export interface AddInstructionParams {
               type: "edit";
               instruction: Instruction;
           };
-    submitInstruction?: (instruction: Instruction) => void;
 }
 
 interface AddInstructionProps {
@@ -56,10 +56,13 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const AddInstruction = ({
     route: {
-        params: { information, submitInstruction },
+        params: { information },
     },
     navigation,
 }: AddInstructionProps): ReactElement<AddInstructionProps> => {
+    const { instructions, setInstructions } = useContext(
+        recipeInformationContext
+    );
     const [description, setDescription] = useState(
         information.type === "edit" ? information.instruction.description : ""
     );
@@ -71,15 +74,23 @@ const AddInstruction = ({
     const imageAsset = useRef<Asset | undefined>(undefined);
     const labelClassName = "text-base font-medium uppercase";
 
+    const addInstruction = (instruction: Instruction): void => {
+        setInstructions([...instructions, instruction]);
+    };
+
+    const editInstruction = (instruction: Instruction): void => {
+        const index = instructions.findIndex((s) => s.id === instruction.id);
+        if (index === -1) {
+            return;
+        }
+
+        instructions.splice(index, 1, instruction);
+        setInstructions(instructions);
+    };
+
     const navigateBack = (): void => {
         navigation.pop();
     };
-
-    const getId = (): number =>
-        information.type === "add" ? -1 : information.instruction.id;
-
-    const getStep = (): number =>
-        information.type === "add" ? -1 : information.instruction.step;
 
     const submit = (): void => {
         const error = (message: string): void => {
@@ -100,12 +111,19 @@ const AddInstruction = ({
             return;
         }
 
-        submitInstruction?.({
-            id: getId(),
-            step: getStep(),
+        const inputInstruction: Instruction = {
+            id: instructions.length,
+            step: instructions.length + 1,
             description,
             imageUri,
-        });
+        };
+        if (information.type === "add") {
+            addInstruction(inputInstruction);
+        } else {
+            inputInstruction.id = information.instruction.id;
+            inputInstruction.step = information.instruction.step;
+            editInstruction(inputInstruction);
+        }
 
         navigation.pop();
     };
