@@ -20,6 +20,10 @@ const Instruction = (): ReactElement => {
             <InstructionStack.Screen
                 name="AddInstruction"
                 component={AddInstruction}
+                options={{
+                    animation: "slide_from_bottom",
+                    animationDuration: 200,
+                }}
             />
         </InstructionStack.Navigator>
     );

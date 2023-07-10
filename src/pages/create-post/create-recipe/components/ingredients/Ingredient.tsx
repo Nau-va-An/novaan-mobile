@@ -19,6 +19,10 @@ const Ingredient = (): ReactElement => {
             <IngredientStack.Screen
                 name="AddIngredient"
                 component={AddIngredient}
+                options={{
+                    animation: "slide_from_bottom",
+                    animationDuration: 200,
+                }}
             />
         </IngredientStack.Navigator>
     );

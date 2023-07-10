@@ -12,7 +12,7 @@ import { customColors } from "@root/tailwind.config";
 import type Instruction from "../../../types/Instruction";
 import InstructionItem from "../components/InstructionItem";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { type InstructionStackParamList } from "../Instruction";
+import { type InstructionStackParamList } from "@/types/navigation";
 
 interface ViewInstructionsProp {
     navigation: NativeStackNavigationProp<
