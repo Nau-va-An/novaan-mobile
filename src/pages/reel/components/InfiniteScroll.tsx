@@ -17,7 +17,6 @@ import {
 import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 import type Post from "../types/Post";
 import reelServices from "../services/reelServices";
-import OverlayLoading from "@/common/components/OverlayLoading";
 
 interface InfiniteScrollProps {
     postGetter?: (index: number) => Promise<Post | null>;
