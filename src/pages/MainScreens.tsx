@@ -14,10 +14,10 @@ import {
     type RootStackParamList,
 } from "@/types/navigation";
 import { BOTTOM_NAV_HEIGHT } from "@/common/constants";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { customColors } from "@root/tailwind.config";
 
-const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 interface MainScreensProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "MainScreens">;
@@ -28,22 +28,31 @@ const MainScreens: FC<MainScreensProps> = ({
 }: MainScreensProps) => {
     const theme = useTheme();
     theme.colors.secondaryContainer = "transparent";
+
     const [modalVisible, setModalVisible] = useState(false);
     return (
         <View className="flex-1">
             <BottomTab.Navigator
-                activeColor={customColors.cprimary["300"]}
-                barStyle={{
-                    height: BOTTOM_NAV_HEIGHT,
-                    backgroundColor: "#FFF",
+                screenOptions={{
+                    tabBarActiveTintColor: customColors.cprimary["300"],
+                    tabBarItemStyle: {
+                        marginVertical: 12,
+                        justifyContent: "center",
+                        alignItems: "center",
+                    },
+                    tabBarStyle: {
+                        height: BOTTOM_NAV_HEIGHT,
+                    },
+                    unmountOnBlur: true,
+                    headerShown: false,
                 }}
-                labeled={false}
                 initialRouteName="Reel"
             >
                 <BottomTab.Screen
                     name="Home"
                     component={Home}
                     options={{
+                        tabBarLabel: "Trang chủ",
                         tabBarIcon: ({ color }) => (
                             <Icon name="home" size={24} color={color} />
                         ),
@@ -62,6 +71,7 @@ const MainScreens: FC<MainScreensProps> = ({
                     name="CreatePostPopup"
                     component={CreatePostPopup}
                     options={{
+                        tabBarLabel: "",
                         tabBarIcon: ({ color }) => (
                             <Icon name="plus" size={24} color={color} />
                         ),
@@ -77,6 +87,7 @@ const MainScreens: FC<MainScreensProps> = ({
                     name="Search"
                     component={Search}
                     options={{
+                        tabBarLabel: "Tìm kiếm",
                         tabBarIcon: ({ color }) => (
                             <Icon name="search" size={24} color={color} />
                         ),
@@ -86,6 +97,7 @@ const MainScreens: FC<MainScreensProps> = ({
                     name="UserProfile"
                     component={UserProfile}
                     options={{
+                        tabBarLabel: "Cá nhân",
                         tabBarIcon: ({ color }) => (
                             <Icon name="user" size={24} color={color} />
                         ),
