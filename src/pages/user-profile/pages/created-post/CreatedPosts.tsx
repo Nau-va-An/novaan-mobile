@@ -11,6 +11,7 @@ import { PROFILE_POSTED_TITLE } from "@/common/strings";
 import { ToggleButton } from "react-native-paper";
 import ToggleButtonLabel from "./components/ToggleButtonLabel";
 import { customColors } from "@root/tailwind.config";
+import CustomToggleButton from "./components/CustomToggleButton";
 
 type ViewCategory = "recipe" | "tips";
 
@@ -89,43 +90,15 @@ const CreatedPosts: FC = () => {
                 onValueChange={handleChangeViewCategory}
                 value={viewCategory}
             >
-                <ToggleButton
-                    style={{
-                        backgroundColor:
-                            viewCategory === "recipe"
-                                ? customColors.cprimary["300"]
-                                : "#FFF",
-                        paddingHorizontal: 16,
-                        paddingVertical: 8,
-                        width: 96,
-                    }}
-                    icon={() => (
-                        <ToggleButtonLabel
-                            label="Recipes"
-                            isChecked={viewCategory === "recipe"}
-                        />
-                    )}
+                <CustomToggleButton
+                    label="Recipe"
                     value="recipe"
-                    status={viewCategory === "recipe" ? "checked" : "unchecked"}
+                    isChecked={viewCategory === "recipe"}
                 />
-                <ToggleButton
-                    style={{
-                        backgroundColor:
-                            viewCategory === "tips"
-                                ? customColors.cprimary["300"]
-                                : "#FFF",
-                        paddingHorizontal: 16,
-                        paddingVertical: 8,
-                        width: 96,
-                    }}
-                    icon={() => (
-                        <ToggleButtonLabel
-                            label="Tips"
-                            isChecked={viewCategory === "tips"}
-                        />
-                    )}
+                <CustomToggleButton
+                    label="Tips"
                     value="tips"
-                    status={viewCategory === "tips" ? "checked" : "unchecked"}
+                    isChecked={viewCategory === "tips"}
                 />
             </ToggleButton.Row>
             <FlatList
