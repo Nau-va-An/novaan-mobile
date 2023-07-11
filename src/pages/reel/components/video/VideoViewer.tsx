@@ -9,7 +9,7 @@ import { type GestureResponderEvent, View } from "react-native";
 import Video from "react-native-video";
 import PlayPause from "./PlayPause";
 import Seeker from "./Seeker";
-import reelServices from "../services/reelServices";
+import services from "@/common/services";
 
 interface VideoViewrProps {
     videoId: string;
@@ -30,7 +30,7 @@ const VideoViewer: FC<VideoViewrProps> = ({
     const [videoUri, setVideoUri] = useState("");
 
     const loadVideo = async (): Promise<void> => {
-        const result = await reelServices.getResourceUrl(videoId);
+        const result = await services.getResourceUrl(videoId);
         if (result == null) {
             return;
         }
