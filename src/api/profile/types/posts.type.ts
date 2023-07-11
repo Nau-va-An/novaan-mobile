@@ -4,6 +4,8 @@ interface GetUserContentReturn {
     getNext: () => Promise<boolean>;
     getPrev: () => Promise<boolean>;
     getPage: (pageNum: number) => RecipeInfo[];
+    isEmpty: boolean;
+    ended: boolean;
 }
 
 export interface GetUserRecipeReturn extends GetUserContentReturn {

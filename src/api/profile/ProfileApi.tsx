@@ -6,9 +6,12 @@ import {
     type UseProfileInfoReturn,
     type ProfileInfo,
     type GetUserRecipeReturn,
+    type useFetchResUriReturn,
 } from "./types";
 import { type RecipeInfo } from "../post/types/post.type";
 import { getKeychainValue } from "@/common/keychainService";
+
+const GET_RESOURCE_URL = "content/download";
 
 const PAGE_SIZE = 10;
 
@@ -68,6 +71,7 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
 
     // Indicate if the result is empty
     const [isEmpty, setIsEmpty] = useState(false);
+    const [ended, setEnded] = useState(false);
 
     const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(0);
@@ -78,6 +82,7 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
     ): Promise<boolean> => {
         if (userId == null) {
             userId = await getUserIdFromToken();
+            console.log(userId);
         }
 
         const content = (await getReq(
@@ -91,6 +96,10 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
         if (start === 0 && content.length === 0) {
             setIsEmpty(true);
             return true;
+        }
+
+        if (content.length === 0 || content.length < PAGE_SIZE) {
+            setEnded(true);
         }
 
         // TODO: Need to have a mechanism to auto remove viewed content above and re-query as needed
@@ -141,7 +150,28 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
         return recipes.slice(start, end);
     };
 
-    return { getNext, getPrev, getPage, recipes };
+    return { getNext, getPrev, getPage, recipes, isEmpty, ended };
+};
+
+export const useFetchResUri = (): useFetchResUriReturn => {
+    const [resourceUri, setResourceUri] = useState<string>("");
+
+    const { getReq } = useFetch({
+        authorizationRequired: true,
+        timeout: 10000,
+    });
+
+    const fetchResourceUri = async (keyId: string): Promise<boolean> => {
+        const resource = await getReq(GET_RESOURCE_URL);
+        if (resource == null || !("url" in resource)) {
+            return false;
+        }
+
+        setResourceUri(resource.url);
+        return true;
+    };
+
+    return { fetchResourceUri, resourceUri };
 };
 
 // TODO: Implement this later

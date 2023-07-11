@@ -22,3 +22,8 @@ export interface UseProfileInfoReturn {
     fetchPersonalProfile: () => Promise<boolean>;
     fetchUserProfile: (userId: string) => Promise<boolean>;
 }
+
+export interface useFetchResUriReturn {
+    fetchResourceUri: (keyId: string) => Promise<boolean>;
+    resourceUri: string;
+}

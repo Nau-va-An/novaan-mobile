@@ -200,6 +200,7 @@ export const PROFILE_FOLLOWER_COUNT_TITLE = "Người theo dõi";
 export const PROFILE_FOLLOWING_COUNT_TITLE = "Đang theo dõi";
 export const PROFILE_EMPTY_BIO =
     "Oops! Người dùng này chưa viết gì nhiều về bản thân họ.";
+export const PROFILE_POSTED_TITLE = "Bài đăng của bạn";
 
 // Reel screen
 export const REEL_DETAILS_DIFFICULTY_TITLE = "Độ khó: "

@@ -6,8 +6,8 @@ import React, {
 } from "react";
 import { type ColorValue, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import CreatedPosts from "./CreatedPosts";
-import SavedPosts from "./SavedPosts";
+import CreatedPosts from "./pages/created-post/CreatedPosts";
+import SavedPosts from "./pages/SavedPosts";
 import {
     type BottomTabParamList,
     type UserProfileTabParamList,
@@ -97,7 +97,7 @@ const UserProfile = (
                     {username}
                 </Text>
             </View>
-            <View className="mx-6 mt-6 flex-row items-center justify-center">
+            <View className="mx-6 mt-4 flex-row items-center justify-center">
                 <Avatar.Text
                     size={96}
                     style={{
