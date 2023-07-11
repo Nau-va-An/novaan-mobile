@@ -8,11 +8,18 @@ import postApi from "@/api/post/PostApi";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import { PROFILE_POSTED_TITLE } from "@/common/strings";
+import { ToggleButton } from "react-native-paper";
+import ToggleButtonLabel from "./components/ToggleButtonLabel";
+import { customColors } from "@root/tailwind.config";
+
+type ViewCategory = "recipe" | "tips";
 
 const CreatedPosts: FC = () => {
     const { recipes, getNext, isEmpty, ended } = useUserRecipes();
 
     const [viewingItem, setViewingItem] = useState(false);
+
+    const [viewCategory, setViewCategory] = useState<ViewCategory>("recipe");
 
     useEffect(() => {
         void getNext();
@@ -64,8 +71,63 @@ const CreatedPosts: FC = () => {
         setViewingItem(false);
     };
 
+    const handleChangeViewCategory = (value: ViewCategory): void => {
+        if (value == null) {
+            return;
+        }
+        setViewCategory(value);
+    };
+
     return (
-        <View className="flex-1 bg-white items-center justify-center">
+        <View className="flex-1 bg-white">
+            <ToggleButton.Row
+                style={{
+                    borderRadius: 8,
+                    marginTop: 16,
+                    marginLeft: 8,
+                }}
+                onValueChange={handleChangeViewCategory}
+                value={viewCategory}
+            >
+                <ToggleButton
+                    style={{
+                        backgroundColor:
+                            viewCategory === "recipe"
+                                ? customColors.cprimary["300"]
+                                : "#FFF",
+                        paddingHorizontal: 16,
+                        paddingVertical: 8,
+                        width: 96,
+                    }}
+                    icon={() => (
+                        <ToggleButtonLabel
+                            label="Recipes"
+                            isChecked={viewCategory === "recipe"}
+                        />
+                    )}
+                    value="recipe"
+                    status={viewCategory === "recipe" ? "checked" : "unchecked"}
+                />
+                <ToggleButton
+                    style={{
+                        backgroundColor:
+                            viewCategory === "tips"
+                                ? customColors.cprimary["300"]
+                                : "#FFF",
+                        paddingHorizontal: 16,
+                        paddingVertical: 8,
+                        width: 96,
+                    }}
+                    icon={() => (
+                        <ToggleButtonLabel
+                            label="Tips"
+                            isChecked={viewCategory === "tips"}
+                        />
+                    )}
+                    value="tips"
+                    status={viewCategory === "tips" ? "checked" : "unchecked"}
+                />
+            </ToggleButton.Row>
             <FlatList
                 className="w-full"
                 numColumns={2}
