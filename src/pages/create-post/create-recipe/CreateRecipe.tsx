@@ -1,4 +1,3 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type ReactElement, useState, useMemo } from "react";
 import { Bar } from "react-native-progress";
@@ -30,13 +29,14 @@ import {
     type RootStackParamList,
     type RecipeTabParamList,
 } from "@/types/navigation";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 interface CreateRecipeProps {
     navigation: NativeStackNavigationProp<RootStackParamList, "CreateTip">;
 }
 
-// const RecipeTab = createMaterialTopTabNavigator<RecipeTabParamList>();
-const RecipeTab = createBottomTabNavigator<RecipeTabParamList>();
+const RecipeTab = createMaterialTopTabNavigator<RecipeTabParamList>();
+// const RecipeTab = createBottomTabNavigator<RecipeTabParamList>();
 
 const recipeTabRef = createNavigationContainerRef<RecipeTabParamList>();
 
@@ -105,7 +105,7 @@ const CreateRecipe = ({
 
     const goPreviousScreen = (): void => {
         if (currentScreen > 0) {
-            recipeTabRef.goBack();
+            recipeTabRef.navigate(screens[currentScreen - 1] as any);
             setCurrentScreen((prevScreen) => prevScreen - 1);
         }
     };
@@ -152,6 +152,7 @@ const CreateRecipe = ({
                 borderWidth={0}
                 unfilledColor={customColors.cgrey.platinum}
                 borderRadius={0}
+                animated={true}
             />
             <recipeInformationContext.Provider
                 value={{
@@ -184,11 +185,7 @@ const CreateRecipe = ({
                             tabBarStyle: {
                                 height: 0,
                             },
-                            headerShown: false,
-                            freezeOnBlur: true,
                         }}
-                        backBehavior="order"
-                        detachInactiveScreens={false}
                     >
                         <RecipeTab.Screen
                             name="TitleDescriptionVideo"
