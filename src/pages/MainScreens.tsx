@@ -43,7 +43,6 @@ const MainScreens: FC<MainScreensProps> = ({
                     tabBarStyle: {
                         height: BOTTOM_NAV_HEIGHT,
                     },
-                    unmountOnBlur: true,
                     headerShown: false,
                 }}
                 initialRouteName="Reel"
@@ -62,6 +61,7 @@ const MainScreens: FC<MainScreensProps> = ({
                     name="Reel"
                     component={Reel}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ color }) => (
                             <Icon name="film" size={24} color={color} />
                         ),
