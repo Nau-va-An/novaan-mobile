@@ -13,11 +13,12 @@ import CreateRecipe from "@/pages/create-post/create-recipe/CreateRecipe";
 import { toastConfig } from "@/common/configs/toast.config";
 import Toast from "react-native-toast-message";
 import { type RootStackParamList } from "@/types/navigation";
-import { enableScreens } from "react-native-screens";
+import { enableFreeze, enableScreens } from "react-native-screens";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 enableScreens();
+enableFreeze();
 
 const App = () => {
     return (

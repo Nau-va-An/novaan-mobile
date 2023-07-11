@@ -33,9 +33,7 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
         },
     } = props;
     const { title, setTitle, description, setDescription, setVideo } =
-        labelType === "recipeParams"
-            ? useContext(TDVParamTypes[labelType].states)
-            : useContext(TDVParamTypes[labelType].states);
+        useContext(TDVParamTypes[labelType].states);
     const labels = TDVParamTypes[labelType].labels;
     const [thumbnailUri, setThumbnailUri] = useState<string | null>();
 
