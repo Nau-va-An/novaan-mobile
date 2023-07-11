@@ -13,6 +13,8 @@ const Ingredient = (): ReactElement => {
                 name="ViewIngredient"
                 options={{
                     headerShown: false,
+                    animation: "slide_from_right",
+                    animationDuration: 100,
                 }}
                 component={ViewIngredients}
             />
@@ -21,7 +23,6 @@ const Ingredient = (): ReactElement => {
                 component={AddIngredient}
                 options={{
                     animation: "slide_from_bottom",
-                    animationDuration: 200,
                 }}
             />
         </IngredientStack.Navigator>
