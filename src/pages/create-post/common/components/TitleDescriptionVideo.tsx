@@ -11,9 +11,9 @@ import WarningAsterisk from "@/common/components/WarningAeterisk";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
 import { customColors } from "@root/tailwind.config";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { type RootStackParamList } from "@root/App";
 import TDVParamTypes from "../types/TDVParams";
 import { pickVideoAndThumbnail } from "../commonServices";
+import { type RootStackParamList } from "@/types/navigation";
 
 export interface TDVRouteProps {
     labelType: keyof typeof TDVParamTypes;
@@ -33,7 +33,9 @@ const TitleDescriptionVideo: FC<TitleDescriptionVideoProps> = (
         },
     } = props;
     const { title, setTitle, description, setDescription, setVideo } =
-        useContext(TDVParamTypes[labelType].states);
+        labelType === "recipeParams"
+            ? useContext(TDVParamTypes[labelType].states)
+            : useContext(TDVParamTypes[labelType].states);
     const labels = TDVParamTypes[labelType].labels;
     const [thumbnailUri, setThumbnailUri] = useState<string | null>();
 
