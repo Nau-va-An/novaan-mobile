@@ -1,4 +1,4 @@
-import React, { type FC, useContext, useRef } from "react";
+import React, { type FC, useContext, useMemo } from "react";
 import { View, Text, TextInput, ScrollView } from "react-native";
 import WarningAsterisk from "@/common/components/WarningAeterisk";
 import { type NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,7 +15,7 @@ import {
 import DropDown from "./DropDown";
 import { customColors } from "@root/tailwind.config";
 import RecipeTimeInput from "./RecipeTimeInput";
-import protionItems from "../types/PortionTypeItems";
+import portionItems from "../types/PortionTypeItems";
 import difficultyItems from "../types/DifficultyItems";
 import { type RootStackParamList } from "@/types/navigation";
 
@@ -36,20 +36,24 @@ const PortionDificultyTime: FC<TitleDescriptionVideoProps> = (
         setPrepTime,
     } = useContext(recipeInformationContext);
 
-    const difficultyDropdownItems = useRef(
-        difficultyItems.map((i) => ({
-            label: i.label,
-            value: i.value.toString(),
-        }))
+    const difficultyDropdownItems = useMemo(
+        () =>
+            difficultyItems.map((i) => ({
+                label: i.label,
+                value: i.value.toString(),
+            })),
+        []
     );
 
-    const portionDropdownItems = useRef(
-        protionItems.map((i) => ({
-            label: i.label,
-            value: i.value.toString(),
-        }))
+    const portionDropdownItems = useMemo(
+        () =>
+            portionItems.map((i) => ({
+                label: i.label,
+                value: i.value.toString(),
+            })),
+        []
     );
-    
+
     const labelClassName = "text-base font-medium uppercase";
     const setQuantity = (value: string): void => {
         setPortionQuantity(parseFloat(value));
@@ -106,7 +110,7 @@ const PortionDificultyTime: FC<TitleDescriptionVideoProps> = (
                     <View className="flex-2">
                         <DropDown
                             placeholder={CREATE_RECIPE_PORTION_TYPE_PLACEHOLDER}
-                            items={portionDropdownItems.current}
+                            items={portionDropdownItems}
                             onValueChange={onPortionTypeChange}
                             style={{
                                 borderWidth: 0,
@@ -144,7 +148,7 @@ const PortionDificultyTime: FC<TitleDescriptionVideoProps> = (
                         placeholder={
                             CREATE_RECIPE_PORTION_DIFFICULTY_PLACEHOLDER
                         }
-                        items={difficultyDropdownItems.current}
+                        items={difficultyDropdownItems}
                         onValueChange={onDifficultyChange}
                         style={{
                             borderWidth: 0,
