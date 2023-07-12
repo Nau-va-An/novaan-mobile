@@ -69,30 +69,32 @@ const VideoViewer: FC<VideoViewrProps> = ({
             className="absolute top-0 left-0 bottom-0 right-0"
             onTouchEnd={onVideoPress}
         >
-            <Video
-                paused={paused}
-                ref={videoRef}
-                source={{
-                    uri: resourceUrl,
-                }}
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                }}
-                resizeMode="contain"
-                repeat
-                onLoad={({ duration }) => {
-                    videoRef.current?.seek(1);
-                    videoDuration.current = duration;
-                }}
-                onProgress={({ currentTime }) => {
-                    setCurrentTimeStamp(currentTime);
-                }}
-                onError={onVideoError}
-            />
+            {resourceUrl !== "" && (
+                <Video
+                    paused={paused}
+                    ref={videoRef}
+                    source={{
+                        uri: resourceUrl,
+                    }}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                    }}
+                    resizeMode="contain"
+                    repeat
+                    onLoad={({ duration }) => {
+                        videoRef.current?.seek(1);
+                        videoDuration.current = duration;
+                    }}
+                    onProgress={({ currentTime }) => {
+                        setCurrentTimeStamp(currentTime);
+                    }}
+                    onError={onVideoError}
+                />
+            )}
             <PlayPause showToggle={pauseToggle} icon="pause" />
             <PlayPause showToggle={playToggle} icon="play" />
             <Seeker
