@@ -8,12 +8,12 @@ import {
     type GetUserRecipeReturn,
     type useFetchResUriReturn,
 } from "./types";
-import { type RecipeInfo } from "../post/types/post.type";
 import { getKeychainValue } from "@/common/keychainService";
+import { type RecipeResponse } from "../post/types/PostResponse";
 
 const GET_RESOURCE_URL = "content/download";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 4;
 
 const parseJwt = (token: string): any => {
     const base64Url = token.split(".")[1];
@@ -73,7 +73,7 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
     const [isEmpty, setIsEmpty] = useState(false);
     const [ended, setEnded] = useState(false);
 
-    const [recipes, setRecipes] = useState<RecipeInfo[]>([]);
+    const [recipes, setRecipes] = useState<RecipeResponse[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(0);
 
     const getRecipes = async (
@@ -87,7 +87,7 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
 
         const content = (await getReq(
             `profile/${userId}/recipes?Start=${start}&Limit=${limit}`
-        )) as RecipeInfo[];
+        )) as RecipeResponse[];
 
         if (content == null) {
             return false;
@@ -137,7 +137,7 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
         return await getRecipes(start, PAGE_SIZE);
     };
 
-    const getPage = (pageNumber: number): RecipeInfo[] => {
+    const getPage = (pageNumber: number): RecipeResponse[] => {
         const start = pageNumber * PAGE_SIZE;
         const end = start + PAGE_SIZE;
         if (start >= recipes.length) {
@@ -150,7 +150,14 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
         return recipes.slice(start, end);
     };
 
-    return { getNext, getPrev, getPage, recipes, isEmpty, ended };
+    const refresh = (): void => {
+        setIsEmpty(false);
+        setEnded(false);
+        setRecipes([]);
+        setCurrentPage(0);
+    };
+
+    return { getNext, getPrev, getPage, refresh, recipes, isEmpty, ended };
 };
 
 export const useFetchResUri = (): useFetchResUriReturn => {

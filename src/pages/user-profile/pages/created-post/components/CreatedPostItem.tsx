@@ -1,11 +1,10 @@
-import { type PostInfo } from "@/api/post/types/post.type";
-import { useFetchResUri } from "@/api/profile/ProfileApi";
+import type PostResponse from "@/api/post/types/PostResponse";
 import React, { type ReactElement } from "react";
 import { View } from "react-native";
 import { Card } from "react-native-paper";
 
 interface CreatedPostItemProps {
-    item: PostInfo;
+    item: PostResponse;
     onItemPress: () => void;
 }
 

@@ -1,17 +1,21 @@
-import { type RecipeInfo, type TipsInfo } from "@/api/post/types/post.type";
+import {
+    type RecipeResponse,
+    type TipResponse,
+} from "@/api/post/types/PostResponse";
 
 interface GetUserContentReturn {
     getNext: () => Promise<boolean>;
     getPrev: () => Promise<boolean>;
-    getPage: (pageNum: number) => RecipeInfo[];
+    getPage: (pageNum: number) => RecipeResponse[];
+    refresh: () => void;
     isEmpty: boolean;
     ended: boolean;
 }
 
 export interface GetUserRecipeReturn extends GetUserContentReturn {
-    recipes: RecipeInfo[];
+    recipes: RecipeResponse[];
 }
 
 export interface GetUserTipReturn extends GetUserContentReturn {
-    tips: TipsInfo[];
+    tips: TipResponse[];
 }

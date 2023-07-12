@@ -1,45 +1,59 @@
 import { useUserRecipes } from "@/api/profile/ProfileApi";
-import React, { useEffect, type FC, useState } from "react";
+import React, {
+    useEffect,
+    useState,
+    type ReactElement,
+    useContext,
+} from "react";
 import { FlatList, Modal, View, Pressable, Text } from "react-native";
 import CreatedPostItem from "./components/CreatedPostItem";
 import InfiniteScroll from "@/pages/reel/components/InfiniteScroll";
 import type Post from "@/pages/reel/types/Post";
-import postApi from "@/api/post/PostApi";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import IonIcon from "react-native-vector-icons/Ionicons";
 import { PROFILE_POSTED_TITLE } from "@/common/strings";
 import { ToggleButton } from "react-native-paper";
-import ToggleButtonLabel from "./components/ToggleButtonLabel";
-import { customColors } from "@root/tailwind.config";
 import CustomToggleButton from "./components/CustomToggleButton";
+import { UserProfileContext } from "../../UserProfile";
+import OverlayLoading from "@/common/components/OverlayLoading";
 
 type ViewCategory = "recipe" | "tips";
 
-const CreatedPosts: FC = () => {
-    const { recipes, getNext, isEmpty, ended } = useUserRecipes();
+const CreatedPosts = (): ReactElement => {
+    const { getNext, refresh, recipes, isEmpty, ended } = useUserRecipes();
+
+    const userProfileContext = useContext(UserProfileContext);
 
     const [viewingItem, setViewingItem] = useState(false);
-
     const [viewCategory, setViewCategory] = useState<ViewCategory>("recipe");
+
+    const [fetching, setFetching] = useState(false);
+
+    const handleRefresh = (): void => {
+        setFetching(true);
+        refresh();
+    };
+
+    useEffect(() => {
+        if (fetching) {
+            void getNext().finally(() => {
+                setFetching(false);
+            });
+        }
+    }, [fetching]);
 
     useEffect(() => {
         void getNext();
     }, []);
 
-    useEffect(() => {
-        if (recipes.length === 0) {
-            console.log("Empty");
-            return;
-        }
-
-        console.log(recipes);
-    }, [recipes]);
-
     const handleFetchMorePost = async (): Promise<void> => {
         if (ended || isEmpty) {
             return;
         }
+
+        setFetching(true);
         await getNext();
+        setFetching(false);
     };
 
     const postGetterProfile = async (index: number): Promise<Post | null> => {
@@ -47,18 +61,17 @@ const CreatedPosts: FC = () => {
             return null;
         }
 
-        const currentItem = recipes[index];
-        const postResponse = await postApi.getPost(currentItem.id, "recipe");
-        if (!postResponse.success) {
+        const userInfo = userProfileContext.userInfo;
+        if (userInfo == null) {
             return null;
         }
+
+        const currentRecipe = recipes[index];
         return {
-            ...postResponse.value,
+            ...currentRecipe,
+            type: "recipe",
             // decoy data
-            creator: {
-                username: "Điện máy XANH",
-                userId: "123332",
-            },
+            creator: userInfo,
             prepTime: { hour: 0, minute: 30 },
             cookTime: { hour: 0, minute: 30 },
         };
@@ -78,6 +91,10 @@ const CreatedPosts: FC = () => {
         }
         setViewCategory(value);
     };
+
+    if (userProfileContext.userInfo == null) {
+        return <View></View>;
+    }
 
     return (
         <View className="flex-1 bg-white">
@@ -114,6 +131,9 @@ const CreatedPosts: FC = () => {
                     />
                 )}
                 onEndReached={handleFetchMorePost}
+                onEndReachedThreshold={1}
+                onRefresh={handleRefresh}
+                refreshing={fetching}
             />
             {viewingItem && (
                 <Modal animationType="slide">
