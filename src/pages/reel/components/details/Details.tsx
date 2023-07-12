@@ -25,12 +25,8 @@ interface DetailsProps {
 }
 
 const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
-    const isRecipe = (post: Post): post is RecipePost => {
-        return "ingredients" in post;
-    };
-
     const portionInfo = useMemo((): string => {
-        if (!isRecipe(post)) {
+        if (post.type === "tip") {
             return "";
         }
 
@@ -125,20 +121,16 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
                         </Text>
                         <Text className="mt-3 pl-4 text-lg">{portionInfo}</Text>
                         <View className="mt-5 pl-4">
-                            {isRecipe(post) &&
-                                post.ingredients.map((ingredient, index) => (
-                                    <View
-                                        key={index}
-                                        className="flex-row w-full"
-                                    >
-                                        <Text className="basis-5/12 text-base mb-1 text-cgrey-dim">
-                                            {`${ingredient.amount} ${ingredient.unit}`}
-                                        </Text>
-                                        <Text className="basis-7/12 text-base text-cgrey-dim">
-                                            {ingredient.name}
-                                        </Text>
-                                    </View>
-                                ))}
+                            {post.ingredients.map((ingredient, index) => (
+                                <View key={index} className="flex-row w-full">
+                                    <Text className="basis-5/12 text-base mb-1 text-cgrey-dim">
+                                        {`${ingredient.amount} ${ingredient.unit}`}
+                                    </Text>
+                                    <Text className="basis-7/12 text-base text-cgrey-dim">
+                                        {ingredient.name}
+                                    </Text>
+                                </View>
+                            ))}
                         </View>
                     </View>
                     <Divider bold={true} />
@@ -148,16 +140,15 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
                         </Text>
                     </View>
                     <View>
-                        {isRecipe(post) &&
-                            post.instructions.map(
-                                (instruction, index, instructions) => (
-                                    <DetailInstruction
-                                        instruction={instruction}
-                                        instructionCount={instructions.length}
-                                        key={index}
-                                    />
-                                )
-                            )}
+                        {post.instructions.map(
+                            (instruction, index, instructions) => (
+                                <DetailInstruction
+                                    instruction={instruction}
+                                    instructionCount={instructions.length}
+                                    key={index}
+                                />
+                            )
+                        )}
                     </View>
                 </View>
             )}

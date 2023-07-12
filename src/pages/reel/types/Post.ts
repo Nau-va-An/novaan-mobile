@@ -15,13 +15,4 @@ export type Post = IntersectUnion<
     }
 >;
 
-export type RecipePost = DistributiveOmit<
-    RecipeResponse,
-    "prepTime" | "cookTime" | "creatorId"
-> & {
-    creator: User;
-    prepTime: RecipeTime;
-    cookTime: RecipeTime;
-};
-
 export default Post;
