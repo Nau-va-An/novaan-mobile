@@ -2,7 +2,6 @@ import type PostResponse from "@/api/post/types/PostResponse";
 import type User from "./User";
 import type RecipeTime from "@/pages/create-post/create-recipe/types/RecipeTime";
 import { type IntersectUnion, type DistributiveOmit } from "@/common/utils";
-import { type RecipeResponse } from "@/api/post/types/PostResponse";
 
 export type Post = IntersectUnion<
     DistributiveOmit<PostResponse, "prepTime" | "cookTime" | "creatorId"> & {
