@@ -135,6 +135,7 @@ const CreatedPosts = (): ReactElement => {
                 onEndReachedThreshold={1}
                 onRefresh={handleRefresh}
                 refreshing={fetching}
+                showsVerticalScrollIndicator={false}
             />
             {viewingItem && (
                 <Modal animationType="slide">

@@ -8,7 +8,7 @@ import React, {
 import { type ColorValue, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CreatedPosts from "./pages/created-post/CreatedPosts";
-import SavedPosts from "./pages/SavedPosts";
+import SavedPosts from "./pages/saved-post/SavedPosts";
 import {
     type BottomTabParamList,
     type UserProfileTabParamList,
@@ -29,6 +29,7 @@ import IconFeather from "react-native-vector-icons/Feather";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
 import ProfileStatItem from "./components/ProfileStatItem";
 import { type ProfileInfo } from "@/api/profile/types";
+import Following from "./pages/following/Following";
 
 const Tab = createMaterialTopTabNavigator<UserProfileTabParamList>();
 
@@ -181,7 +182,7 @@ const UserProfile = (
                     />
                     <Tab.Screen
                         name="Following"
-                        component={CreatedPosts}
+                        component={Following}
                         options={{
                             tabBarLabel: ({ focused }) => (
                                 <IconFeather
