@@ -15,7 +15,7 @@ import {
 import DropDown from "./DropDown";
 import { customColors } from "@root/tailwind.config";
 import RecipeTimeInput from "./RecipeTimeInput";
-import portionItems from "../types/PortionTypeItems";
+import portionTypeItems from "../types/PortionTypeItems";
 import difficultyItems from "../types/DifficultyItems";
 import { type RootStackParamList } from "@/types/navigation";
 
@@ -47,7 +47,7 @@ const PortionDificultyTime: FC<TitleDescriptionVideoProps> = (
 
     const portionDropdownItems = useMemo(
         () =>
-            portionItems.map((i) => ({
+            portionTypeItems.map((i) => ({
                 label: i.label,
                 value: i.value.toString(),
             })),

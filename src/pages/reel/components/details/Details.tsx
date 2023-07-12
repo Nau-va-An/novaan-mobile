@@ -17,7 +17,6 @@ import IconLabelButton from "@/common/components/IconLabelButton";
 import DetailInstruction from "./DetailInstruction";
 import ResourceImage from "@/common/components/ResourceImage";
 import { getPortionLabel } from "@/pages/create-post/create-recipe/types/PortionTypeItems";
-import { type RecipePost } from "../../types/Post";
 import type Post from "../../types/Post";
 
 interface DetailsProps {

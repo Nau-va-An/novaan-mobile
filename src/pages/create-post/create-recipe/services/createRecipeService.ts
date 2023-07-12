@@ -17,7 +17,7 @@ import { Alert } from "react-native";
 import PostApi from "@/api/post/PostApi";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import type RecipeSubmission from "../types/RecipeSubmission";
-import portionItems from "../types/PortionTypeItems";
+import portionTypeItems from "../types/PortionTypeItems";
 import difficultyItems from "../types/DifficultyItems";
 import {
     type ValidationResult,
@@ -65,7 +65,7 @@ const validateRecipeSubmission = ({
     }
 
     const portionTypeValid =
-        portionItems.findIndex(
+        portionTypeItems.findIndex(
             (portionItem) => portionItem.value === portionType
         ) !== -1;
     if (!portionTypeValid) {
