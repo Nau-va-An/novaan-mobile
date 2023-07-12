@@ -5,6 +5,8 @@ import {
 } from "@/common/AsyncStorageService";
 import type Post from "../types/Post";
 import PostApi from "@/api/post/PostApi";
+import moment from "moment";
+import { getRecipeTime } from "@/pages/create-post/create-recipe/types/RecipeTime";
 
 const getNextPost = (): Post => ({
     id: "1",
@@ -127,19 +129,23 @@ const getPost = async (index: number): Promise<Post | null> => {
                   userId: "123332",
               };
 
-        const post = {
-            ...postResponse.value,
-            creator,
-        };
-
-        if (post.type === "tip") {
-            return post;
+        if (postResponse.value.type === "tip") {
+            return {
+                ...postResponse.value,
+                creator,
+            };
         }
 
+        const prepDuration = moment.duration(postResponse.value.prepTime);
+        const cookDuration = moment.duration(postResponse.value.cookTime);
+        const prepTime = getRecipeTime(prepDuration);
+        const cookTime = getRecipeTime(cookDuration);
+
         return {
-            ...post,
-            prepTime: { hour: 0, minute: 30 },
-            cookTime: { hour: 1, minute: 30 },
+            ...postResponse.value,
+            creator,
+            prepTime,
+            cookTime,
         };
     } catch (e) {
         console.error(e);
