@@ -3,7 +3,7 @@ import React, { View, type StyleProp, Image } from "react-native";
 import FastImage, { type ImageStyle } from "react-native-fast-image";
 
 import { windowWidth } from "../utils";
-import services from "../services";
+import { useFetchResourceUrl } from "@/api/utils/resourceHooks";
 interface ResourceImageProps {
     resourceId: string;
     style?: StyleProp<ImageStyle>;
@@ -15,27 +15,39 @@ const ResourceImage: FC<ResourceImageProps> = ({
     style,
     className,
 }) => {
-    const [url, setUrl] = useState<string>("");
     const [dimensions, setDimensions] = useState<{
         width: number;
         height: number;
     }>();
 
+    const { resourceUrl, fetchUrl } = useFetchResourceUrl();
+
     useEffect(() => {
-        void (async () => {
-            const resourceUrl = await services.getResourceUrl(resourceId);
-            if (resourceUrl != null) {
-                setUrl(resourceUrl);
-                Image.getSize(resourceUrl, (width, height) => {
-                    setDimensions({ width, height });
-                });
-            }
-        })();
+        fetchUrl(resourceId)
+            .then((success) => {
+                if (!success) {
+                    // Do something to alert user or retry
+                }
+            })
+            .catch(console.log);
     }, []);
 
-    return url !== "" ? (
+    useEffect(() => {
+        if (resourceUrl == null || resourceUrl === "") {
+            return;
+        }
+        Image.getSize(resourceUrl, (width, height) => {
+            setDimensions({ width, height });
+        });
+    }, [resourceUrl]);
+
+    if (resourceUrl === "") {
+        return <View></View>;
+    }
+
+    return (
         <FastImage
-            source={{ uri: url }}
+            source={{ uri: resourceUrl }}
             style={[
                 dimensions != null
                     ? {
@@ -49,8 +61,6 @@ const ResourceImage: FC<ResourceImageProps> = ({
             ]}
             className={className}
         />
-    ) : (
-        <View />
     );
 };
 

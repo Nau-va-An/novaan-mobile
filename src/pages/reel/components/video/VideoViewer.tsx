@@ -10,6 +10,7 @@ import Video from "react-native-video";
 import PlayPause from "./PlayPause";
 import Seeker from "./Seeker";
 import services from "@/common/services";
+import { useFetchResourceUrl } from "@/api/utils/resourceHooks";
 
 interface VideoViewrProps {
     videoId: string;
@@ -27,19 +28,16 @@ const VideoViewer: FC<VideoViewrProps> = ({
     const [pauseToggle, setPauseToggle] = useState<boolean>();
     const videoDuration = useRef(1);
 
-    const [videoUri, setVideoUri] = useState("");
-
-    const loadVideo = async (): Promise<void> => {
-        const result = await services.getResourceUrl(videoId);
-        if (result == null) {
-            return;
-        }
-
-        setVideoUri(result);
-    };
+    const { resourceUrl, fetchUrl } = useFetchResourceUrl();
 
     useEffect(() => {
-        void loadVideo();
+        void fetchUrl(videoId)
+            .then((success) => {
+                if (!success) {
+                    // Do something to alert user or retry
+                }
+            })
+            .catch(console.log);
     }, []);
 
     useEffect(() => {
@@ -67,37 +65,39 @@ const VideoViewer: FC<VideoViewrProps> = ({
         void loadVideo();
     };
 
+    if (resourceUrl === "") {
+        return <View className="absolute top-0 left-0 bottom-0 right-0"></View>;
+    }
+
     return (
         <View
             className="absolute top-0 left-0 bottom-0 right-0"
             onTouchEnd={onVideoPress}
         >
-            {videoUri !== "" && (
-                <Video
-                    paused={paused}
-                    ref={videoRef}
-                    source={{
-                        uri: videoUri,
-                    }}
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        bottom: 0,
-                        right: 0,
-                    }}
-                    resizeMode="contain"
-                    repeat
-                    onLoad={({ duration }) => {
-                        videoRef.current?.seek(1);
-                        videoDuration.current = duration;
-                    }}
-                    onProgress={({ currentTime }) => {
-                        setCurrentTimeStamp(currentTime);
-                    }}
-                    onError={onVideoError}
-                />
-            )}
+            <Video
+                paused={paused}
+                ref={videoRef}
+                source={{
+                    uri: resourceUrl,
+                }}
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                }}
+                resizeMode="contain"
+                repeat
+                onLoad={({ duration }) => {
+                    videoRef.current?.seek(1);
+                    videoDuration.current = duration;
+                }}
+                onProgress={({ currentTime }) => {
+                    setCurrentTimeStamp(currentTime);
+                }}
+                onError={onVideoError}
+            />
             <PlayPause showToggle={pauseToggle} icon="pause" />
             <PlayPause showToggle={playToggle} icon="play" />
             <Seeker
