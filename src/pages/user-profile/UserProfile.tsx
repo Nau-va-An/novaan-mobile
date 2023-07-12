@@ -96,7 +96,7 @@ const UserProfile = (
     );
 
     if (profileInfo == null) {
-        return <View></View>;
+        return <OverlayLoading />;
     }
 
     const { username, postCount, followersCount, followingCount } = profileInfo;

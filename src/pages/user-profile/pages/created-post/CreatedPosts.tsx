@@ -16,6 +16,8 @@ import { ToggleButton } from "react-native-paper";
 import CustomToggleButton from "./components/CustomToggleButton";
 import { UserProfileContext } from "../../UserProfile";
 import OverlayLoading from "@/common/components/OverlayLoading";
+import moment from "moment";
+import { getRecipeTime } from "@/pages/create-post/create-recipe/types/RecipeTime";
 
 type ViewCategory = "recipe" | "tips";
 
@@ -70,10 +72,9 @@ const CreatedPosts = (): ReactElement => {
         return {
             ...currentRecipe,
             type: "recipe",
-            // decoy data
             creator: userInfo,
-            prepTime: { hour: 0, minute: 30 },
-            cookTime: { hour: 0, minute: 30 },
+            prepTime: getRecipeTime(moment.duration(currentRecipe.prepTime)),
+            cookTime: getRecipeTime(moment.duration(currentRecipe.cookTime)),
         };
     };
 
