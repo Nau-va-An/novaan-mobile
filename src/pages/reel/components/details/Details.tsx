@@ -1,6 +1,5 @@
-import { type FC } from "react";
+import { useMemo, type FC } from "react";
 import React, { ScrollView, View, Text } from "react-native";
-import type Post from "../../types/Post";
 import { Divider } from "react-native-paper";
 import IconFeather from "react-native-vector-icons/Feather";
 import StarRating from "react-native-star-rating";
@@ -18,13 +17,28 @@ import IconLabelButton from "@/common/components/IconLabelButton";
 import DetailInstruction from "./DetailInstruction";
 import ResourceImage from "@/common/components/ResourceImage";
 import { getPortionLabel } from "@/pages/create-post/create-recipe/types/PortionTypeItems";
+import { type RecipePost } from "../../types/Post";
+import type Post from "../../types/Post";
 
 interface DetailsProps {
     post: Post;
 }
 
 const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
-    console.log("Details - post:" + JSON.stringify(post));
+    const isRecipe = (post: Post): post is RecipePost => {
+        return "ingredients" in post;
+    };
+
+    const portionInfo = useMemo((): string => {
+        if (!isRecipe(post)) {
+            return "";
+        }
+
+        return `${post.portionQuantity.toString()} ${getPortionLabel(
+            post.portionType
+        )}`;
+    }, [post]);
+
     return (
         <ScrollView className="w-full h-full bg-white">
             <View className="items-center py-10">
@@ -109,24 +123,22 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
                         <Text className="font-semibold text-lg uppercase">
                             {REEL_DETAILS_INGREDIENTS_TITLE}
                         </Text>
-                        <Text className="mt-3 pl-4 text-lg">
-                            {`${post.portionQuantity.toString()} ${getPortionLabel(
-                                post.portionType
-                            )}`}
-                        </Text>
+                        <Text className="mt-3 pl-4 text-lg">{portionInfo}</Text>
                         <View className="mt-5 pl-4">
-                            {post.ingredients.map((ingredient, index) => (
-                                <View key={index} className="flex-row w-full">
-                                    <Text className="basis-5/12 text-base mb-1 text-cgrey-dim">
-                                        {ingredient.amount.toString() +
-                                            " " +
-                                            ingredient.unit}
-                                    </Text>
-                                    <Text className="basis-7/12 text-base text-cgrey-dim">
-                                        {ingredient.name}
-                                    </Text>
-                                </View>
-                            ))}
+                            {isRecipe(post) &&
+                                post.ingredients.map((ingredient, index) => (
+                                    <View
+                                        key={index}
+                                        className="flex-row w-full"
+                                    >
+                                        <Text className="basis-5/12 text-base mb-1 text-cgrey-dim">
+                                            {`${ingredient.amount} ${ingredient.unit}`}
+                                        </Text>
+                                        <Text className="basis-7/12 text-base text-cgrey-dim">
+                                            {ingredient.name}
+                                        </Text>
+                                    </View>
+                                ))}
                         </View>
                     </View>
                     <Divider bold={true} />
@@ -135,16 +147,17 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
                             {REEL_DETAILS_INSTRUCTIONS_TITLE}
                         </Text>
                     </View>
-                    <View className="">
-                        {post.instructions.map(
-                            (instruction, index, instructions) => (
-                                <DetailInstruction
-                                    instruction={instruction}
-                                    instructionCount={instructions.length}
-                                    key={index}
-                                />
-                            )
-                        )}
+                    <View>
+                        {isRecipe(post) &&
+                            post.instructions.map(
+                                (instruction, index, instructions) => (
+                                    <DetailInstruction
+                                        instruction={instruction}
+                                        instructionCount={instructions.length}
+                                        key={index}
+                                    />
+                                )
+                            )}
                     </View>
                 </View>
             )}

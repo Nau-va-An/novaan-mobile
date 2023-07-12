@@ -12,7 +12,7 @@ const difficultyItems = [
 
 export const getDifficultyLabel = (value: number): string => {
     return (
-        difficultyItems.find((i) => i.value === value)?.label ??
+        difficultyItems.find((item) => item.value === value)?.label ??
         difficultyItems[0].label
     );
 };

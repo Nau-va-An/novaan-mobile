@@ -65,14 +65,17 @@ const validateRecipeSubmission = ({
     }
 
     const portionTypeValid =
-        portionItems.findIndex((i) => parseInt(i.value) === portionType) !== -1;
+        portionItems.findIndex(
+            (portionItem) => portionItem.value === portionType
+        ) !== -1;
     if (!portionTypeValid) {
         return invalidResponse(CREATE_RECIPE_PORTION_TYPE_MISSING);
     }
 
     const difficultyValid =
-        difficultyItems.findIndex((i) => parseInt(i.value) === difficulty) !==
-        -1;
+        difficultyItems.findIndex(
+            (difficultyItem) => difficultyItem.value === difficulty
+        ) !== -1;
     if (!difficultyValid) {
         return invalidResponse(CREATE_RECIPE_DIFFICULTY_MISSING);
     }

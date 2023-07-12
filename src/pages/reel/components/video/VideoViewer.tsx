@@ -9,7 +9,6 @@ import { type GestureResponderEvent, View } from "react-native";
 import Video from "react-native-video";
 import PlayPause from "./PlayPause";
 import Seeker from "./Seeker";
-import services from "@/common/services";
 import { useFetchResourceUrl } from "@/api/utils/resourceHooks";
 
 interface VideoViewrProps {
@@ -62,12 +61,8 @@ const VideoViewer: FC<VideoViewrProps> = ({
     );
 
     const onVideoError = async (): Promise<void> => {
-        void loadVideo();
+        // Show error
     };
-
-    if (resourceUrl === "") {
-        return <View className="absolute top-0 left-0 bottom-0 right-0"></View>;
-    }
 
     return (
         <View

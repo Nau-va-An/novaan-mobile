@@ -7,7 +7,7 @@ const portionItems = [
 
 export const getPortionLabel = (value: number): string => {
     return (
-        portionItems.find((i) => i.value === value)?.label ??
+        portionItems.find((item) => item.value === value)?.label ??
         portionItems[0].label
     );
 };
