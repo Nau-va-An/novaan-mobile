@@ -83,7 +83,9 @@ const CreatedPosts = (): ReactElement => {
     };
 
     const postGetterProfile = async (index: number): Promise<Post | null> => {
-        if (index >= recipes.length || index < 0) {
+        // Only allow viewing current item for now
+        // TODO: Improve by adding option to navigate to a specific index in InfiniteScroll
+        if (index !== 0) {
             return null;
         }
 
