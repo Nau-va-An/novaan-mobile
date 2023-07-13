@@ -5,19 +5,28 @@ import React, {
     useCallback,
     useEffect,
 } from "react";
-import { type GestureResponderEvent, View } from "react-native";
+import { Text, type GestureResponderEvent, View } from "react-native";
 import Video from "react-native-video";
 import PlayPause from "./PlayPause";
 import Seeker from "./Seeker";
 import { useFetchResourceUrl } from "@/api/utils/resourceHooks";
+import ButtonColumn from "./ButtonColumn";
+import type User from "../../types/User";
+import ResourceImage from "@/common/components/ResourceImage";
+import IconFeather from "react-native-vector-icons/Feather";
+import LinearGradient from "react-native-linear-gradient";
 
 interface VideoViewrProps {
     videoId: string;
+    creator: User;
+    title: string;
     isPaused?: boolean;
 }
 
 const VideoViewer: FC<VideoViewrProps> = ({
     videoId,
+    creator,
+    title,
     isPaused: pausedFromHigherUp = true,
 }: VideoViewrProps) => {
     const videoRef = useRef<Video>(null);
@@ -66,7 +75,7 @@ const VideoViewer: FC<VideoViewrProps> = ({
 
     return (
         <View
-            className="absolute top-0 left-0 bottom-0 right-0"
+            className="absolute top-0 left-0 bottom-0 right-0 bg-black"
             onTouchEnd={onVideoPress}
         >
             {resourceUrl !== "" && (
@@ -97,10 +106,40 @@ const VideoViewer: FC<VideoViewrProps> = ({
             )}
             <PlayPause showToggle={pauseToggle} icon="pause" />
             <PlayPause showToggle={playToggle} icon="play" />
-            <Seeker
-                progress={currentTimeStamp / videoDuration.current}
-                onSeek={onSeek}
-            />
+            <View className="absolute bottom-0 left-0 right-0 flex-col-reverse">
+                <LinearGradient
+                    colors={["#ffffff00", "#00000066"]}
+                    className="absolute bottom-0 top-0 left-0 right-0 h-[140]"
+                />
+                <Seeker
+                    progress={currentTimeStamp / videoDuration.current}
+                    onSeek={onSeek}
+                />
+                <View className="flex-row-reverse items-end">
+                    <ButtonColumn />
+                    <View className="flex-1 pl-6 pr-6 space-y-2">
+                        <View className="flex-row items-center space-x-3">
+                            <View className="bg-xanthous w-[35] h-[35] rounded-full items-center justify-center overflow-hidden">
+                                {creator.avatar == null ||
+                                creator.avatar === "" ? (
+                                    <IconFeather name="user" size={30} />
+                                ) : (
+                                    <ResourceImage
+                                        resourceId={creator.avatar}
+                                        className="h-full w-full"
+                                    />
+                                )}
+                            </View>
+                            <Text className="text-white font-medium">
+                                {creator.username}
+                            </Text>
+                        </View>
+                        <Text className="text-white" style={{ fontSize: 15 }}>
+                            {title}
+                        </Text>
+                    </View>
+                </View>
+            </View>
         </View>
     );
 };

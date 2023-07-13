@@ -70,7 +70,7 @@ const Details: FC<DetailsProps> = ({ post }: DetailsProps) => {
             <Divider bold={true} />
             <View className="py-5 px-5">
                 <View className="flex-row space-x-5 ">
-                    <View className="bg-xanthous w-[70] h-[70] rounded items-center justify-center overflow-hiddenr">
+                    <View className="bg-xanthous w-[70] h-[70] rounded items-center justify-center overflow-hidden">
                         {post.creator.avatar == null ||
                         post.creator.avatar === "" ? (
                             <IconFeather name="user" size={50} />

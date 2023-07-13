@@ -71,7 +71,12 @@ const ScrollItem: FC<MainScrollItemProps> = ({
                 <Text>prrofile - {post.creator.username}</Text>
             </View>
             <View className="flex-1 justify-center items-center bg-white">
-                <VideoViewer videoId={post.video} isPaused={isVideoPaused} />
+                <VideoViewer
+                    videoId={post.video}
+                    title={post.title}
+                    creator={post.creator}
+                    isPaused={isVideoPaused}
+                />
             </View>
             <View className="flex-1">
                 <Details post={post} />
