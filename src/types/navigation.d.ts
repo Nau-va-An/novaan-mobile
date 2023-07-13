@@ -1,5 +1,3 @@
-import { type ProfileInfo } from "@/api/profile/types";
-
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 export type RootStackParamList = {
     SignIn: undefined;
