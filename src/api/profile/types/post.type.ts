@@ -5,10 +5,7 @@ import {
 
 interface GetUserContentReturn {
     getNext: () => Promise<boolean>;
-    getPrev: () => Promise<boolean>;
-    getPage: (pageNum: number) => RecipeResponse[];
     refresh: () => void;
-    isEmpty: boolean;
     ended: boolean;
 }
 
