@@ -1,15 +1,12 @@
 import React, { type ReactElement } from "react";
-import {
-    type RecipeResponse,
-    type TipResponse,
-} from "@/api/post/types/PostResponse";
 import { FlatList } from "react-native";
 import CreatedPostItem from "./CreatedPostItem";
+import type PostResponse from "@/api/post/types/PostResponse";
 
 interface CreatedPostListProps {
-    data: Array<RecipeResponse | TipResponse>;
+    data: PostResponse[];
     hidden: boolean;
-    handleItemPress: () => void;
+    handleItemPress: (item: PostResponse) => void;
     handleOnEndReached: () => void;
     loading: boolean;
 }
@@ -31,7 +28,12 @@ const CreatedPostList = ({
             keyExtractor={(item) => item.id}
             contentContainerStyle={{ marginTop: 8 }}
             renderItem={({ item }) => (
-                <CreatedPostItem item={item} onItemPress={handleItemPress} />
+                <CreatedPostItem
+                    item={item}
+                    onItemPress={() => {
+                        handleItemPress(item);
+                    }}
+                />
             )}
             onEndReached={handleOnEndReached}
             onEndReachedThreshold={1}

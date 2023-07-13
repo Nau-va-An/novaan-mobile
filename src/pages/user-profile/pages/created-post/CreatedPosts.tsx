@@ -23,6 +23,9 @@ import moment from "moment";
 import { getRecipeTime } from "@/pages/create-post/create-recipe/types/RecipeTime";
 import CreatedPostList from "./components/CreatedPostList";
 import EmptyCreatedPost from "./components/EmptyCreatedPost";
+import type PostResponse from "@/api/post/types/PostResponse";
+import { type Undefinable } from "@/types/app";
+import { type RecipeResponse } from "@/api/post/types/PostResponse";
 
 type ViewCategory = "recipe" | "tips";
 
@@ -37,6 +40,9 @@ const CreatedPosts = (): ReactElement => {
     const userProfileContext = useContext(UserProfileContext);
 
     const [viewingItem, setViewingItem] = useState(false);
+    const [viewItem, setViewItem] =
+        useState<Undefinable<PostResponse>>(undefined);
+
     const [viewCategory, setViewCategory] = useState<ViewCategory>("recipe");
     const [fetching, setFetching] = useState(false);
 
@@ -81,27 +87,44 @@ const CreatedPosts = (): ReactElement => {
             return null;
         }
 
+        if (viewItem === undefined) {
+            return null;
+        }
+
         const userInfo = userProfileContext.userInfo;
         if (userInfo == null) {
             return null;
         }
 
-        const currentRecipe = recipes[index];
+        const isRecipe = (item: PostResponse): item is RecipeResponse => {
+            return "ingredients" in item;
+        };
+
+        if (viewCategory === "recipe" && isRecipe(viewItem)) {
+            return {
+                ...viewItem,
+                type: "recipe",
+                creator: userInfo,
+                prepTime: getRecipeTime(moment.duration(viewItem.prepTime)),
+                cookTime: getRecipeTime(moment.duration(viewItem.cookTime)),
+            };
+        }
+
         return {
-            ...currentRecipe,
-            type: "recipe",
+            ...viewItem,
+            type: "tip",
             creator: userInfo,
-            prepTime: getRecipeTime(moment.duration(currentRecipe.prepTime)),
-            cookTime: getRecipeTime(moment.duration(currentRecipe.cookTime)),
         };
     };
 
-    const handleItemPress = (): void => {
+    const handleItemPress = (item: PostResponse): void => {
         setViewingItem(true);
+        setViewItem(item);
     };
 
     const handleCloseItemView = (): void => {
         setViewingItem(false);
+        setViewItem(undefined);
     };
 
     const handleChangeViewCategory = (value: ViewCategory): void => {
@@ -182,7 +205,7 @@ const CreatedPosts = (): ReactElement => {
                             </Text>
                         </View>
                         <View className="flex-1 justify-center items-end">
-                            {/* Add delete + edit post options here */}
+                            {/* TODO: Add delete + edit post options here */}
                             <Pressable className="px-4 py-2 rounded-lg">
                                 <IonIcon
                                     name="ios-ellipsis-vertical-sharp"
