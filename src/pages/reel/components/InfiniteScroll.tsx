@@ -13,7 +13,6 @@ import {
     type NativeScrollEvent,
     type NativeSyntheticEvent,
     SafeAreaView,
-    View,
 } from "react-native";
 import { SCROLL_ITEM_HEIGHT } from "../commons/constants";
 import type Post from "../types/Post";
