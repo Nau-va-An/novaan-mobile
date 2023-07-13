@@ -1,4 +1,4 @@
-import React, { type FC, memo } from "react";
+import React, { type FC, memo, useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -25,6 +25,14 @@ const ScrollItem: FC<MainScrollItemProps> = ({
     onPageChange,
     isVideoPaused,
 }: MainScrollItemProps) => {
+    // Introduce a very slight delay to make modal animation work
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setTimeout(() => {
+            setMounted(true);
+        }, 0);
+    });
+
     const onIndexChanged = (index: number): void => {
         let page: Page = "Profile";
         switch (index) {
@@ -57,6 +65,10 @@ const ScrollItem: FC<MainScrollItemProps> = ({
         const index = Math.round(state.offset.x / windowWidth);
         onIndexChanged(index);
     };
+
+    if (!mounted) {
+        return <View></View>;
+    }
 
     return (
         <Swiper
