@@ -5,6 +5,7 @@ import {
 
 interface GetUserContentReturn {
     getNext: () => Promise<boolean>;
+    refresh: () => void;
     ended: boolean;
 }
 
@@ -20,4 +21,5 @@ export interface GetUserContentHookReturn {
     ended: boolean;
     getContent: <T>(start: number, limit: number) => Promise<T[]>;
     getNext: <T>() => Promise<T[]>;
+    refresh: () => void;
 }

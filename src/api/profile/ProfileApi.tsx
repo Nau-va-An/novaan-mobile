@@ -107,11 +107,20 @@ const useGetContent = (
         return await getContent<T>(start, PAGE_SIZE);
     };
 
-    return { getContent, getNext, ended };
+    const refresh = (): void => {
+        setEnded(false);
+        setCurrentPage(0);
+    };
+
+    return { getContent, getNext, refresh, ended };
 };
 
 export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
-    const { ended, getNext: getNextRecipes } = useGetContent("recipes", userId);
+    const {
+        ended,
+        getNext: getNextRecipes,
+        refresh: refreshContent,
+    } = useGetContent("recipes", userId);
 
     const [recipes, setRecipes] = useState<RecipeResponse[]>([]);
 
@@ -129,11 +138,20 @@ export const useUserRecipes = (userId?: string): GetUserRecipeReturn => {
         return true;
     };
 
-    return { getNext, recipes, ended };
+    const refresh = (): void => {
+        refreshContent();
+        setRecipes([]);
+    };
+
+    return { getNext, refresh, recipes, ended };
 };
 
 export const useUserTips = (userId?: string): GetUserTipReturn => {
-    const { ended, getNext: getNextTips } = useGetContent("tips", userId);
+    const {
+        ended,
+        getNext: getNextTips,
+        refresh: refreshContent,
+    } = useGetContent("tips", userId);
 
     const [tips, setTips] = useState<TipResponse[]>([]);
 
@@ -151,5 +169,10 @@ export const useUserTips = (userId?: string): GetUserTipReturn => {
         return true;
     };
 
-    return { getNext, tips, ended };
+    const refresh = (): void => {
+        refreshContent();
+        setTips([]);
+    };
+
+    return { getNext, refresh, tips, ended };
 };

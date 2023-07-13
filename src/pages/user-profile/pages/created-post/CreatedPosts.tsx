@@ -49,13 +49,15 @@ const CreatedPosts = (): ReactElement => {
     const recipesEmpty = useMemo(() => recipes.length === 0, [recipes]);
     const tipsEmpty = useMemo(() => tips.length === 0, [tips]);
 
+    // Fetch data if it is currently empty
     useEffect(() => {
-        if (viewCategory === "recipe") {
+        if (viewCategory === "recipe" && recipesEmpty) {
             void getNextRecipes();
-        } else {
+        }
+        if (viewCategory === "tips" && tipsEmpty) {
             void getNextTips();
         }
-    }, []);
+    }, [viewCategory]);
 
     const fetchMorePost = async (): Promise<void> => {
         if (
