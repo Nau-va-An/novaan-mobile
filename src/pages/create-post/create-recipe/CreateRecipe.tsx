@@ -23,7 +23,6 @@ import {
 } from "./types/RecipeParams";
 import PortionDificultyTime from "./components/PortionDifficultyTime";
 import { handleRecipeSubmission } from "./services/createRecipeService";
-import Instruction from "./components/instructions/Instruction";
 import {
     type RootStackParamList,
     type RecipeTabParamList,

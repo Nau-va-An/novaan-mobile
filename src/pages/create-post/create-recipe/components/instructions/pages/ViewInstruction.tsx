@@ -98,14 +98,14 @@ const ViewInstruction = (): ReactElement => {
                     ) : null
                 }
                 data={instructions}
-                renderItem={(item) => (
+                renderItem={({ item }) => (
                     <InstructionItem
-                        instruction={item.item}
+                        instruction={item}
                         onDeletePress={() => {
-                            deleteInstruction(item.item.id);
+                            deleteInstruction(item.id);
                         }}
                         onEditPress={() => {
-                            openEditInstruction(item.item);
+                            openEditInstruction(item);
                         }}
                     />
                 )}
