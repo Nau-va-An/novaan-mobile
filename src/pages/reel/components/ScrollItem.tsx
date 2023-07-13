@@ -64,6 +64,8 @@ const ScrollItem: FC<MainScrollItemProps> = ({
             loop={false}
             showsPagination={false}
             index={1}
+            loadMinimal={true}
+            loadMinimalSize={1}
             onScrollBeginDrag={onScrollBeginDrag}
             onMomentumScrollEnd={onScrollEndDrag}
         >

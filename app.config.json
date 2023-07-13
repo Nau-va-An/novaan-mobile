@@ -27,6 +27,14 @@
             "policy": "sdkVersion"
         },
         "scheme": "novaanapp",
-        "plugins": ["react-native-compressor"]
+        "plugins": [
+            "react-native-compressor",
+            [
+                "expo-screen-orientation",
+                {
+                    "initialOrientation": "DEFAULT"
+                }
+            ]
+        ]
     }
 }
