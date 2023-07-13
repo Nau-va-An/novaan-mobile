@@ -6,7 +6,6 @@ import {
     type UseProfileInfoReturn,
     type ProfileInfo,
     type GetUserRecipeReturn,
-    type useFetchResUriReturn,
     type GetUserTipReturn,
 } from "./types";
 import { getKeychainValue } from "@/common/keychainService";
@@ -14,8 +13,6 @@ import {
     type TipResponse,
     type RecipeResponse,
 } from "../post/types/PostResponse";
-
-const GET_RESOURCE_URL = "content/download";
 
 const PAGE_SIZE = 4;
 
@@ -180,27 +177,3 @@ export const useUserTips = (userId?: string): GetUserTipReturn => {
 
     return { getNext, refresh, tips, ended };
 };
-
-export const useFetchResUri = (): useFetchResUriReturn => {
-    const [resourceUri, setResourceUri] = useState<string>("");
-
-    const { getReq } = useFetch({
-        authorizationRequired: true,
-        timeout: 10000,
-    });
-
-    const fetchResourceUri = async (keyId: string): Promise<boolean> => {
-        const resource = await getReq(GET_RESOURCE_URL);
-        if (resource == null || !("url" in resource)) {
-            return false;
-        }
-
-        setResourceUri(resource.url);
-        return true;
-    };
-
-    return { fetchResourceUri, resourceUri };
-};
-
-// TODO: Implement this later
-// export const useUserTips = () => {};
