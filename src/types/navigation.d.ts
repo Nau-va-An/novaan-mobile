@@ -35,7 +35,7 @@ export type InstructionStackParamList = {
 };
 
 export type UserProfileTabParamList = {
-    SavedPosts: { currentUser: ProfileInfo };
     CreatedPosts: undefined;
+    SavedPosts: undefined;
     Following: undefined;
 };
